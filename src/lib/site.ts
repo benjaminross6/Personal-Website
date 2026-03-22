@@ -37,7 +37,7 @@ export type SiteConfig = {
 
 /** Personal site content — edit here, not scattered across components. */
 export const site: SiteConfig = {
-  siteUrl: "",
+  siteUrl: "https://benlr.me",
   name: "Benjamin Ross",
   headline: "Berkeley",
   bio: "Welcome to my website! I'm Ben, a Berkeley native of 19 years. Currently I'm at UC Berkeley studying Applied Math. I love playing games, learning cool things, and being involved in various communities.",
