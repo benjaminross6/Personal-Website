@@ -13,16 +13,13 @@ export default function ResumePage() {
       <header className="max-w-2xl">
         <h1 className="text-3xl font-semibold tracking-tight">Resume</h1>
         <p className="mt-3 text-sm leading-6 text-foreground/70">
-          Put your resume PDF in <code className="font-mono">public/</code> and
-          set <code className="font-mono">resumePdfPath</code> in{" "}
-          <code className="font-mono">src/lib/site.ts</code> (currently{" "}
-          <code className="font-mono">benjamin-ross-resume.pdf</code>).
+          Here is my resume. Clicking it will open it in another tab.
         </p>
       </header>
 
       <section className="mt-10 max-w-2xl rounded-3xl border border-black/10 bg-white p-6 shadow-sm dark:border-white/10 dark:bg-black">
         <p className="text-sm leading-6 text-foreground/70">
-          Download:
+          Resume:
           <a
             className="ml-2 font-semibold text-foreground/80 hover:text-foreground"
             href={site.resumePdfPath}
@@ -33,8 +30,7 @@ export default function ResumePage() {
           </a>
         </p>
         <p className="mt-4 text-sm leading-6 text-foreground/70">
-          Prefer an in-page resume? You can replace this page with sections and
-          keep the PDF as a download.
+
         </p>
       </section>
     </div>

@@ -34,3 +34,13 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+## Feedback emails (Resend)
+
+The **Feedback** button (bottom-left) posts to `/api/feedback` and emails you via [Resend](https://resend.com).
+
+1. Create a Resend account and an API key.
+2. Copy `.env.example` to `.env.local` and set `RESEND_API_KEY`.
+3. Emails go to `site.email` in `src/lib/site.ts` unless you set `FEEDBACK_TO_EMAIL`.
+4. Until you [verify a domain](https://resend.com/docs/dashboard/domains/introduction) in Resend, use the default `from` in `.env.example` (`onboarding@resend.dev`). Resend may only allow sending to your own signup email in that mode—check their docs.
+5. On Vercel: **Project → Settings → Environment Variables** — add the same variables for Production (and Preview if you want feedback on preview deploys).
