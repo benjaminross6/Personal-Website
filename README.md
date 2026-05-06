@@ -39,8 +39,20 @@ Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/bui
 
 The **Feedback** button (bottom-left) posts to `/api/feedback` and emails you via [Resend](https://resend.com).
 
+### Local (`.env.local`)
+
 1. Create a Resend account and an API key.
-2. Copy `.env.example` to `.env.local` and set `RESEND_API_KEY`.
+2. Copy `.env.example` to `.env.local` and set `RESEND_API_KEY=re_...`.
 3. Emails go to `site.email` in `src/lib/site.ts` unless you set `FEEDBACK_TO_EMAIL`.
-4. Until you [verify a domain](https://resend.com/docs/dashboard/domains/introduction) in Resend, use the default `from` in `.env.example` (`onboarding@resend.dev`). Resend may only allow sending to your own signup email in that mode—check their docs.
-5. On Vercel: **Project → Settings → Environment Variables** — add the same variables for Production (and Preview if you want feedback on preview deploys).
+4. Until you [verify a domain](https://resend.com/docs/dashboard/domains/introduction) in Resend, the default `from` is `Portfolio feedback <onboarding@resend.dev>`. Resend may only allow sending to your signup email in that mode—check their docs.
+
+### Production (Vercel) — required or `/api/feedback` returns 503
+
+**`.env.local` is never uploaded to Vercel.** You must add secrets in the dashboard:
+
+1. **Vercel** → your project → **Settings** → **Environment Variables**.
+2. Add **`RESEND_API_KEY`** (same value as in `.env.local`).
+3. Check **Production** (and **Preview** if you want feedback on preview URLs).
+4. **Redeploy** — env vars apply only to new builds: **Deployments** → ⋮ on the latest → **Redeploy**, or push a commit.
+
+Optional: **`FEEDBACK_TO_EMAIL`**, **`FEEDBACK_FROM`** — same names as in `.env.example`.

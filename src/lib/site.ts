@@ -37,10 +37,10 @@ export type SiteConfig = {
 
 /** Personal site content — edit here, not scattered across components. */
 export const site: SiteConfig = {
-  siteUrl: "https://benlr.me",
+  siteUrl: "https://iambenross.com",
   name: "Benjamin Ross",
-  headline: "Berkeley",
-  bio: "Welcome to my website! I'm Ben, a Berkeley native of 19 years. Currently I'm at UC Berkeley studying Applied Math. I love playing games, learning cool things, and being involved in various communities.",
+  headline: "Student",
+  bio: "Welcome to my website! I'm Ben, a Berkeley native. Currently I'm at UC Berkeley studying Applied Math. I love playing games, learning cool things, and being involved in various communities.",
   location: "",
   email: "benjaminross@berkeley.edu",
   bookingUrl: "https://calendar.app.google/Vu8xPpBZLk1Znqft6",
@@ -59,6 +59,16 @@ export const site: SiteConfig = {
       links: {
         repo: "https://github.com/benjaminross6/IEOR-198",
         notebook: "https://github.com/benjaminross6/IEOR-198/blob/main/Pairs%20Trading%20Research.ipynb",
+      },
+      featured: true,
+    },
+    {
+      title: "Abstract algebra concept map (Math 113)",
+      description:
+        "Final-prep concept map for UC Berkeley Math 113 (Abstract Algebra) — groups, rings, fields, and morphisms with how they relate. Pan and zoom enabled.",
+      stack: ["Mermaid", "HTML", "JavaScript"],
+      links: {
+        live: "/projects/math113-map.html",
       },
       featured: true,
     },
