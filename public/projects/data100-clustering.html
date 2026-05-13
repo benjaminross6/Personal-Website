@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Agglomerative Clustering Visualization</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            text-align: center;
+            background-color: #f4f4f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        canvas {
+            background-color: white;
+            border: 2px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            margin-top: 20px;
+        }
+        button {
+            padding: 12px 24px;
+            font-size: 16px;
+            font-weight: bold;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        button:disabled {
+            background-color: #aaa;
+            cursor: not-allowed;
+        }
+        .controls {
+            margin-top: 15px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Agglomerative Clustering (Bottom-Up)</h1>
+    <p>Every point starts as its own cluster. Click the button to merge the closest clusters based on their centers!</p>
+    
+    <div class="controls">
+        <button id="stepBtn">Merge Closest Clusters</button>
+        <button id="resetBtn" style="background-color: #dc3545;">Reset</button>
+    </div>
+    
+    <canvas id="canvas" width="700" height="450"></canvas>
+
+    <script>
+        const canvas = document.getElementById('canvas');
+        const ctx = canvas.getContext('2d');
+        const stepBtn = document.getElementById('stepBtn');
+        const resetBtn = document.getElementById('resetBtn');
+
+        let points = [];
+        let clusters = [];
+        let mergeHistory = []; // To draw lines between merged cluster centers
+
+        // Generate random points
+        function init() {
+            points = [];
+            clusters = [];
+            mergeHistory = [];
+            stepBtn.disabled = false;
+            
+            for (let i = 0; i < 40; i++) {
+                let p = {
+                    x: Math.random() * (canvas.width - 40) + 20,
+                    y: Math.random() * (canvas.height - 40) + 20
+                };
+                points.push(p);
+                // Initially, every point is its own cluster
+                clusters.push([p]); 
+            }
+            draw();
+        }
+
+        // Calculate the center (centroid) of a cluster
+        function getCentroid(cluster) {
+            let sumX = 0, sumY = 0;
+            for (let p of cluster) {
+                sumX += p.x;
+                sumY += p.y;
+            }
+            return { x: sumX / cluster.length, y: sumY / cluster.length };
+        }
+
+        // Calculate Euclidean distance between two points
+        function getDistance(p1, p2) {
+            return Math.hypot(p1.x - p2.x, p1.y - p2.y);
+        }
+
+        // Perform one step of Agglomerative Clustering
+        function mergeNext() {
+            if (clusters.length <= 1) {
+                stepBtn.disabled = true;
+                return;
+            }
+
+            let minDistance = Infinity;
+            let mergeI = -1;
+            let mergeJ = -1;
+
+            // Find the two closest clusters (using Centroid Linkage)
+            for (let i = 0; i < clusters.length; i++) {
+                for (let j = i + 1; j < clusters.length; j++) {
+                    let c1 = getCentroid(clusters[i]);
+                    let c2 = getCentroid(clusters[j]);
+                    let dist = getDistance(c1, c2);
+
+                    if (dist < minDistance) {
+                        minDistance = dist;
+                        mergeI = i;
+                        mergeJ = j;
+                    }
+                }
+            }
+
+            // Record the merge for drawing the "dendrogram-like" connections
+            let center1 = getCentroid(clusters[mergeI]);
+            let center2 = getCentroid(clusters[mergeJ]);
+            mergeHistory.push({ p1: center1, p2: center2 });
+
+            // Merge cluster J into cluster I
+            clusters[mergeI] = clusters[mergeI].concat(clusters[mergeJ]);
+            
+            // Remove cluster J
+            clusters.splice(mergeJ, 1);
+
+            if (clusters.length === 1) {
+                stepBtn.disabled = true;
+            }
+
+            draw();
+        }
+
+        // Draw the points, clusters, and connections
+        function draw() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+            // Draw merge history (the connections)
+            ctx.strokeStyle = '#888';
+            ctx.lineWidth = 2;
+            for (let line of mergeHistory) {
+                ctx.beginPath();
+                ctx.moveTo(line.p1.x, line.p1.y);
+                ctx.lineTo(line.p2.x, line.p2.y);
+                ctx.stroke();
+            }
+
+            // Draw points
+            for (let cluster of clusters) {
+                // If the cluster has merged, we draw a very light hull/circle around its center (simplified here by larger radius)
+                let centroid = getCentroid(cluster);
+                
+                if(cluster.length > 1) {
+                    ctx.fillStyle = 'rgba(0, 123, 255, 0.2)';
+                    ctx.beginPath();
+                    // Rough approximation of cluster size
+                    let radius = 10 + (cluster.length * 2);
+                    ctx.arc(centroid.x, centroid.y, radius, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+
+                // Draw the actual data points
+                ctx.fillStyle = '#333';
+                for (let p of cluster) {
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
+                    ctx.fill();
+                }
+            }
+            
+            // Text to show remaining clusters
+            ctx.fillStyle = '#000';
+            ctx.font = '16px sans-serif';
+            ctx.fillText(`Clusters remaining: ${clusters.length}`, 10, 20);
+        }
+
+        // Event Listeners
+        stepBtn.addEventListener('click', mergeNext);
+        resetBtn.addEventListener('click', init);
+
+        // Start
+        init();
+    </script>
+</body>
+</html>

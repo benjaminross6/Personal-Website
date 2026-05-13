@@ -11,6 +11,8 @@ export type ProjectLinkSet = {
   repo?: string;
   /** Notebook URL (use a route like /notebook/... for inline open vs download) */
   notebook?: string;
+  /** Extra labeled links rendered after the standard ones */
+  extras?: { label: string; href: string }[];
 };
 
 export type Project = {
@@ -69,6 +71,22 @@ export const site: SiteConfig = {
       stack: ["Mermaid", "HTML", "JavaScript"],
       links: {
         live: "/projects/math113-map.html",
+      },
+      featured: true,
+    },
+    {
+      title: "Data 100 finals study guide",
+      description:
+        "Personal finals study guide for UC Berkeley Data 100 (Spring 2026) — a single-page reference covering the full course, plus a small interactive agglomerative clustering visualization.",
+      stack: ["HTML", "CSS", "JavaScript"],
+      links: {
+        live: "/projects/data100-study-guide.html",
+        extras: [
+          {
+            label: "Clustering viz",
+            href: "/projects/data100-clustering.html",
+          },
+        ],
       },
       featured: true,
     },

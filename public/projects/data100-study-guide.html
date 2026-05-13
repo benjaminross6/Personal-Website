@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data 100 SP26 — Finals Study Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e2e0d8;
+    --text: #1a1a18;
+    --muted: #6b6960;
+    --accent: #1a4fa0;
+    --accent-light: #e8eef9;
+    --warn: #8b4a00;
+    --warn-light: #fef3e2;
+    --green: #0a5c3a;
+    --green-light: #e4f4ec;
+    --red: #8b1a1a;
+    --red-light: #fdeaea;
+    --tag-comfortable: #d4edda;
+    --tag-comfortable-text: #0a5c3a;
+    --tag-hard: #fdeaea;
+    --tag-hard-text: #8b1a1a;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  /* ── Layout ── */
+  .page-wrap { max-width: 900px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ── Header ── */
+  .site-header {
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .site-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  .site-header .meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: var(--mono);
+  }
+  .header-row {
+    display: flex;
+    align-items: flex-end;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .exam-badge {
+    background: var(--red);
+    color: #fff;
+    font-size: 12px;
+    font-family: var(--mono);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  /* ── TOC ── */
+  .toc-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .toc-box h2 { font-size: 14px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(190px, 1fr)); gap: 4px 16px; }
+  .toc-grid a {
+    font-size: 13px;
+    color: var(--accent);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .toc-grid a:hover { text-decoration: underline; }
+  .toc-grid a .pill {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 99px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .pill-easy { background: var(--tag-comfortable); color: var(--tag-comfortable-text); }
+  .pill-hard { background: var(--tag-hard); color: var(--tag-hard-text); }
+
+  /* ── How to use ── */
+  .how-box {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    font-size: 14px;
+  }
+  .how-box strong { color: var(--accent); }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 11px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Topic card ── */
+  .topic {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .topic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .topic-title-row { display: flex; align-items: center; gap: 10px; }
+  .topic-num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    min-width: 24px;
+  }
+  .topic-header h2 {
+    font-size: 18px;
+    font-weight: 600;
+  }
+  .comfort-tag {
+    font-size: 11px;
+    font-weight: 500;
+    padding: 3px 10px;
+    border-radius: 99px;
+  }
+  .topic-body { padding: 1.25rem 1.5rem; }
+
+  /* ── Note link ── */
+  .note-link {
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 1.25rem;
+    padding: 4px 8px;
+    border: 1px solid var(--accent);
+    border-radius: 4px;
+  }
+  .note-link:hover { background: var(--accent-light); }
+
+  /* ── Key concepts ── */
+  .subsection-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--muted);
+    margin: 1.1rem 0 0.5rem;
+  }
+  ul.concepts {
+    list-style: none;
+    padding: 0;
+  }
+  ul.concepts li {
+    padding: 4px 0 4px 1.1rem;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.6;
+  }
+  ul.concepts li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  ul.concepts li strong { color: var(--text); }
+  code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: #f0ede4;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ── Key insight box ── */
+  .insight {
+    background: var(--warn-light);
+    border-left: 3px solid #c47a00;
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    font-size: 13.5px;
+  }
+  .insight .insight-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #c47a00;
+    margin-bottom: 3px;
+  }
+
+  /* ── Formula block ── */
+  .formula-block {
+    background: #1a1a18;
+    color: #e8e4d9;
+    font-family: var(--mono);
+    font-size: 13px;
+    padding: 0.85rem 1.1rem;
+    border-radius: 6px;
+    margin: 0.75rem 0;
+    overflow-x: auto;
+    white-space: pre;
+    line-height: 1.8;
+  }
+
+  /* ── Practice questions ── */
+  .practice-box {
+    background: var(--green-light);
+    border: 1px solid #a8d5bc;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .practice-box .practice-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--green);
+    margin-bottom: 0.75rem;
+  }
+  .q-list { list-style: none; counter-reset: q-counter; }
+  .q-list li {
+    counter-increment: q-counter;
+    padding: 8px 0 8px 2rem;
+    position: relative;
+    font-size: 14px;
+    border-bottom: 1px solid #c5e5d4;
+  }
+  .q-list li:last-child { border-bottom: none; }
+  .q-list li::before {
+    content: "Q" counter(q-counter);
+    position: absolute;
+    left: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    top: 10px;
+  }
+  details.answer { margin-top: 6px; }
+  details.answer summary {
+    font-size: 12px;
+    color: var(--green);
+    cursor: pointer;
+    font-weight: 500;
+    user-select: none;
+  }
+  details.answer summary:hover { text-decoration: underline; }
+  details.answer .ans-body {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #2d5a42;
+    background: #fff;
+    border-radius: 4px;
+    padding: 8px 10px;
+    border: 1px solid #a8d5bc;
+    line-height: 1.6;
+  }
+
+  /* ── Hard topic label ── */
+  .hard-notice {
+    background: var(--red-light);
+    border-left: 3px solid #c0392b;
+    border-radius: 0 6px 6px 0;
+    padding: 0.6rem 1rem;
+    font-size: 13px;
+    color: var(--red);
+    margin-bottom: 1rem;
+    font-weight: 500;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+    padding-top: 1.25rem;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  /* ── Print ── */
+  @media print {
+    body { background: white; font-size: 13px; }
+    .topic { break-inside: avoid; }
+    details.answer { display: block; }
+    details.answer summary { display: none; }
+    details.answer .ans-body { display: block; }
+  }
+
+  @media (max-width: 600px) {
+    .page-wrap { padding: 1rem 1rem 3rem; }
+    .toc-grid { grid-template-columns: 1fr 1fr; }
+    .header-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ══ HEADER ══ -->
+  <header class="site-header">
+    <div class="header-row">
+      <div>
+        <h1>Data 100 — Finals Study Guide</h1>
+        <div class="meta">UC Berkeley · SP26 · Generated May 2026</div>
+      </div>
+      <div class="exam-badge">⏰ FINAL: Thu May 14, 11:30 AM – 2:30 PM</div>
+    </div>
+  </header>
+
+  <!-- ══ HOW TO USE ══ -->
+  <div class="how-box">
+    <strong>How to use this guide:</strong> Topics are ordered from <em>comfortable → harder</em>. Each section has key concepts, important formulas, an insight callout, and practice questions with hidden answers (click "Show answer"). With <span id="countdown" data-exam="2026-05-14T11:30:00-07:00">…</span> left, skim comfortable topics and spend most time on the <span style="color:var(--red);font-weight:600">★ harder</span> ones. All course note links open ds100.org.
+  </div>
+
+  <!-- ══ TABLE OF CONTENTS ══ -->
+  <div class="toc-box">
+    <h2>Contents</h2>
+    <div class="toc-grid">
+      <a href="#pandas"><span class="pill pill-easy">comfortable</span>1. Pandas</a>
+      <a href="#eda"><span class="pill pill-easy">comfortable</span>2. EDA</a>
+      <a href="#regex"><span class="pill pill-easy">comfortable</span>3. Regex</a>
+      <a href="#viz"><span class="pill pill-easy">comfortable</span>4. Visualization</a>
+      <a href="#sampling"><span class="pill pill-easy">comfortable</span>5. Sampling</a>
+      <a href="#modeling"><span class="pill pill-easy">comfortable</span>6. Modeling &amp; SLR</a>
+      <a href="#ols"><span class="pill pill-easy">comfortable</span>7. OLS</a>
+      <a href="#gd"><span class="pill pill-easy">comfortable</span>8. Gradient Descent</a>
+      <a href="#feat"><span class="pill pill-easy">comfortable</span>9. Feature Engineering</a>
+      <a href="#cv"><span class="pill pill-easy">comfortable</span>10. Cross-Validation</a>
+      <a href="#reg"><span class="pill pill-easy">comfortable</span>11. Regularization</a>
+      <a href="#rv"><span class="pill pill-hard">★ harder</span>12. Random Variables</a>
+      <a href="#bv"><span class="pill pill-hard">★ harder</span>13. Bias &amp; Variance</a>
+      <a href="#inf"><span class="pill pill-hard">★ harder</span>14. Inference</a>
+      <a href="#sql"><span class="pill pill-hard">★ harder</span>15. SQL</a>
+      <a href="#logistic"><span class="pill pill-hard">★ harder</span>16. Logistic Regression</a>
+      <a href="#clustering"><span class="pill pill-hard">★ harder</span>17. Clustering</a>
+      <a href="#pca"><span class="pill pill-hard">★ harder</span>18. PCA</a>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       COMFORTABLE TOPICS
+  ══════════════════════════════════════════ -->
+  <div class="section-label">Part 1 — Comfortable Topics (quick review)</div>
+
+  <!-- ─── 1. PANDAS ─── -->
+  <div class="topic" id="pandas">
+    <div class="topic-header">
+      <div class="topic-title-row">
+        <span class="topic-num">01</span>
+        <h2>Pandas</h2>
+      </div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/pandas-1/" target="_blank">↗ Course Notes 2–4</a>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Series vs. DataFrame:</strong> Series = 1D labeled array; DataFrame = 2D table with labeled rows &amp; columns.</li>
+        <li><strong>.loc vs. .iloc:</strong> <code>.loc[row_label, col_label]</code> — label-based; <code>.iloc[row_int, col_int]</code> — integer position-based.</li>
+        <li><strong>Boolean filtering:</strong> <code>df[df['col'] &gt; 5]</code> creates a mask; chain with <code>&amp;</code> <code>|</code> <code>~</code> (not Python's <code>and/or/not</code>).</li>
+        <li><strong>GroupBy:</strong> <code>df.groupby('col').agg({'other': 'mean'})</code> — split → apply → combine pattern.</li>
+        <li><strong>Merge/Join:</strong> <code>pd.merge(df1, df2, on='key', how='inner')</code>. Know inner / left / outer differences.</li>
+        <li><strong>Missing values:</strong> <code>df.isna()</code>, <code>dropna()</code>, <code>fillna(val)</code>. NaN propagates through arithmetic.</li>
+        <li><strong>Apply:</strong> <code>df['col'].apply(func)</code> applies element-wise; <code>df.apply(func, axis=1)</code> applies row-wise.</li>
+      </ul>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Never use Python's <code>and</code>/<code>or</code> in boolean masks — always use <code>&amp;</code> and <code>|</code> and wrap each condition in parentheses. This is a classic exam trap.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Given <code>df</code> with columns <code>name, score, grade</code>, write code to get the mean score for each grade group, sorted descending.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body"><code>df.groupby('grade')['score'].mean().sort_values(ascending=False)</code></div></details>
+          </li>
+          <li>
+            What is the difference between <code>df.loc[0]</code> and <code>df.iloc[0]</code> when the DataFrame index is <code>[10, 20, 30]</code>?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body"><code>df.loc[0]</code> raises a KeyError (0 is not a label in the index). <code>df.iloc[0]</code> returns the first row (index label 10).</div></details>
+          </li>
+          <li>
+            Write a merge that returns only rows where a student appears in both <code>scores_df</code> and <code>roster_df</code>, matching on <code>student_id</code>.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body"><code>pd.merge(scores_df, roster_df, on='student_id', how='inner')</code></div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 2. EDA ─── -->
+  <div class="topic" id="eda">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">02</span><h2>EDA — Exploratory Data Analysis</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/eda/" target="_blank">↗ Course Note 5</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>EDA checklist:</strong> shape, dtypes, null counts, summary stats, distributions, outliers.</li>
+        <li><strong>Data faithfulness:</strong> Does the data actually measure what we think? Check for outliers, inconsistencies, placeholder values (e.g. -999, "N/A").</li>
+        <li><strong>Granularity:</strong> What does each row represent? (a person, a transaction, a day?)</li>
+        <li><strong>Skewness:</strong> Right-skewed → mean &gt; median. Log-transform often fixes right skew.</li>
+        <li><strong>KDE (Kernel Density Estimate):</strong> Smooth version of a histogram; sensitive to bandwidth choice.</li>
+        <li><strong>Transformations:</strong> Log, square root, reciprocal — use to make distributions more symmetric before modeling.</li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        EDA is never done just once. After transformations or cleaning, re-examine distributions. The goal is to understand the data, not just compute stats.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            A column has mean = 50,000 and median = 35,000. Is it likely right-skewed or left-skewed? What transformation might help?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Right-skewed (mean &gt; median, pulled by large values). A log transform would compress the right tail and make the distribution more symmetric.</div></details>
+          </li>
+          <li>
+            Name two ways to identify potential data quality issues during EDA.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Any two of: checking for NaN/null counts; looking at min/max for impossible values; value_counts for unexpected categories; verifying data types match expected; checking for duplicates.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 3. REGEX ─── -->
+  <div class="topic" id="regex">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">03</span><h2>Regular Expressions (Regex)</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/regex/" target="_blank">↗ Course Note 6</a>
+      <div class="subsection-label">Cheat sheet</div>
+      <ul class="concepts">
+        <li><code>.</code> — any character (except newline) &nbsp;|&nbsp; <code>\d</code> digit &nbsp;|&nbsp; <code>\w</code> word char &nbsp;|&nbsp; <code>\s</code> whitespace</li>
+        <li><code>*</code> zero or more &nbsp;|&nbsp; <code>+</code> one or more &nbsp;|&nbsp; <code>?</code> zero or one</li>
+        <li><code>{m,n}</code> between m and n times &nbsp;|&nbsp; <code>^</code> start of string &nbsp;|&nbsp; <code>$</code> end of string</li>
+        <li><code>[abc]</code> character class &nbsp;|&nbsp; <code>[^abc]</code> negated class &nbsp;|&nbsp; <code>(a|b)</code> alternation</li>
+        <li><code>()</code> capturing group &nbsp;|&nbsp; <code>(?:)</code> non-capturing group</li>
+        <li><strong>Python:</strong> <code>re.search()</code>, <code>re.findall()</code>, <code>re.sub()</code>, <code>re.fullmatch()</code></li>
+        <li><strong>Pandas:</strong> <code>df['col'].str.extract(r'pattern')</code>, <code>str.contains()</code>, <code>str.replace()</code></li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Quantifiers are <strong>greedy</strong> by default (match as much as possible). Add <code>?</code> after to make lazy: <code>.*?</code>. On exams, trace through the string character-by-character.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Write a regex pattern that matches a US phone number in the format <code>XXX-XXX-XXXX</code>.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body"><code>\d{3}-\d{3}-\d{4}</code></div></details>
+          </li>
+          <li>
+            What does <code>re.findall(r'\b\w{4}\b', 'the quick brown fox')</code> return?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body"><code>['quick', 'brown']</code> — words with exactly 4 characters. "the" has 3, "fox" has 3.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 4. VISUALIZATION ─── -->
+  <div class="topic" id="viz">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">04</span><h2>Visualization</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/visualization-1/" target="_blank">↗ Course Notes 7–8</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Choose the right plot:</strong> Distributions → histogram / KDE; Relationships → scatter; Categories → bar; Time → line.</li>
+        <li><strong>Histogram vs. KDE:</strong> Histograms bin data (bin width matters!); KDE smooths with a kernel (bandwidth matters!).</li>
+        <li><strong>Overplotting solutions:</strong> reduce alpha (<code>alpha=0.3</code>), jitter, hexbin, or contour plots.</li>
+        <li><strong>Transformations:</strong> Log scale on an axis ≠ log-transforming data. Know when each is appropriate.</li>
+        <li><strong>Color:</strong> Use perceptually uniform colormaps for continuous data (viridis). Avoid rainbow. Categorical → qualitative palettes.</li>
+        <li><strong>Misleading charts:</strong> Truncated y-axis, inconsistent bin widths, dual axes — know how to spot and critique these.</li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        The choice of plot type should follow from the <em>question</em> you're asking, not the data shape. Always label axes and include units.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            You have salary data for 10,000 employees. Which plot would best show the distribution shape and why?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">A histogram or KDE — both show the distribution's shape (modality, skew, spread). With 10,000 points, a box plot would hide the shape. A bar chart would be inappropriate for continuous data.</div></details>
+          </li>
+          <li>
+            A scatter plot of two variables looks like all points cluster at the lower-left with a few extreme outliers. What transformation might help reveal the relationship?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Apply a log transform to one or both axes (or the data itself). This compresses the right tail and spreads out the clustered low values, often revealing a linear or power-law relationship.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 5. SAMPLING ─── -->
+  <div class="topic" id="sampling">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">05</span><h2>Sampling</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/sampling/" target="_blank">↗ Course Note 9</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Population vs. sample:</strong> Population = everyone we care about; Sample = who we actually measure.</li>
+        <li><strong>SRS (Simple Random Sampling):</strong> Every individual has an equal chance of being selected. With vs. without replacement matters for small populations.</li>
+        <li><strong>Stratified sampling:</strong> Divide into subgroups (strata), then SRS within each. Ensures representation.</li>
+        <li><strong>Cluster sampling:</strong> Randomly select clusters (e.g. classrooms), then survey everyone in selected clusters.</li>
+        <li><strong>Convenience sampling:</strong> Not random — major source of bias. (e.g. surveying only people who walk by)</li>
+        <li><strong>Bias types:</strong> Selection bias, response bias, non-response bias, survivorship bias.</li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        A <em>large</em> sample size does not fix <em>bias</em> — the 1936 Literary Digest poll had 2.4 million respondents but was wildly wrong due to selection bias. Randomization is what removes bias.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            A hospital surveys patients who were discharged — not those who died — to measure treatment effectiveness. What bias is present?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Survivorship bias. Only patients who survived and were discharged are in the sample, so the sample systematically excludes the worst outcomes.</div></details>
+          </li>
+          <li>
+            Why is stratified sampling preferred over SRS when the population has important subgroups of very different sizes?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">SRS might under-sample small but important subgroups by chance. Stratified sampling guarantees each subgroup is represented proportionally (or at a chosen rate), reducing variance in estimates.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 6. MODELING & SLR ─── -->
+  <div class="topic" id="modeling">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">06</span><h2>Modeling &amp; SLR</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/modeling-slr/" target="_blank">↗ Course Note 10</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Model:</strong> A simplified mathematical representation of a process. All models are wrong, some are useful.</li>
+        <li><strong>Loss function:</strong> Measures how wrong predictions are. MSE = mean squared error; MAE = mean absolute error.</li>
+        <li><strong>Optimal constant model:</strong> Under MSE → <strong>mean</strong>; under MAE → <strong>median</strong>. This is a critical fact.</li>
+        <li><strong>SLR:</strong> ŷ = θ₀ + θ₁x. Minimize MSE to get: θ₁ = r · (σy/σx), θ₀ = ȳ − θ₁x̄</li>
+        <li><strong>Residuals:</strong> eᵢ = yᵢ − ŷᵢ. OLS residuals always sum to zero and are uncorrelated with x.</li>
+        <li><strong>R²:</strong> Proportion of variance in y explained by the model. R² = 1 − (RSS/TSS). Higher is better (max 1).</li>
+      </ul>
+      <div class="formula-block">SLR formulas:
+  slope:     θ₁ = r · (σ_y / σ_x)
+  intercept: θ₀ = ȳ − θ₁·x̄
+  where r = Pearson correlation coefficient</div>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        The optimal prediction under MSE is always the <strong>mean of the conditional distribution</strong>. This is why the constant model minimizer is the mean, and why SLR predictions pass through (x̄, ȳ).
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            If r = 0.8, σ_y = 10, σ_x = 4, x̄ = 5, ȳ = 20, find the SLR slope and intercept.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">θ₁ = 0.8 × (10/4) = 2.0. θ₀ = 20 − 2.0 × 5 = 10. Model: ŷ = 10 + 2x.</div></details>
+          </li>
+          <li>
+            You fit a constant model (predicting the same value for all inputs). What value minimizes MSE? What minimizes MAE?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">MSE → minimized by the <strong>mean</strong> of y. MAE → minimized by the <strong>median</strong> of y.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 7. OLS ─── -->
+  <div class="topic" id="ols">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">07</span><h2>Ordinary Least Squares (OLS)</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/ols/" target="_blank">↗ Course Note 12</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Matrix form:</strong> Model is ŷ = Xθ. Loss is MSE = (1/n)‖y − Xθ‖². Minimize to get normal equations.</li>
+        <li><strong>Normal equations:</strong> θ̂ = (XᵀX)⁻¹Xᵀy — unique solution when XᵀX is invertible (columns are linearly independent).</li>
+        <li><strong>Geometric view:</strong> ŷ = Xθ̂ is the orthogonal projection of y onto the column space of X. Residuals e = y − ŷ ⊥ col(X).</li>
+        <li><strong>Design matrix X:</strong> First column is all 1s (for the intercept). Each subsequent column is a feature.</li>
+        <li><strong>Full rank:</strong> If X does not have full column rank (e.g., duplicate/perfectly correlated features), (XᵀX)⁻¹ does not exist → infinitely many solutions.</li>
+      </ul>
+      <div class="formula-block">OLS Normal Equations:
+  XᵀXθ̂ = Xᵀy
+  θ̂ = (XᵀX)⁻¹Xᵀy   (when XᵀX is invertible)
+
+Geometric: ŷ = X(XᵀX)⁻¹Xᵀy = Hy  (H = hat/projection matrix)</div>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        The residual vector <strong>e = y − ŷ is always perpendicular to every column of X</strong>. This means Xᵀe = 0, which is the key OLS property used to derive the normal equations.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            You add a third feature to your design matrix that equals 2× the first feature. What happens to the OLS solution?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">XᵀX becomes singular (not invertible) because the columns are linearly dependent. The OLS solution is not unique — infinitely many θ̂ achieve the same minimum MSE.</div></details>
+          </li>
+          <li>
+            Why do we include a column of 1s in the design matrix?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">It allows the model to estimate an intercept term θ₀. Without it, the regression line is forced through the origin.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 8. GRADIENT DESCENT ─── -->
+  <div class="topic" id="gd">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">08</span><h2>Gradient Descent</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/gradient-descent/" target="_blank">↗ Course Note 13</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Idea:</strong> Iteratively update parameters by moving opposite to the gradient of the loss.</li>
+        <li><strong>Update rule:</strong> θ ← θ − α · ∇L(θ), where α is the learning rate.</li>
+        <li><strong>Learning rate α:</strong> Too large → overshoots, may diverge. Too small → converges very slowly.</li>
+        <li><strong>Batch GD:</strong> Gradient computed on all n data points per step — exact but slow for large n.</li>
+        <li><strong>Stochastic GD (SGD):</strong> Gradient on 1 random point per step — noisy but fast.</li>
+        <li><strong>Mini-batch GD:</strong> Gradient on a batch of k points — the practical standard.</li>
+        <li><strong>Convexity:</strong> If the loss is convex, GD is guaranteed to find the global minimum. MSE is convex; log-loss is convex.</li>
+      </ul>
+      <div class="formula-block">Gradient Descent Update:
+  θ ← θ − α · ∇_θ L(θ)
+
+For MSE loss with model ŷ = Xθ:
+  ∇_θ L = (-2/n) Xᵀ(y − Xθ)</div>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        GD is needed when there is <em>no closed-form solution</em> (e.g. logistic regression). For OLS (linear + MSE), the closed-form θ̂ = (XᵀX)⁻¹Xᵀy is faster and exact — no need for GD.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Your loss curve oscillates wildly between iterations instead of decreasing. What is the likely cause and fix?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Learning rate α is too large — the steps overshoot the minimum. Fix: reduce α.</div></details>
+          </li>
+          <li>
+            Compare batch GD and SGD: which converges more smoothly and which is faster per epoch for n = 1,000,000?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Batch GD converges smoothly (uses all data to compute exact gradient) but is slow — each step requires n=1M operations. SGD updates parameters much more frequently (after each point) and can converge much faster in wall-clock time, but the path is noisy/jagged.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 9. FEATURE ENGINEERING ─── -->
+  <div class="topic" id="feat">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">09</span><h2>Feature Engineering</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/feature-engineering/" target="_blank">↗ Course Notes 14–15</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Polynomial features:</strong> Add x², x³, … to allow a linear model to fit curves. Still a linear model in θ.</li>
+        <li><strong>One-hot encoding:</strong> Convert a categorical column with k levels into k−1 binary columns (drop one to avoid dummy variable trap / multicollinearity).</li>
+        <li><strong>Interaction terms:</strong> x₁·x₂ — captures joint effects of two features.</li>
+        <li><strong>Standardization:</strong> z = (x − μ)/σ. Makes features zero-mean, unit-variance. Important for regularization and GD convergence.</li>
+        <li><strong>Training error vs. test error:</strong> Adding more features always ↓ training MSE, but can ↑ test MSE (overfitting).</li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Feature engineering keeps the model <em>linear in the parameters θ</em> even when it's nonlinear in the original features. A model with x, x², x³ is still OLS — you just have a bigger design matrix.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            A categorical variable "season" has 4 values: Spring, Summer, Fall, Winter. How many one-hot encoded columns should you add to the design matrix, and why?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">3 columns (k−1 = 4−1). Dropping one avoids perfect multicollinearity — the dropped category is the reference level implicitly captured by the intercept.</div></details>
+          </li>
+          <li>
+            You add polynomial features up to degree 10 and your training MSE drops to near zero, but test MSE is very high. What happened?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Overfitting. The high-degree polynomial model memorized the training data (near-zero training error) but fails to generalize. Regularization or reducing polynomial degree would help.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 10. CROSS-VALIDATION ─── -->
+  <div class="topic" id="cv">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">10</span><h2>Cross-Validation</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/cv-reg/" target="_blank">↗ Course Note 17</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Why CV?</strong> Estimate how well a model generalizes to unseen data, without using the test set.</li>
+        <li><strong>Train / Val / Test split:</strong> Train on train set; tune hyperparameters on validation; report final performance on test set (once!).</li>
+        <li><strong>k-Fold CV:</strong> Split data into k folds; train on k−1, validate on 1, rotate k times; average the k validation errors.</li>
+        <li><strong>Leave-One-Out CV (LOOCV):</strong> k = n. Unbiased but computationally expensive.</li>
+        <li><strong>Test set contamination:</strong> If you peek at the test set to make any decision, it's no longer a valid test set.</li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        The test set is sacred — you use it exactly <strong>once</strong>, at the very end, to report final performance. Using it to select hyperparameters inflates reported accuracy.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            You perform 5-fold CV and get validation MSEs of [12, 15, 11, 14, 13]. What is your estimated generalization MSE?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Mean = (12+15+11+14+13)/5 = 65/5 = <strong>13.0</strong></div></details>
+          </li>
+          <li>
+            A classmate says "I tried 20 different models and picked the one with the best test set performance." What's wrong?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Test set contamination. By using the test set to select a model, they've effectively trained on it. The reported test performance is optimistically biased and won't reflect true generalization.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 11. REGULARIZATION ─── -->
+  <div class="topic" id="reg">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">11</span><h2>Regularization</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <a class="note-link" href="https://ds100.org/course-notes/cv-reg/" target="_blank">↗ Course Note 17</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Purpose:</strong> Penalize large coefficients to reduce overfitting. Adds a penalty term to the loss function.</li>
+        <li><strong>Ridge (L2):</strong> Loss + λ‖θ‖₂². Shrinks all coefficients toward zero; never sets them exactly to zero. Has a closed form.</li>
+        <li><strong>LASSO (L1):</strong> Loss + λ‖θ‖₁. Can set coefficients <em>exactly</em> to zero → performs feature selection.</li>
+        <li><strong>λ (lambda):</strong> Regularization strength. λ=0 → plain OLS. λ→∞ → all coefficients → 0.</li>
+        <li><strong>Tuning λ:</strong> Use cross-validation to select the best λ.</li>
+        <li><strong>Important:</strong> Regularization penalizes the intercept? No — typically the intercept θ₀ is <em>not</em> penalized.</li>
+        <li><strong>Standardize features</strong> before regularizing — otherwise features with larger scales get penalized more.</li>
+      </ul>
+      <div class="formula-block">Ridge: θ̂_ridge = argmin_θ [ (1/n)‖y−Xθ‖² + λ‖θ‖₂² ]
+              = (XᵀX + nλI)⁻¹Xᵀy  (always invertible!)
+
+LASSO: θ̂_lasso = argmin_θ [ (1/n)‖y−Xθ‖² + λ‖θ‖₁ ]
+       (no closed form — requires numerical solver)</div>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Ridge never exactly zeros out a coefficient; LASSO can. This is because the L1 penalty has a "corner" at zero in its geometry, which allows the optimum to sit exactly on zero.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            You have 50 features and suspect only 5 are truly relevant. Which regularization method should you prefer and why?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">LASSO (L1) — it can set irrelevant feature coefficients exactly to zero, effectively selecting the 5 relevant features. Ridge would shrink all 50 but keep all nonzero.</div></details>
+          </li>
+          <li>
+            As λ increases in Ridge regression, what happens to the bias and variance of the model?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Bias increases (the model is constrained away from the true OLS solution) and variance decreases (coefficients are more stable). This is the bias-variance tradeoff.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══════════════════════════════════════════
+       HARDER TOPICS
+  ══════════════════════════════════════════ -->
+  <div class="section-label">Part 2 — Harder Topics (spend more time here ★)</div>
+
+  <!-- ─── 12. RANDOM VARIABLES ─── -->
+  <div class="topic" id="rv">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">12</span><h2>Random Variables</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <div class="hard-notice">📌 Spend extra time here — probability is foundational to inference, bias-variance, and logistic regression.</div>
+      <a class="note-link" href="https://ds100.org/course-notes/probability-1/" target="_blank">↗ Course Note 18</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Random Variable (RV):</strong> A variable whose value is determined by a random process. Not a specific number — a <em>function</em> from outcomes to numbers.</li>
+        <li><strong>PMF (discrete):</strong> P(X = x) for each possible value x. Must sum to 1.</li>
+        <li><strong>PDF (continuous):</strong> f(x) ≥ 0; P(a ≤ X ≤ b) = ∫ₐᵇ f(x)dx. Must integrate to 1.</li>
+        <li><strong>CDF:</strong> F(x) = P(X ≤ x). Always non-decreasing; F(−∞) = 0, F(+∞) = 1.</li>
+        <li><strong>Expectation:</strong> E[X] = Σ x·P(X=x) (discrete) or ∫ x·f(x)dx (continuous). The "center of mass."</li>
+        <li><strong>Variance:</strong> Var(X) = E[(X−μ)²] = E[X²] − (E[X])². Always ≥ 0.</li>
+        <li><strong>Standard deviation:</strong> SD(X) = √Var(X). Same units as X.</li>
+        <li><strong>Linearity of expectation:</strong> E[aX + b] = a·E[X] + b. Works even for dependent RVs.</li>
+        <li><strong>Variance of linear combo:</strong> Var(aX + b) = a²·Var(X). Var(X + Y) = Var(X) + Var(Y) <em>only if X, Y are independent</em>.</li>
+        <li><strong>Common distributions:</strong> Bernoulli(p): E=p, Var=p(1−p). Binomial(n,p): E=np, Var=np(1−p). Normal(μ,σ²): E=μ, Var=σ².</li>
+      </ul>
+      <div class="formula-block">Key Identities:
+  E[aX + bY] = a·E[X] + b·E[Y]          (always)
+  Var(X) = E[X²] − (E[X])²              (computational formula)
+  Var(aX + b) = a²·Var(X)               (scaling)
+  Var(X + Y) = Var(X) + Var(Y)          (if X ⊥ Y, i.e. independent)
+  Cov(X,Y) = E[XY] − E[X]·E[Y]
+  Corr(X,Y) = Cov(X,Y) / (SD(X)·SD(Y))</div>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        <strong>Expectation is always linear</strong> — E[X + Y] = E[X] + E[Y] regardless of dependence. <strong>Variance is not</strong> — Var(X + Y) = Var(X) + Var(Y) only when X and Y are <em>independent</em>.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            X is Bernoulli with P(X=1) = 0.3. Find E[X], E[X²], and Var(X).
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">E[X] = 0.3. E[X²] = 1²·0.3 + 0²·0.7 = 0.3. Var(X) = E[X²] − (E[X])² = 0.3 − 0.09 = <strong>0.21</strong>. (Or use formula p(1−p) = 0.3·0.7 = 0.21.)</div></details>
+          </li>
+          <li>
+            If X and Y are independent with Var(X) = 4 and Var(Y) = 9, find Var(2X − 3Y + 5).
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Var(2X − 3Y + 5) = 2²·Var(X) + (−3)²·Var(Y) = 4·4 + 9·9 = 16 + 81 = <strong>97</strong>. (Constants add 0 variance.)</div></details>
+          </li>
+          <li>
+            A fair die is rolled. Let X be the outcome. Find E[X] and Var(X).
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">E[X] = (1+2+3+4+5+6)/6 = 3.5. E[X²] = (1+4+9+16+25+36)/6 = 91/6 ≈ 15.17. Var(X) = 91/6 − (3.5)² = 91/6 − 49/4 = 182/12 − 147/12 = 35/12 ≈ <strong>2.917</strong>.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 13. BIAS & VARIANCE ─── -->
+  <div class="topic" id="bv">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">13</span><h2>Bias &amp; Variance</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <div class="hard-notice">📌 This is one of the most tested conceptual topics on the final. Know the decomposition cold.</div>
+      <a class="note-link" href="https://ds100.org/course-notes/probability-2/" target="_blank">↗ Course Note 19</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Context:</strong> We imagine drawing many different training sets from the same population and fitting a model each time.</li>
+        <li><strong>Bias:</strong> How far is the average prediction from the truth? E[θ̂] − θ. Systematic error — from wrong model assumptions.</li>
+        <li><strong>Variance:</strong> How much do predictions vary across different training sets? Var(θ̂). Sensitivity to training data.</li>
+        <li><strong>MSE decomposition:</strong> E[(θ̂ − θ)²] = Bias² + Variance. (Plus irreducible noise for prediction tasks.)</li>
+        <li><strong>Bias-Variance tradeoff:</strong> Complex models → low bias, high variance. Simple models → high bias, low variance.</li>
+        <li><strong>Underfitting:</strong> Model too simple; high bias. <em>Both</em> training and test error are high.</li>
+        <li><strong>Overfitting:</strong> Model too complex; high variance. Training error low, test error high.</li>
+        <li><strong>Bootstrap:</strong> Resample with replacement from your data to estimate the sampling distribution of a statistic.</li>
+      </ul>
+      <div class="formula-block">MSE Decomposition (for estimator θ̂ of parameter θ):
+  E[(θ̂ − θ)²] = Bias(θ̂)² + Var(θ̂)
+
+where Bias(θ̂) = E[θ̂] − θ
+
+For prediction at a point x:
+  Expected prediction error = Bias² + Variance + σ²_noise</div>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        An unbiased estimator is not necessarily better — it might have very high variance. A slightly biased estimator with much lower variance can have lower total MSE. This is exactly why regularization helps: it introduces a little bias to greatly reduce variance.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            You fit a degree-1 model to data generated from a true degree-3 relationship. Is this an example of high bias or high variance? What about fitting a degree-10 model to 15 data points?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Degree-1 model → <strong>high bias</strong> (underfitting — too simple for the true function). Degree-10 on 15 points → <strong>high variance</strong> (overfitting — model is too complex relative to data size, will change drastically with different samples).</div></details>
+          </li>
+          <li>
+            Explain in one sentence why the sample mean x̄ is an unbiased estimator of the population mean μ.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">E[x̄] = E[(1/n)Σxᵢ] = (1/n)·nμ = μ, so the expected value of the sample mean equals the population mean — bias is zero.</div></details>
+          </li>
+          <li>
+            Describe the bootstrap procedure for estimating the standard error of the median.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">(1) Resample n points with replacement from your data, B times. (2) Compute the median of each resample → get B medians. (3) The standard deviation of those B medians is your bootstrap estimate of the standard error.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 14. INFERENCE ─── -->
+  <div class="topic" id="inf">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">14</span><h2>Inference &amp; Hypothesis Testing</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <div class="hard-notice">📌 Commonly misunderstood. Know what a p-value and confidence interval actually mean — exams test the precise definition.</div>
+      <a class="note-link" href="https://ds100.org/course-notes/inference-causality/" target="_blank">↗ Course Note 20</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Null hypothesis H₀:</strong> The "no effect / no difference" claim. Hypothesis tests evaluate evidence <em>against</em> H₀.</li>
+        <li><strong>p-value:</strong> Probability of observing data this extreme (or more) <em>if H₀ were true</em>. Small p → evidence against H₀. NOT the probability H₀ is true.</li>
+        <li><strong>Significance level α:</strong> Threshold for rejecting H₀ (commonly 0.05). If p &lt; α, reject H₀.</li>
+        <li><strong>Type I error:</strong> False positive — reject H₀ when it's true. Rate = α.</li>
+        <li><strong>Type II error:</strong> False negative — fail to reject H₀ when it's false. Rate = β. Power = 1 − β.</li>
+        <li><strong>Confidence interval (CI):</strong> A range of plausible values for the parameter. A 95% CI means: if we repeated the procedure many times, 95% of such intervals would contain the true parameter.</li>
+        <li><strong>Bootstrap CI:</strong> Compute statistic on many bootstrap samples; use the 2.5th–97.5th percentiles for a 95% CI.</li>
+        <li><strong>Causation vs. correlation:</strong> Observational data cannot establish causation. Only randomized experiments (RCTs) can establish causal effects by controlling confounders.</li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        A 95% confidence interval does <strong>NOT</strong> mean "there is a 95% probability the parameter is in this interval." The parameter is fixed; the interval is random. 95% refers to the long-run coverage probability of the procedure.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            You run a test and get p = 0.03 with α = 0.05. You conclude there is "a 97% chance the null hypothesis is false." What's wrong with this statement?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">The p-value is not the probability that H₀ is false. p = 0.03 means: if H₀ were true, you'd see data this extreme 3% of the time. We can reject H₀ at α=0.05, but we cannot assign a probability to H₀ being true/false (that's a Bayesian concept).</div></details>
+          </li>
+          <li>
+            A study finds that people who eat breakfast have higher GPAs. Can we conclude breakfast causes higher GPAs?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">No. This is observational data. Confounders (e.g. socioeconomic status, sleep habits) might explain both breakfast-eating and GPA. Only a randomized experiment could isolate the effect of breakfast.</div></details>
+          </li>
+          <li>
+            You compute a 95% bootstrap CI for the mean: [42.1, 58.3]. Interpret this interval.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">We are 95% confident that the true population mean lies between 42.1 and 58.3. More precisely: this interval was constructed using a procedure that captures the true mean in 95% of repetitions.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 15. SQL ─── -->
+  <div class="topic" id="sql">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">15</span><h2>SQL</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <div class="hard-notice">📌 SQL questions are very common on finals. Practice tracing through queries by hand.</div>
+      <a class="note-link" href="https://ds100.org/course-notes/sql-i/" target="_blank">↗ Course Notes 21–22</a>
+      <div class="subsection-label">Query structure (order matters!)</div>
+      <div class="formula-block">SELECT   [columns / aggregations]    -- what to return
+FROM     [table]                      -- source table
+JOIN     [other_table] ON [condition] -- combine tables (optional)
+WHERE    [row filter]                 -- filter BEFORE grouping
+GROUP BY [columns]                    -- aggregate into groups
+HAVING   [group filter]               -- filter AFTER grouping
+ORDER BY [columns] ASC/DESC          -- sort result
+LIMIT    [n]                          -- cap rows returned</div>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Aggregation functions:</strong> <code>COUNT(*)</code>, <code>SUM(col)</code>, <code>AVG(col)</code>, <code>MAX(col)</code>, <code>MIN(col)</code>.</li>
+        <li><strong>WHERE vs. HAVING:</strong> WHERE filters individual rows before grouping; HAVING filters groups after aggregation.</li>
+        <li><strong>JOIN types:</strong> INNER JOIN = intersection (both tables must match); LEFT JOIN = all left rows + matching right (NULLs for no match); OUTER JOIN = all rows from both.</li>
+        <li><strong>Subqueries:</strong> A SELECT inside another SELECT. Can appear in WHERE, FROM, or HAVING clauses.</li>
+        <li><strong>NULL:</strong> NULL ≠ NULL. Use <code>IS NULL</code> / <code>IS NOT NULL</code>, not <code>= NULL</code>.</li>
+        <li><strong>DISTINCT:</strong> <code>SELECT DISTINCT col</code> removes duplicate values.</li>
+        <li><strong>Pandas ↔ SQL:</strong> <code>df.groupby('col').agg()</code> → GROUP BY + aggregation; <code>df[df['col'] &gt; 5]</code> → WHERE; merge → JOIN.</li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        SQL executes in this order: FROM → JOIN → WHERE → GROUP BY → HAVING → SELECT → ORDER BY → LIMIT. Understanding this order explains why you can't use a SELECT alias in a WHERE clause (SELECT hasn't happened yet).
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Write a query to find the average salary per department, but only for departments with more than 5 employees, sorted by average salary descending.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body"><pre style="font-family:monospace;font-size:12px">SELECT department, AVG(salary) AS avg_sal
+FROM employees
+GROUP BY department
+HAVING COUNT(*) > 5
+ORDER BY avg_sal DESC;</pre></div></details>
+          </li>
+          <li>
+            What is the difference between a LEFT JOIN and an INNER JOIN? Give an example of when each is appropriate.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">INNER JOIN returns only rows with matches in <em>both</em> tables. LEFT JOIN returns all rows from the left table plus matched rows from the right (NULL where no match). Use INNER when you only want complete records; use LEFT when you want to keep all left rows even without matches (e.g., listing all students and their grades — students with no grades should still appear).</div></details>
+          </li>
+          <li>
+            What does <code>HAVING COUNT(*) > 1</code> do, and why can't you replace it with <code>WHERE COUNT(*) > 1</code>?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">HAVING filters groups after GROUP BY is applied. WHERE runs before GROUP BY and cannot use aggregate functions — COUNT(*) is not defined at the WHERE stage. So WHERE COUNT(*) > 1 is a SQL error.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 16. LOGISTIC REGRESSION ─── -->
+  <div class="topic" id="logistic">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">16</span><h2>Logistic Regression</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <div class="hard-notice">📌 Know the sigmoid function, log-loss derivation, and classification metrics — all commonly tested.</div>
+      <a class="note-link" href="https://ds100.org/course-notes/logistic-reg-1/" target="_blank">↗ Course Notes 23–24</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Goal:</strong> Binary classification. Output P(Y=1 | x) ∈ (0,1).</li>
+        <li><strong>Sigmoid function:</strong> σ(z) = 1/(1+e^{−z}). Maps any real number to (0,1). σ(0) = 0.5.</li>
+        <li><strong>Model:</strong> P(Y=1|x) = σ(xᵀθ) = 1/(1 + exp(−xᵀθ)).</li>
+        <li><strong>Decision boundary:</strong> xᵀθ = 0 → P = 0.5. Predict Y=1 if P &gt; threshold (default 0.5).</li>
+        <li><strong>Loss — Log-loss (cross-entropy):</strong> −[y·log(p) + (1−y)·log(1−p)]. Convex in θ, no closed form → use GD.</li>
+        <li><strong>Classification metrics:</strong>
+          <ul style="margin-top:4px;margin-left:1.2rem;font-size:13.5px">
+            <li>Accuracy = (TP+TN)/(TP+TN+FP+FN)</li>
+            <li>Precision = TP/(TP+FP) — of predicted positives, how many are correct?</li>
+            <li>Recall (Sensitivity) = TP/(TP+FN) — of actual positives, how many did we catch?</li>
+            <li>F1 = 2·Precision·Recall/(Precision+Recall) — harmonic mean</li>
+          </ul>
+        </li>
+        <li><strong>Threshold choice:</strong> Lowering threshold → more positives predicted → higher recall, lower precision. Raising → opposite.</li>
+      </ul>
+      <div class="formula-block">Logistic Regression:
+  P(Y=1|x) = σ(xᵀθ) = 1 / (1 + exp(−xᵀθ))
+
+Log-loss for one sample:
+  L(θ) = −[y·log(σ(xᵀθ)) + (1−y)·log(1−σ(xᵀθ))]
+
+Gradient of log-loss:
+  ∇_θ L = (1/n) Xᵀ(p̂ − y)   where p̂ = σ(Xθ)</div>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Logistic regression outputs <strong>probabilities</strong>, not labels. The decision threshold of 0.5 is a choice — in imbalanced datasets or when false negatives are costly (e.g. disease detection), you might lower the threshold to increase recall at the cost of precision.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Out of 100 actual cancer patients, your model flags 60 as positive. Out of 50 model-predicted positives, 40 are actual cancer. Compute Precision and Recall.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">TP = 40 (correctly flagged cancer patients). FP = 50 − 40 = 10. FN = 60 − 40 = 20 (cancer patients the model missed). Precision = 40/50 = <strong>0.80</strong>. Recall = 40/60 = <strong>0.667</strong>.</div></details>
+          </li>
+          <li>
+            Why can't we use MSE as the loss function for logistic regression instead of log-loss?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">MSE with the sigmoid is non-convex for logistic regression — gradient descent may get stuck in local minima. Log-loss is convex in θ, guaranteeing a global minimum. Additionally, log-loss has nice probabilistic interpretation as maximum likelihood under a Bernoulli model.</div></details>
+          </li>
+          <li>
+            What is σ(−3)? Is the model predicting class 0 or class 1 at this point (with threshold 0.5)?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">σ(−3) = 1/(1+e³) ≈ 0.047. Since 0.047 &lt; 0.5, predict class <strong>0</strong>.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 17. CLUSTERING ─── -->
+  <div class="topic" id="clustering">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">17</span><h2>Clustering</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <div class="hard-notice">📌 Focus on K-Means mechanics, inertia, and choosing k — these are most exam-tested.</div>
+      <a class="note-link" href="https://ds100.org/course-notes/clustering/" target="_blank">↗ Course Note 25</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Unsupervised learning:</strong> No labels. Goal: find structure/groupings in the data.</li>
+        <li><strong>K-Means algorithm:</strong>
+          <ol style="margin-left:1.2rem;margin-top:4px;font-size:13.5px">
+            <li>Initialize k centroids (randomly or with k-means++).</li>
+            <li>Assign each point to the nearest centroid.</li>
+            <li>Update each centroid to the mean of its assigned points.</li>
+            <li>Repeat 2–3 until centroids stop moving.</li>
+          </ol>
+        </li>
+        <li><strong>Inertia (within-cluster sum of squares):</strong> Σ Σ ‖xᵢ − μₖ‖² summed over all points in each cluster. K-Means minimizes this.</li>
+        <li><strong>Choosing k — Elbow method:</strong> Plot inertia vs. k; look for the "elbow" where adding more clusters gives diminishing returns.</li>
+        <li><strong>Limitations of K-Means:</strong> Assumes spherical/equally-sized clusters; sensitive to initialization; must specify k in advance; can get stuck in local optima.</li>
+        <li><strong>Hierarchical clustering:</strong> Agglomerative (bottom-up): start with each point as its own cluster, merge closest pairs. Results in a dendrogram.</li>
+      </ul>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Inertia <em>always</em> decreases as k increases — at k=n, every point is its own cluster with inertia=0. So lower inertia alone doesn't mean a better model. The elbow heuristic looks for meaningful structure, not just minimizing inertia.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            You run K-Means with k=3 on 2D data. After convergence, describe what the centroids represent.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Each centroid is the mean (average position) of all points assigned to that cluster. It represents the "center" of its cluster in the 2D feature space.</div></details>
+          </li>
+          <li>
+            K-Means gives different results on different runs. Why? How do you mitigate this?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">K-Means is sensitive to initial centroid placement and can converge to different local optima. Mitigate by: running K-Means multiple times with different random initializations and picking the run with the lowest inertia; or use K-Means++ initialization, which spreads out initial centroids.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 18. PCA ─── -->
+  <div class="topic" id="pca">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">18</span><h2>PCA — Principal Component Analysis</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <div class="hard-notice">📌 PCA is math-heavy. Focus on the intuition, SVD connection, and explained variance — most exam Qs test these.</div>
+      <a class="note-link" href="https://ds100.org/course-notes/pca/" target="_blank">↗ Course Note 26</a>
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Goal:</strong> Reduce dimensionality — project high-dimensional data onto fewer dimensions while preserving as much variance as possible.</li>
+        <li><strong>Principal Components (PCs):</strong> New orthogonal axes. PC1 captures the most variance; PC2 the second most (orthogonal to PC1); etc.</li>
+        <li><strong>PCs are eigenvectors</strong> of the covariance matrix XᵀX (centered X). Eigenvalues = variance explained by each PC.</li>
+        <li><strong>SVD connection:</strong> X = UΣVᵀ. Columns of V are the principal components (directions). Σ contains singular values; eigenvalues = (singular values)²/n.</li>
+        <li><strong>Explained variance ratio:</strong> Fraction of total variance captured by k PCs = Σᵢ₌₁ᵏ λᵢ / Σᵢ λᵢ.</li>
+        <li><strong>Scree plot:</strong> Plot explained variance vs. component number. Elbow suggests how many PCs to keep.</li>
+        <li><strong>Preprocessing:</strong> Always center (subtract mean) before PCA. Often scale (standardize) too, especially if features have different units.</li>
+        <li><strong>Use cases:</strong> Visualization (project to 2D), noise reduction, removing multicollinearity before regression.</li>
+      </ul>
+      <div class="formula-block">SVD Decomposition:
+  X = U Σ Vᵀ
+  U: n×n orthogonal (left singular vectors)
+  Σ: n×p diagonal (singular values σ₁ ≥ σ₂ ≥ ... ≥ 0)
+  V: p×p orthogonal (right singular vectors = PCs)
+
+Variance explained by PCₖ:
+  σₖ² / (Σᵢ σᵢ²)
+
+Projection onto first k PCs:
+  Z = X·V_k   (n×k matrix of "scores")</div>
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        PCA finds the directions of <strong>maximum variance</strong>. PC1 is the direction along which the data varies the most. Projecting onto PC1 gives a 1D summary that preserves the most information (in the variance sense). PCs are always orthogonal to each other.
+      </div>
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            You run PCA on a 100-feature dataset and find the first 3 PCs explain 85% of the variance. What does this mean, and why is it useful?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">It means 85% of the variability in the 100-dimensional data can be captured in just 3 dimensions. This is useful for: (1) visualization in 2D/3D, (2) reducing computation for downstream models, (3) removing noise (the remaining 15% may be noise), and (4) avoiding the curse of dimensionality.</div></details>
+          </li>
+          <li>
+            Why must you center (subtract the mean) from each feature before applying PCA?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">PCA finds directions of maximum variance. If you don't center, the first PC would point toward the mean of the data (the direction of largest magnitude, not largest variance). Centering ensures PCA captures variance structure, not just the data's offset from the origin.</div></details>
+          </li>
+          <li>
+            Two features x₁ and x₂ are perfectly correlated (x₂ = 3x₁). How many non-trivial PCs will PCA find?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Only 1. The data lies on a 1D line in 2D space. The covariance matrix has rank 1, so only one non-zero eigenvalue — PC1 points along the line x₂ = 3x₁. The second PC has eigenvalue 0 (no variance).</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ QUICK REFERENCE ══ -->
+  <div class="section-label">Quick Reference — Formulas to Memorize</div>
+  <div class="topic">
+    <div class="topic-body" style="padding:1.25rem">
+      <div class="formula-block">── LOSS FUNCTIONS ──
+  MSE:          (1/n) Σ (yᵢ − ŷᵢ)²     optimal constant → mean
+  MAE:          (1/n) Σ |yᵢ − ŷᵢ|      optimal constant → median
+  Log-loss:     −(1/n) Σ [yᵢ log(p̂ᵢ) + (1−yᵢ)log(1−p̂ᵢ)]
+
+── LINEAR MODELS ──
+  SLR:          θ₁ = r·(σ_y/σ_x),  θ₀ = ȳ − θ₁x̄
+  OLS:          θ̂ = (XᵀX)⁻¹Xᵀy
+  Ridge:        θ̂ = (XᵀX + nλI)⁻¹Xᵀy
+  GD update:    θ ← θ − α·∇L(θ)
+
+── PROBABILITY ──
+  E[aX+bY]   = aE[X] + bE[Y]          (always)
+  Var(aX+b)  = a²Var(X)
+  Var(X+Y)   = Var(X)+Var(Y)          (if independent)
+  Var(X)     = E[X²] − (E[X])²
+  Bernoulli: E=p, Var=p(1−p)
+  Binomial:  E=np, Var=np(1−p)
+
+── BIAS-VARIANCE ──
+  MSE(θ̂) = Bias(θ̂)² + Var(θ̂)
+
+── CLASSIFICATION ──
+  σ(z) = 1/(1+e^{−z}),  σ(0) = 0.5
+  Precision = TP/(TP+FP)
+  Recall    = TP/(TP+FN)
+  F1        = 2·P·R/(P+R)
+
+── PCA / SVD ──
+  X = UΣVᵀ
+  Variance explained by kth PC: σₖ²/Σσᵢ²</div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="site-footer">
+    <span>Data 100 SP26 · ds100.org/sp26 · Final: May 14 11:30 AM</span>
+    <span>Course notes: ds100.org/course-notes/ · Past exams: ds100.org/sp26/pastexams/</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  const el = document.getElementById('countdown');
+  if (!el) return;
+  const target = new Date(el.dataset.exam).getTime();
+
+  function pluralize(n, word) {
+    return n + ' ' + word + (n === 1 ? '' : 's');
+  }
+
+  function render() {
+    const msLeft = target - Date.now();
+
+    if (msLeft <= 0) {
+      el.textContent = 'no time';
+      return 0;
+    }
+
+    const totalMinutes = Math.floor(msLeft / 60000);
+    const totalHours = Math.floor(msLeft / 3600000);
+
+    if (totalHours >= 1) {
+      el.textContent = pluralize(totalHours, 'hour');
+      return 60000;
+    }
+
+    const totalSeconds = Math.floor(msLeft / 1000);
+    if (totalMinutes >= 1) {
+      el.textContent = pluralize(totalMinutes, 'minute');
+    } else {
+      el.textContent = pluralize(totalSeconds, 'second');
+    }
+    return 1000;
+  }
+
+  function tick() {
+    const delay = render();
+    if (delay > 0) setTimeout(tick, delay);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

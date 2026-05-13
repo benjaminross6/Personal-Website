@@ -21,7 +21,10 @@ export function ProjectCard({ project }: { project: Project }) {
         </ul>
       ) : null}
 
-      {project.links?.live || project.links?.repo || project.links?.notebook ? (
+      {project.links?.live ||
+      project.links?.repo ||
+      project.links?.notebook ||
+      project.links?.extras?.length ? (
         <div className="mt-5 flex flex-wrap gap-3 text-sm font-semibold">
           {project.links.live ? (
             <a
@@ -53,6 +56,17 @@ export function ProjectCard({ project }: { project: Project }) {
               Notebook
             </a>
           ) : null}
+          {project.links.extras?.map((extra) => (
+            <a
+              key={extra.href}
+              className="text-foreground/80 hover:text-foreground"
+              href={extra.href}
+              target="_blank"
+              rel="noreferrer"
+            >
+              {extra.label}
+            </a>
+          ))}
         </div>
       ) : null}
     </article>
