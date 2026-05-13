@@ -1,0 +1,1372 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Econ 101A SP26 — Final Exam Study Guide</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+
+<!-- KaTeX for math rendering -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$',  right: '$',  display: false},
+      {left: '\\[', right: '\\]', display: true},
+      {left: '\\(', right: '\\)', display: false}
+    ],
+    throwOnError: false,
+    strict: false
+  });"></script>
+
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e2e0d8;
+    --text: #1a1a18;
+    --muted: #6b6960;
+    --accent: #003262;          /* Berkeley blue */
+    --accent-light: #e6edf5;
+    --warn: #8b4a00;
+    --warn-light: #fef3e2;
+    --green: #0a5c3a;
+    --green-light: #e4f4ec;
+    --red: #8b1a1a;
+    --red-light: #fdeaea;
+    --tag-comfortable: #d4edda;
+    --tag-comfortable-text: #0a5c3a;
+    --tag-hard: #fdeaea;
+    --tag-hard-text: #8b1a1a;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.7;
+  }
+
+  .page-wrap { max-width: 920px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  /* ── Header ── */
+  .site-header {
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 1.25rem;
+    margin-bottom: 2rem;
+  }
+  .site-header h1 { font-size: 28px; font-weight: 600; letter-spacing: -0.5px; }
+  .site-header .meta { font-size: 13px; color: var(--muted); margin-top: 4px; font-family: var(--mono); }
+  .header-row { display: flex; align-items: flex-end; justify-content: space-between; flex-wrap: wrap; gap: 8px; }
+  .exam-badge {
+    background: var(--red);
+    color: #fff;
+    font-size: 12px;
+    font-family: var(--mono);
+    padding: 4px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+  }
+
+  /* ── TOC ── */
+  .toc-box {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.25rem 1.5rem;
+    margin-bottom: 2.5rem;
+  }
+  .toc-box h2 { font-size: 14px; font-weight: 600; margin-bottom: 10px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--muted); }
+  .toc-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 4px 16px; }
+  .toc-grid a { font-size: 13px; color: var(--accent); text-decoration: none; display: flex; align-items: center; gap: 6px; }
+  .toc-grid a:hover { text-decoration: underline; }
+  .toc-grid a .pill {
+    font-size: 10px;
+    padding: 1px 6px;
+    border-radius: 99px;
+    font-weight: 500;
+    white-space: nowrap;
+  }
+  .pill-easy { background: var(--tag-comfortable); color: var(--tag-comfortable-text); }
+  .pill-hard { background: var(--tag-hard); color: var(--tag-hard-text); }
+
+  /* ── How to use ── */
+  .how-box {
+    background: var(--accent-light);
+    border-left: 3px solid var(--accent);
+    border-radius: 0 6px 6px 0;
+    padding: 1rem 1.25rem;
+    margin-bottom: 2.5rem;
+    font-size: 14px;
+  }
+  .how-box strong { color: var(--accent); }
+
+  /* ── Section label ── */
+  .section-label {
+    font-size: 11px;
+    font-family: var(--mono);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--muted);
+    border-top: 1px solid var(--border);
+    padding-top: 1.5rem;
+    margin-top: 3rem;
+    margin-bottom: 1rem;
+  }
+
+  /* ── Topic card ── */
+  .topic {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    margin-bottom: 1.5rem;
+    overflow: hidden;
+  }
+  .topic-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem 1.25rem;
+    border-bottom: 1px solid var(--border);
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .topic-title-row { display: flex; align-items: center; gap: 10px; }
+  .topic-num { font-family: var(--mono); font-size: 12px; color: var(--muted); min-width: 24px; }
+  .topic-header h2 { font-size: 18px; font-weight: 600; }
+  .comfort-tag { font-size: 11px; font-weight: 500; padding: 3px 10px; border-radius: 99px; }
+  .topic-body { padding: 1.25rem 1.5rem; }
+
+  /* ── Source link ── */
+  .src-link {
+    font-size: 12px;
+    font-family: var(--mono);
+    color: var(--accent);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: 1rem;
+    padding: 3px 8px;
+    background: var(--accent-light);
+    border-radius: 4px;
+  }
+
+  /* ── Key concepts ── */
+  .subsection-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--muted);
+    margin: 1.1rem 0 0.5rem;
+  }
+  ul.concepts { list-style: none; padding: 0; }
+  ul.concepts li {
+    padding: 4px 0 4px 1.1rem;
+    position: relative;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  ul.concepts li::before {
+    content: "›";
+    position: absolute;
+    left: 0;
+    color: var(--muted);
+    font-weight: 600;
+  }
+  ul.concepts li strong { color: var(--text); }
+  code {
+    font-family: var(--mono);
+    font-size: 12.5px;
+    background: #f0ede4;
+    padding: 1px 5px;
+    border-radius: 3px;
+  }
+
+  /* ── Key insight box ── */
+  .insight {
+    background: var(--warn-light);
+    border-left: 3px solid #c47a00;
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    font-size: 13.5px;
+  }
+  .insight .insight-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: #c47a00;
+    margin-bottom: 3px;
+  }
+
+  /* ── Common pitfall box (new for this guide) ── */
+  .pitfall {
+    background: var(--red-light);
+    border-left: 3px solid #c0392b;
+    border-radius: 0 6px 6px 0;
+    padding: 0.75rem 1rem;
+    margin: 1rem 0;
+    font-size: 13.5px;
+  }
+  .pitfall .pitfall-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--red);
+    margin-bottom: 3px;
+  }
+
+  /* ── Formula block ── */
+  .formula-block {
+    background: #1a1a18;
+    color: #f5f0e6;
+    padding: 1rem 1.25rem;
+    border-radius: 8px;
+    margin: 0.85rem 0;
+    overflow-x: auto;
+    line-height: 1.6;
+    font-size: 14px;
+  }
+  .formula-block .formula-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: #c0b8a5;
+    margin-bottom: 0.5rem;
+  }
+  .formula-block .katex { color: #f5f0e6; font-size: 1.05em; }
+  .formula-block .katex-display { margin: 0.5rem 0; }
+  .formula-block .katex-display > .katex { white-space: normal; }
+
+  .katex { font-size: 1.02em; }
+  ul.concepts li .katex,
+  .insight .katex,
+  .pitfall .katex,
+  .ans-body .katex,
+  .practice-box .katex { color: inherit; }
+
+  /* ── Practice questions ── */
+  .practice-box {
+    background: var(--green-light);
+    border: 1px solid #a8d5bc;
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    margin-top: 1.25rem;
+  }
+  .practice-box .practice-label {
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.7px;
+    color: var(--green);
+    margin-bottom: 0.75rem;
+  }
+  .q-list { list-style: none; counter-reset: q-counter; }
+  .q-list li {
+    counter-increment: q-counter;
+    padding: 8px 0 8px 2rem;
+    position: relative;
+    font-size: 14px;
+    border-bottom: 1px solid #c5e5d4;
+  }
+  .q-list li:last-child { border-bottom: none; }
+  .q-list li::before {
+    content: "Q" counter(q-counter);
+    position: absolute;
+    left: 0;
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--green);
+    top: 10px;
+  }
+  details.answer { margin-top: 6px; }
+  details.answer summary {
+    font-size: 12px;
+    color: var(--green);
+    cursor: pointer;
+    font-weight: 500;
+    user-select: none;
+  }
+  details.answer summary:hover { text-decoration: underline; }
+  details.answer .ans-body {
+    margin-top: 6px;
+    font-size: 13px;
+    color: #2d5a42;
+    background: #fff;
+    border-radius: 4px;
+    padding: 8px 10px;
+    border: 1px solid #a8d5bc;
+    line-height: 1.6;
+  }
+
+  /* ── Footer ── */
+  .site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 4rem;
+    padding-top: 1.25rem;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  @media print {
+    body { background: white; font-size: 13px; }
+    .topic { break-inside: avoid; }
+    details.answer { display: block; }
+    details.answer summary { display: none; }
+    details.answer .ans-body { display: block; }
+  }
+
+  @media (max-width: 600px) {
+    .page-wrap { padding: 1rem 1rem 3rem; }
+    .toc-grid { grid-template-columns: 1fr 1fr; }
+    .header-row { flex-direction: column; align-items: flex-start; }
+  }
+</style>
+</head>
+<body>
+<div class="page-wrap">
+
+  <!-- ══ HEADER ══ -->
+  <header class="site-header">
+    <div class="header-row">
+      <div>
+        <h1>Econ 101A — Final Exam Study Guide</h1>
+        <div class="meta">UC Berkeley · Intermediate Microeconomic Theory · SP26</div>
+      </div>
+      <div class="exam-badge">⏰ FINAL: Fri May 15, 2026</div>
+    </div>
+  </header>
+
+  <!-- ══ HOW TO USE ══ -->
+  <div class="how-box">
+    <strong>How to use this guide:</strong> Topics ordered <em>comfortable → harder</em>. Each section gives the core concepts, the formulas you need on autopilot, a <strong style="color:#c47a00">⚡ Key insight</strong>, and a <strong style="color:var(--red)">⚠ Common pitfall</strong> (exam trap to avoid), then practice questions with hidden answers. With <span id="countdown" data-exam="2026-05-15T08:00:00-07:00" style="font-weight:600">…</span> left, skim comfortable topics fast and spend most of your time on the <span style="color:var(--red);font-weight:600">★ harder</span> ones — especially game theory, uncertainty, externalities, and asymmetric info.
+  </div>
+
+  <!-- ══ TABLE OF CONTENTS ══ -->
+  <div class="toc-box">
+    <h2>Contents</h2>
+    <div class="toc-grid">
+      <a href="#math"><span class="pill pill-easy">comfortable</span>1. Math toolkit</a>
+      <a href="#prefs"><span class="pill pill-easy">comfortable</span>2. Preferences &amp; utility</a>
+      <a href="#ump"><span class="pill pill-easy">comfortable</span>3. UMP / Marshallian demand</a>
+      <a href="#inter"><span class="pill pill-easy">comfortable</span>4. Intertemporal choice</a>
+      <a href="#producer"><span class="pill pill-easy">comfortable</span>5. Producer theory</a>
+      <a href="#pc"><span class="pill pill-easy">comfortable</span>6. Perfect competition &amp; tax</a>
+      <a href="#mono"><span class="pill pill-easy">comfortable</span>7. Monopoly</a>
+      <a href="#welfare"><span class="pill pill-easy">comfortable</span>8. Walrasian eq. &amp; welfare</a>
+      <a href="#emp"><span class="pill pill-hard">★ harder</span>9. EMP / Hicksian / duality</a>
+      <a href="#ift"><span class="pill pill-hard">★ harder</span>10. Comparative statics (IFT)</a>
+      <a href="#eu"><span class="pill pill-hard">★ harder</span>11. Uncertainty &amp; expected utility</a>
+      <a href="#oligo"><span class="pill pill-hard">★ harder</span>12. Oligopoly (Cournot / Bertrand)</a>
+      <a href="#game"><span class="pill pill-hard">★ harder</span>13. Game theory (NE / mixed / SPNE)</a>
+      <a href="#ext"><span class="pill pill-hard">★ harder</span>14. Externalities &amp; Pigouvian tax</a>
+      <a href="#adverse"><span class="pill pill-hard">★ harder</span>15. Adverse selection / lemons</a>
+      <a href="#moral"><span class="pill pill-hard">★ harder</span>16. Moral hazard</a>
+      <a href="#formulas"><span class="pill pill-easy">cheatsheet</span>★ Formulas at a glance</a>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       PART 1 — COMFORTABLE TOPICS
+  ════════════════════════════════════════════ -->
+  <div class="section-label">Part 1 — Comfortable Topics (quick review)</div>
+
+  <!-- ─── 1. MATH TOOLKIT ─── -->
+  <div class="topic" id="math">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">01</span><h2>Math Toolkit</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 1, PS 2</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Unconstrained max (1-D):</strong> FOC $f'(x^*)=0$; SOC $f''(x^*)<0$ for local max.</li>
+        <li><strong>Unconstrained max (2-D):</strong> $\nabla f = 0$ and Hessian negative definite — need $f_{xx}<0$ <em>and</em> $f_{xx}f_{yy} - f_{xy}^2 > 0$.</li>
+        <li><strong>Lagrangian:</strong> $\mathcal{L} = f(x) - \lambda(g(x) - c)$. FOCs: $\nabla f = \lambda \nabla g$ <em>and</em> $g(x) = c$.</li>
+        <li><strong>Shadow price:</strong> $\lambda^* = \partial V^*/\partial c$ — marginal value of relaxing the constraint by one unit.</li>
+        <li><strong>Implicit Function Theorem:</strong> If $F(x, y) = 0$ and $F_y \ne 0$, then $\dfrac{dy}{dx} = -\dfrac{F_x}{F_y}$.</li>
+        <li><strong>Concavity tests:</strong> A function is concave iff its Hessian is negative semi-definite everywhere (or equivalently for 1-D: $f''\le 0$ globally).</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Lagrangian template</div>
+        $$\max_{x_1,\ldots,x_n} f(x) \;\;\text{s.t.}\;\; g_k(x) = c_k \;\Longrightarrow\; \mathcal{L} = f(x) - \sum_k \lambda_k(g_k(x) - c_k)$$
+        $$\text{FOCs: } \partial \mathcal{L}/\partial x_i = 0 \;\;\forall i, \qquad \partial \mathcal{L}/\partial \lambda_k = 0 \;\;\forall k$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Almost every econ problem this semester is "set up Lagrangian → take FOCs → solve." If you can do that in your sleep, you've already gotten 30%+ of every exam.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        <strong>SOC in 2-D requires BOTH conditions.</strong> $f_{xx}<0$ alone is not enough — you also need $f_{xx}f_{yy} - f_{xy}^2 > 0$ (positive determinant). Skipping this lets a saddle point masquerade as a max.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            For $F(x,y) = x^2 + y^2 - 1 = 0$, find $dy/dx$ at $(x,y) = (\tfrac{1}{2}, \tfrac{\sqrt{3}}{2})$ using the IFT.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$F_x = 2x = 1$, $F_y = 2y = \sqrt{3}$. So $dy/dx = -F_x/F_y = -1/\sqrt{3}$.</div></details>
+          </li>
+          <li>
+            For $f(x,y) = x^2 - xy + y^2$ subject to $x + y = 10$, set up the Lagrangian and solve.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$\mathcal{L} = x^2 - xy + y^2 - \lambda(x+y-10)$. FOCs: $2x - y = \lambda$, $2y - x = \lambda$, $x+y=10$. From first two: $x = y$, so $x = y = 5$, $\lambda = 5$.</div></details>
+          </li>
+          <li>
+            For $f(x) = \alpha \ln x + (1-\alpha) x$ with $\alpha > 1$, find the critical point and verify it's a max.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$f'(x) = \alpha/x + (1-\alpha) = 0 \Rightarrow x^* = \alpha/(\alpha-1)$. $f''(x) = -\alpha/x^2 < 0$ for all $x > 0$, so it's a max (also concave globally).</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 2. PREFERENCES & UTILITY ─── -->
+  <div class="topic" id="prefs">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">02</span><h2>Preferences &amp; Utility</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 1, PS 2, PS 3</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Rational preferences = complete + transitive.</strong> Reflexivity ($x \succeq x$) follows from completeness. Indifference $\sim$ inherits transitivity.</li>
+        <li><strong>MRS</strong> = $\frac{\partial u/\partial x_1}{\partial u/\partial x_2}$ — units of $x_2$ you'd trade for one more $x_1$ at constant utility. Slope of indifference curve (in absolute value).</li>
+        <li><strong>Convex preferences</strong> (averages preferred to extremes) $\Longleftrightarrow$ MRS diminishes in $x_1$ $\Longleftrightarrow$ indifference curves convex to origin.</li>
+        <li><strong>Standard families:</strong>
+          <br>&nbsp;&nbsp;• <em>Cobb-Douglas:</em> $u = x_1^\alpha x_2^\beta$ &nbsp; → &nbsp; MRS $= \frac{\alpha x_2}{\beta x_1}$, expenditure shares are constants.
+          <br>&nbsp;&nbsp;• <em>Quasi-linear:</em> $u = \phi(x_1) + x_2$ &nbsp; → &nbsp; MRS $= \phi'(x_1)$ — depends only on $x_1$, not income.
+          <br>&nbsp;&nbsp;• <em>Perfect substitutes:</em> $u = ax_1 + bx_2$ &nbsp; → &nbsp; MRS $= a/b$ constant.
+          <br>&nbsp;&nbsp;• <em>Perfect complements:</em> $u = \min(ax_1, bx_2)$ &nbsp; → &nbsp; consume in fixed proportion $ax_1 = bx_2$.
+        </li>
+        <li><strong>Monotone transformations</strong> $v = g(u)$ with $g'>0$ preserve preferences. Utility is <em>ordinal</em>.</li>
+      </ul>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Cobb-Douglas tells you everything in one shot: an agent with $u = x^\alpha y^{1-\alpha}$ and income $M$ at prices $(p_x, p_y)$ spends share $\alpha$ on $x$, share $1-\alpha$ on $y$. So $x^* = \alpha M/p_x$, $y^* = (1-\alpha)M/p_y$. Memorize this.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        $u^2(x)$ represents the same preferences as $u(x)$ <strong>only if $u \ge 0$ everywhere</strong> (otherwise squaring is non-monotonic and flips order on negatives). $\ln u$ requires $u > 0$. Always check the domain when applying transformations.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Are preferences $x \succeq y \Leftrightarrow x_1 + x_2 \ge y_1 + y_2 - 1$ transitive?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body"><strong>No.</strong> Counterexample: $x = (0,0)$, $y = (1,0)$, $z = (2,0)$. Then $x \succeq y$ (since $0 \ge 0$) and $y \succeq z$ (since $1 \ge 1$), but $x \not\succeq z$ (since $0 \not\ge 1$).</div></details>
+          </li>
+          <li>
+            $u(x_1, x_2) = x_1^{1/2} x_2^{1/2}$. Compute MRS at $(x_1, x_2) = (10, 20)$.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">MRS $= \frac{(1/2)x_1^{-1/2}x_2^{1/2}}{(1/2)x_1^{1/2}x_2^{-1/2}} = \frac{x_2}{x_1} = 2$.</div></details>
+          </li>
+          <li>
+            Why is the "MRS diminishing along an indifference curve" a hallmark of <em>convex</em> preferences?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">As $x_1$ rises along an indifference curve, $x_2$ falls. Diminishing MRS means each extra unit of $x_1$ is worth fewer units of $x_2$. Geometrically, this is exactly the convex-to-origin shape of indifference curves.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 3. UMP / MARSHALLIAN ─── -->
+  <div class="topic" id="ump">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">03</span><h2>UMP / Marshallian Demand</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 3, PS 4 Pt A</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>UMP setup:</strong> $\max u(x)$ s.t. $p \cdot x \le M$, $x \ge 0$. Solution = Marshallian demand $x^M(p, M)$.</li>
+        <li><strong>Interior FOC:</strong> $\nabla u = \lambda p$, i.e. $\text{MRS}_{i,j} = p_i/p_j$ for every pair. Plus budget.</li>
+        <li><strong>$\lambda$ = marginal utility of income</strong> at optimum.</li>
+        <li><strong>Indirect utility:</strong> $V(p, M) = u(x^M(p, M))$, the achieved utility.</li>
+        <li><strong>Engel curve:</strong> $x^*(M)$ holding $p$ fixed. Linear in $M$ for Cobb-Douglas; quasi-linear has $x_1^*$ flat (constant) at interior.</li>
+        <li><strong>Normal vs. inferior:</strong> $\partial x^*/\partial M > 0$ normal, $< 0$ inferior.</li>
+        <li><strong>Labor supply</strong> is just UMP with $x = (c, l)$, prices $(p, w)$, "income" = $wT$ (total time × wage).</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Marshallian demand — closed forms</div>
+        $$\text{Cobb-Douglas } u = x_1^\alpha x_2^{1-\alpha}: \quad x_1^* = \frac{\alpha M}{p_1}, \quad x_2^* = \frac{(1-\alpha)M}{p_2}$$
+        $$\text{Quasi-linear } u = \phi(x_1) + x_2: \quad \phi'(x_1^*) = \frac{p_1}{p_2} \quad \text{(} x_1^* \text{ independent of } M \text{ at interior)}$$
+        $$\text{Perfect complements } u = \min(ax_1, bx_2): \quad ax_1^* = bx_2^*, \;\; p_1 x_1^* + p_2 x_2^* = M$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        For Cobb-Douglas, you never need a Lagrangian — just apply the "share of income" rule. For quasi-linear, $\phi'(x_1^*) = p_1/p_2$ pins down $x_1^*$ <em>without seeing M</em>; income only affects $x_2^*$.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        With quasi-linear preferences, $x_1^*$ is income-independent <strong>only at an interior optimum</strong>. If $M < p_2 \cdot 0 + p_1 x_1^{interior}$ (so $x_2^* = 0$ binds), you're at a corner and $x_1^* = M/p_1$ <em>does</em> depend on $M$. Always check the non-negativity constraint.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            $u(x_1, x_2) = \sqrt{x_1} + x_2$. Solve for $x_1^*, x_2^*$. When does $x_2^* = 0$ corner bind?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">FOC: $\tfrac{1}{2\sqrt{x_1}} = p_1/p_2$, giving $x_1^* = p_2^2/(4p_1^2)$. Then $x_2^* = M/p_2 - p_2/(4p_1)$. Corner $x_2^* = 0$ binds when $M < p_2^2/(4p_1)$; then $x_1^* = M/p_1$.</div></details>
+          </li>
+          <li>
+            Junyi has $u(c, l) = c^\alpha l^\beta$, time endowment $T$, wage $w$, consumption price $p$. Find optimal hours of leisure $l^*$ and consumption $c^*$.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Budget: $pc + wl = wT$. Cobb-Douglas: $l^* = \tfrac{\beta T}{\alpha+\beta}$, $c^* = \tfrac{\alpha w T}{(\alpha+\beta)p}$. (Hours worked $= \tfrac{\alpha T}{\alpha+\beta}$.)</div></details>
+          </li>
+          <li>
+            Cobb-Douglas demand for good 1 is $\alpha M/p_1$. What is $\partial x_1^*/\partial p_2$? Interpret.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$\partial x_1^*/\partial p_2 = 0$. For CD, substitution effect (toward good 1 when $p_2$ rises) exactly cancels the income effect (real income falls).</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 4. INTERTEMPORAL ─── -->
+  <div class="topic" id="inter">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">04</span><h2>Intertemporal Choice</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 5, HW 4 Pt B</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>2-period budget:</strong> $c_0 + \dfrac{c_1}{1+r} = M_0 + \dfrac{M_1}{1+r}$ (present-value form).</li>
+        <li><strong>Objective:</strong> $u(c_0) + \dfrac{1}{1+\delta} u(c_1)$, where $\delta$ = impatience rate.</li>
+        <li><strong>Euler equation:</strong> $u'(c_0) = \dfrac{1+r}{1+\delta} u'(c_1)$.</li>
+        <li><strong>Comparison rule:</strong>
+          <br>&nbsp;&nbsp;• $r = \delta$ → $c_0^* = c_1^*$ (perfect consumption smoothing).
+          <br>&nbsp;&nbsp;• $r > \delta$ → $c_0^* < c_1^*$ (save & defer).
+          <br>&nbsp;&nbsp;• $r < \delta$ → $c_0^* > c_1^*$ (borrow / consume now).
+        </li>
+        <li><strong>Log utility special case:</strong> $\partial c_0^*/\partial r = 0$ — income & substitution effects of $r$ exactly cancel.</li>
+        <li><strong>Time inconsistency:</strong> When discounting is hyperbolic / $\beta$-$\delta$, today's "self" disagrees with tomorrow's "self". Commitment devices help.</li>
+        <li><strong>With labor:</strong> If wage differs ($w_1 > w_0$), hours work more in high-wage period: $24 - l_t^* = (\lambda w_t)^\gamma$ (Frisch elasticity = $\gamma$).</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Log utility two-period (δ = r)</div>
+        $$u(c) = \ln c \;\;\Longrightarrow\;\; c_0^* = c_1^* = \frac{M_0 + M_1/(1+r)}{1 + 1/(1+r)} = \frac{(1+r)M_0 + M_1}{2+r}$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        The Euler equation has three pieces: marginal utility today, marginal utility tomorrow, and the gross interest rate vs. the discount factor. <strong>If the ratio $(1+r)/(1+\delta) = 1$, consumption is flat.</strong> Otherwise, consumption tilts toward whichever is bigger.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        Don't confuse $\delta$ (impatience rate) with $\beta = 1/(1+\delta)$ (discount factor). And remember the Euler equation pairs $1+r$ with $1+\delta$ — easy to drop the "$1+$" under stress.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            $u(c) = \ln c$, $\delta = r$, $M_0 > 0$, $M_1 = 0$. Find $c_0^*, c_1^*$.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Smoothing: $c_0 = c_1 = c$. Budget: $c + c/(1+r) = M_0 \Rightarrow c = \tfrac{(1+r)M_0}{2+r}$.</div></details>
+          </li>
+          <li>
+            $u(c) = \ln c$. If $r$ increases, holding $\delta$ fixed and assuming the agent is a saver, how does $c_0^*$ change? Why?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$c_0^*$ unchanged (log utility quirk). The substitution effect (save more) and income effect (richer because saver) exactly offset for log preferences.</div></details>
+          </li>
+          <li>
+            Why does a time-inconsistent agent (hyperbolic discounter) prefer commitment to flexibility?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Without commitment, the period-1 self consumes too much from the period-0 self's perspective. Commitment lets period 0 lock in lower consumption, raising period-0 utility. With $\gamma > 1$ extra weight on present consumption, $c_1^c < c_1^{nc}$.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 5. PRODUCER ─── -->
+  <div class="topic" id="producer">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">05</span><h2>Producer Theory &amp; Supply</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 7, Midterm 2</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Cost-min problem:</strong> $\min w \cdot z$ s.t. $f(z) \ge y$. Solution $\rightarrow$ conditional input demands and the cost function $c(w, y)$.</li>
+        <li><strong>Marginal cost:</strong> $MC(y) = \partial c/\partial y$. <strong>Average cost:</strong> $AC(y) = c(y)/y$.</li>
+        <li><strong>Profit-max:</strong> $\max_y p y - c(y)$. FOC: $p = MC(y^*)$.</li>
+        <li><strong>SR supply:</strong> $p = MC$ when $p \ge AVC$; else 0.</li>
+        <li><strong>LR supply (entry):</strong> $p = MC$ when $p \ge AC$; else 0. In LR with free entry, $\pi = 0 \Leftrightarrow p = \min AC$.</li>
+        <li><strong>Constant returns + linear cost:</strong> $c(y) = cy$ gives MC = AC = $c$, horizontal supply.</li>
+        <li><strong>Aggregate supply</strong> = horizontal sum of individual supplies.</li>
+      </ul>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        For perfectly competitive firms with $c(y) = cy + F$: variable supply pieces are flat at $p = c$, but firms only enter when revenue covers fixed cost $F$. The entry condition pins down market size in long run.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        $p = MC$ holds for <em>all</em> price-taking firms — not just PC. A monopolist faces $MR = MC$, where $MR \ne p$. Don't mix these up.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Firm has $c(y) = y^2 + 4$. Find SR supply curve. What's $\min AC$?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$MC = 2y$. $AVC = y$, $AC = y + 4/y$. SR supply: $y = p/2$ (since $MC \ge AVC$ always). Min $AC$ at $y = 2$ where $AC = 4$. So LR supply only at $p \ge 4$.</div></details>
+          </li>
+          <li>
+            $f(H, K) = \min\{H, K\}$, wage $w$, capital price $r$. Find cost function and MC.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Use inputs in fixed proportion: $H = K = y$. Cost $c(y) = (w+r)y$, $MC = w+r$ constant.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 6. PERFECT COMP ─── -->
+  <div class="topic" id="pc">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">06</span><h2>Perfect Competition &amp; Taxation</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 7, Midterm 2</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Market eq.</strong> Set $Y^S(p) = Y^D(p)$. With linear demand $p = a - bY$ and constant MC $c$: $p^* = c$, $Y^* = (a-c)/b$.</li>
+        <li><strong>CS</strong> = area under demand, above price. <strong>PS</strong> = area above supply, below price.</li>
+        <li><strong>Tax incidence formula:</strong>
+          $$\frac{\partial p^*}{\partial t} = \frac{\varepsilon_S}{\varepsilon_S - \varepsilon_D}, \qquad \frac{\partial (p^* - t)}{\partial t} = \frac{\varepsilon_D}{\varepsilon_S - \varepsilon_D}$$
+          (Where $\varepsilon_S > 0$ and $\varepsilon_D < 0$.) The <em>relatively inelastic</em> side bears more burden.
+        </li>
+        <li><strong>Polar cases:</strong> Horizontal supply ($\varepsilon_S \to \infty$) → consumer pays 100% of tax. Vertical supply → producer pays 100%.</li>
+        <li><strong>DWL of tax</strong> (linear demand, horizontal supply): $DWL = \dfrac{t^2}{2b}$. Quadratic in $t$.</li>
+      </ul>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Tax burden ≠ tax remittance. Even if firms <em>write the check</em>, consumers bear the burden if their demand is inelastic. Burden follows elasticity, not legal structure.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        $DWL = t^2/(2b)$ is <strong>quadratic</strong> in tax rate. Doubling $t$ <em>quadruples</em> DWL — taxes are increasingly distortionary at higher rates. Easy to mis-state as linear.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Demand $p = A - bQ$, supply horizontal at $\alpha$. Tax $t$. Find new $Q$, new consumer price, new producer price, and DWL.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Consumer pays $p = \alpha + t$. Producer keeps $\alpha$. New $Q = (A - \alpha - t)/b$. DWL = triangle: $\tfrac{1}{2} t \cdot (t/b) = t^2/(2b)$.</div></details>
+          </li>
+          <li>
+            Why does taxing staple foods place most of the burden on consumers?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Demand for staples is inelastic ($\varepsilon_D$ near 0). The tax-incidence formula puts the burden on the more inelastic side: consumers.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 7. MONOPOLY ─── -->
+  <div class="topic" id="mono">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">07</span><h2>Monopoly</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ Midterm 2, Final 17 Q1, HW 9</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Profit max:</strong> $\max_y p(y)y - c(y)$ ⇒ <strong>MR = MC</strong>.</li>
+        <li><strong>Linear demand</strong> $p = a - by$ with $MC = c$:
+          $$y_M^* = \frac{a-c}{2b}, \quad p_M^* = \frac{a+c}{2}, \quad \Pi_M^* = \frac{(a-c)^2}{4b}.$$
+        </li>
+        <li><strong>Markup rule:</strong> $\dfrac{p - MC}{p} = \dfrac{1}{|\varepsilon_D|}$. More elastic demand → smaller markup.</li>
+        <li><strong>DWL of monopoly</strong> (vs. PC): triangle between $MC$ and demand for $y \in [y_M, y_{PC}]$. For linear demand + constant MC: $DWL = \tfrac{(a-c)^2}{8b}$.</li>
+        <li><strong>Natural monopoly:</strong> With large fixed costs $F$, $AC$ keeps falling — only one firm can survive. PC would yield losses for all firms.</li>
+      </ul>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Monopoly produces <em>half</em> the PC quantity at <em>twice</em> the markup (for linear demand). DWL = $\tfrac{1}{2}\cdot$ producer surplus. Comparing $(p_M, y_M, \Pi_M)$ to $(p_{PC}, y_{PC}, 0)$ is a standard exam routine — memorize the four numbers.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        <strong>Don't set $p = MC$ for a monopolist.</strong> That's the PC condition. Monopoly sets <em>marginal revenue</em> equal to MC — and $MR < p$ because increasing output lowers the price on all units.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Demand $p = 100 - q$, $MC = 20$. Monopoly $q^*, p^*, \Pi^*, DWL$?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$q^* = 40$, $p^* = 60$, $\Pi^* = 40 \cdot 40 = 1600$. $q_{PC} = 80$. $DWL = \tfrac{1}{2}(80-40)(60-20) = 800$.</div></details>
+          </li>
+          <li>
+            When is a natural monopoly socially preferred to PC?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">When fixed costs $F$ are so large that PC firms would all earn negative profits and the market would shut down. A regulated monopoly producing at $AC$ (zero profit) restores trade and is better than nothing.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 8. WELFARE ─── -->
+  <div class="topic" id="welfare">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">08</span><h2>Walrasian Equilibrium &amp; Welfare Theorems</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">comfortable</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 8, Midterm 2</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Edgeworth box:</strong> 2 agents, 2 goods, fixed total endowment. Each point = allocation $(x^A, x^B)$ with $x^A + x^B = \omega$.</li>
+        <li><strong>Walrasian equilibrium</strong> = prices $p^*$ and allocation $(x^{A*}, x^{B*})$ s.t. (i) each agent optimizes given $p^*$ from their endowment $\omega^i$; (ii) markets clear.</li>
+        <li><strong>Demand from endowment</strong> (CD with share $\alpha$ on good 1): $x_1^{A*} = \dfrac{\alpha(p_1 \omega_1^A + p_2 \omega_2^A)}{p_1}$.</li>
+        <li><strong>Pareto optimum:</strong> No feasible reallocation makes someone better off without making another worse. Tangency: $\text{MRS}_A = \text{MRS}_B$.</li>
+        <li><strong>Contract curve:</strong> Pareto-optimal allocations that Pareto-improve on the endowment.</li>
+        <li><strong>FWT (First Welfare Theorem):</strong> Every Walrasian equilibrium is Pareto optimal.</li>
+        <li><strong>SWT (Second Welfare Theorem):</strong> Every Pareto optimum can be supported as a WE with appropriate lump-sum transfers.</li>
+        <li><strong>Walras' Law:</strong> If $n-1$ markets clear, the $n$th one does too — only need to check one fewer.</li>
+      </ul>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Normalizing $p_2 = 1$ is always fine — only relative prices matter. So a "2-good 2-agent" problem really has only one price to find: $p_1^*$. Use market clearing in good 1, then Walras's law gives you good 2 for free.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        An allocation can be Pareto optimal but <strong>not</strong> a Pareto improvement on the endowment (it might make someone worse than their starting point). The contract curve is the <em>intersection</em> of "PO" and "individually rational."
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Both A and B have $u = \log x_1 + \log x_2$. Endowments $\omega^A = \omega^B = (5, 5)$. Find the WE price ratio.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Symmetric: $p_1^*/p_2^* = 1$. The endowment is already on the contract curve (Pareto-optimal) and is itself the WE allocation.</div></details>
+          </li>
+          <li>
+            How does Walras' Law help in solving 2-good equilibria?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">You only need to impose market clearing in <em>one</em> market and solve for $p_1^*/p_2^*$. The other market clears automatically.</div></details>
+          </li>
+          <li>
+            What does the Second Welfare Theorem buy us beyond the First?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">FWT says markets are efficient. SWT says markets can also implement <em>any</em> efficient distribution we want, via lump-sum transfers — separating efficiency from equity.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════════════════════════════════════════════
+       PART 2 — HARDER TOPICS
+  ════════════════════════════════════════════ -->
+  <div class="section-label">Part 2 — Harder Topics (spend most time)</div>
+
+  <!-- ─── 9. EMP / HICKSIAN ─── -->
+  <div class="topic" id="emp">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">09</span><h2>EMP / Hicksian Demand / Duality</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 3</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Expenditure-minimization problem (EMP):</strong> $\min p \cdot x$ s.t. $u(x) \ge \bar u$. The "dual" of UMP.</li>
+        <li><strong>Hicksian demand:</strong> $h(p, \bar u)$ = solution to EMP. Aka <em>compensated</em> demand.</li>
+        <li><strong>Expenditure function:</strong> $e(p, \bar u) = p \cdot h(p, \bar u)$ = minimum cost of reaching $\bar u$.</li>
+        <li><strong>Shephard's Lemma:</strong> $\dfrac{\partial e}{\partial p_i} = h_i(p, \bar u)$.</li>
+        <li><strong>Slutsky decomposition:</strong>
+          $$\frac{\partial x_i^M}{\partial p_j} = \underbrace{\frac{\partial h_i}{\partial p_j}}_{\text{substitution (≤0 own)}} \;-\; \underbrace{x_j^M \cdot \frac{\partial x_i^M}{\partial M}}_{\text{income effect}}$$
+        </li>
+        <li><strong>Roy's identity:</strong> $x_i^M = -\dfrac{\partial V/\partial p_i}{\partial V/\partial M}$ — recover Marshallian from indirect utility.</li>
+        <li><strong>Duality:</strong> $x^M(p, M) = h(p, V(p, M))$. Same answer, different angle.</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Hicksian for perfect complements</div>
+        $$u = \min(2x_1, x_2),\;\; \bar u: \quad h_1 = \bar u/2, \quad h_2 = \bar u$$
+        $$\text{(no price dependence — fixed proportion at kink)}$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        <strong>The substitution effect is always non-positive on own price</strong> ($\partial h_i/\partial p_i \le 0$). Marshallian demand can slope up (Giffen) only because the income effect overwhelms substitution — but Hicksian never does.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        For non-convex preferences (e.g., $u = 2x_1^2 + x_2^2$, isoquant is an ellipse), expenditure minimization can put you at a <em>corner</em>, not a tangency. Solve by comparing corner costs, not by setting MRS = price ratio.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            $u = \min(2x_1, x_2)$, find Hicksian. Why is there no price dependence?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$h_1 = \bar u/2$, $h_2 = \bar u$. Perfect complements consume at the kink $2x_1 = x_2 = \bar u$, regardless of prices.</div></details>
+          </li>
+          <li>
+            $u = 2x_1^2 + x_2^2$, $\bar u$. Find Hicksian.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Isoquant is an ellipse — corner solutions. Compare $(x_1, x_2) = (\sqrt{\bar u/2}, 0)$ at cost $p_1\sqrt{\bar u/2}$ vs. $(0, \sqrt{\bar u})$ at cost $p_2\sqrt{\bar u}$. Pick the cheaper. Switch at $p_1 = \sqrt{2}p_2$.</div></details>
+          </li>
+          <li>
+            Why is it that for Cobb-Douglas, $\partial x_1^M/\partial p_2 = 0$?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">By Slutsky: substitution effect toward good 1 (when $p_2$ rises) exactly cancels income effect (real income falls, so consume less of normal good 1). CD has a knife-edge cancellation.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 10. IFT ─── -->
+  <div class="topic" id="ift">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">10</span><h2>Comparative Statics &amp; IFT</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 1, PS 7, HW 4 Pt B, Final 21 Q4</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Single-variable IFT:</strong> If $F(x, \theta) = 0$ defines $x^*(\theta)$ and $F_x \ne 0$, then $\dfrac{dx^*}{d\theta} = -\dfrac{F_\theta}{F_x}$.</li>
+        <li><strong>Recipe:</strong> Write the FOC (or equilibrium condition) as $F = 0$. Compute $F_\theta$ (how $F$ shifts with the parameter). Compute $F_x$ (typically the SOC). Then divide and apply the minus sign.</li>
+        <li><strong>Sign analysis:</strong> SOC implies $F_x < 0$ (or has known sign), so $\operatorname{sign}(dx^*/d\theta) = \operatorname{sign}(F_\theta)$. Most exam problems reduce to: "what's the sign of $F_\theta$?"</li>
+        <li><strong>Common applications:</strong>
+          <br>&nbsp;&nbsp;• Tax incidence: $\partial p^*/\partial t = \varepsilon_S/(\varepsilon_S - \varepsilon_D)$.
+          <br>&nbsp;&nbsp;• Insurance demand: $\partial \alpha^*/\partial w$ depends on whether ARA rises or falls in $w$.
+          <br>&nbsp;&nbsp;• Equilibrium wage: $\partial w^*/\partial N < 0$ when labor demand fixed and supply rises.
+        </li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">IFT — single-variable</div>
+        $$F(x^*, \theta) = 0 \;\;\Longrightarrow\;\; \frac{dx^*}{d\theta} = -\frac{F_\theta(x^*, \theta)}{F_x(x^*, \theta)}$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        The IFT lets you do comparative statics <em>without</em> solving the model explicitly. For implicit equations like $\frac{2}{3}(100 - w - r) = N[T - (3w)^{-3/2}]$, you'd never close-form $w^*(N)$ — but you can still sign $\partial w^*/\partial N$.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        <strong>The minus sign in $-F_\theta/F_x$ is easy to forget.</strong> A safer mental check: differentiate $F(x^*(\theta), \theta) = 0$ totally, get $F_x \cdot (dx^*/d\theta) + F_\theta = 0$, then solve. The minus follows automatically.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            $G(w^*, N) = \tfrac{2}{3}(100 - w - r) - N[T - (3w)^{-3/2}] = 0$ defines equilibrium wage. Sign of $\partial w^*/\partial N$?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$G_N = -[T - (3w)^{-3/2}] < 0$. $G_w = -\tfrac{2}{3} - \tfrac{3}{2}N(3w)^{-5/2} < 0$. So $\partial w^*/\partial N = -G_N/G_w = -(\text{neg})/(\text{neg}) < 0$. More workers → lower wage.</div></details>
+          </li>
+          <li>
+            For insurance: $F(\alpha^*, w) = p(1-q)u'(w_2) - (1-p)q u'(w_1) = 0$. Under DARA, is $\partial \alpha^*/\partial w$ positive or negative?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Numerator $F_w$ proportional to $r_A(w_1) - r_A(w_2)$. Under DARA & $w_2 < w_1$: $r_A(w_2) > r_A(w_1)$, so $F_w < 0$. SOC: $F_\alpha < 0$. So $\partial \alpha^*/\partial w = -F_w/F_\alpha < 0$. Richer = less insurance.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 11. EXPECTED UTILITY ─── -->
+  <div class="topic" id="eu">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">11</span><h2>Uncertainty &amp; Expected Utility</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ PS 5, HW 4 Pt 2</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Expected utility:</strong> $EU = \sum_s p_s\, u(w_s)$ for state-dependent wealth.</li>
+        <li><strong>Risk aversion</strong> $\Leftrightarrow$ $u'' < 0$ (concave). Risk neutral: $u$ linear. Risk loving: $u'' > 0$.</li>
+        <li><strong>Risk premium</strong> $\pi$: $u(\bar w - \pi) = E[u(w)]$ — what you'd pay to avoid the gamble.</li>
+        <li><strong>Absolute Risk Aversion (ARA):</strong> $r_A(w) = -u''(w)/u'(w)$.</li>
+        <li><strong>Relative Risk Aversion (RRA):</strong> $r_R(w) = w \cdot r_A(w)$.</li>
+        <li><strong>CRRA utility:</strong> $u(w) = \dfrac{w^{1-\rho}}{1-\rho}$. Gives $r_R = \rho$ constant, $r_A = \rho/w$ (DARA).</li>
+        <li><strong>CARA utility:</strong> $u(w) = -e^{-aw}/a$. Gives $r_A = a$ constant, $r_R = aw$ (IRRA).</li>
+        <li><strong>Insurance FOC:</strong> $\dfrac{u'(w_2)}{u'(w_1)} = \dfrac{(1-p)q}{p(1-q)}$. Fair pricing ($q = p$) ⇒ full insurance $\alpha^* = L$.</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Insurance — key results</div>
+        $$\text{Fair: }q=p \;\Longrightarrow\; \alpha^* = L \text{ (full coverage) for any } u'' < 0$$
+        $$\text{Unfair: }q > p \;\Longrightarrow\; 0 < \alpha^* < L,\;\; \operatorname{sign}\!\left(\tfrac{\partial \alpha^*}{\partial w}\right) = \operatorname{sign}\!\bigl(r_A(w_1) - r_A(w_2)\bigr)$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        <strong>Under fair insurance, any risk-averse agent buys full coverage</strong> — full stop. The interesting case is unfair pricing, where the choice depends on whether risk aversion grows or shrinks with wealth. DARA (CRRA, CARA→no — wait — CARA has constant $r_A$) is the most common assumption: rich people are less risk averse in dollar terms.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        $r_A$ vs. $r_R$ confusion is the #1 error here. <strong>CRRA</strong> has $r_R = \rho$ <em>constant</em> but $r_A = \rho/w$ <em>decreasing</em> in $w$. <strong>CARA</strong> has $r_A$ constant but $r_R$ increasing. Always check which is constant by name.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            $u(w) = -e^{-aw}/a$. Compute $r_A$ and $r_R$.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$u'(w) = e^{-aw}$, $u''(w) = -a e^{-aw}$. So $r_A = a$ (constant). $r_R = aw$ (linear in $w$, increasing). This is CARA.</div></details>
+          </li>
+          <li>
+            Stock returns +10% or −5% (prob 1/2 each). Bond return = 0%. Linear utility. What share in stocks?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Risk neutral → maximize expected return. $E[\text{stock}] = 0.025 > 0$. Invest 100% in stocks.</div></details>
+          </li>
+          <li>
+            Under CRRA, why does insurance demand scale with wealth?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">CRRA is homothetic — preferences over <em>fractional</em> gambles don't depend on absolute wealth. Doubling $(w, L)$ doubles optimal $\alpha$, so $\alpha^*/L$ depends only on $w/L$ — invariant to proportional scaling.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 12. OLIGOPOLY ─── -->
+  <div class="topic" id="oligo">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">12</span><h2>Oligopoly — Cournot &amp; Bertrand</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ HW 9, Final 17 Q1, Final 21 Q4</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Cournot</strong> = firms choose <em>quantities</em> simultaneously. <strong>Bertrand</strong> = firms choose <em>prices</em>.</li>
+        <li><strong>Cournot best response</strong> (linear demand $p = a - bY$, MC $c$): $y_i = \dfrac{a-c}{2b} - \dfrac{y_{-i}}{2}$.</li>
+        <li><strong>Symmetric Cournot NE (I firms):</strong>
+          $$y_i^* = \frac{a-c}{b(I+1)}, \quad p^* = c + \frac{a-c}{I+1}, \quad \pi_i^* = \frac{(a-c)^2}{b(I+1)^2}.$$
+        </li>
+        <li><strong>Identity at NE:</strong> $\pi_i^* = (y_i^*)^2$ (for linear demand, identical firms, constant MC).</li>
+        <li><strong>Bertrand (identical products, $I \ge 2$):</strong> $p = MC$, profits zero. Just 2 firms suffice to replicate PC.</li>
+        <li><strong>Limit:</strong> Cournot $\xrightarrow{I \to \infty}$ PC. Markup decays as $1/(I+1)$.</li>
+        <li><strong>Stackelberg</strong> (sequential quantities, F1 leader): leader produces more, gets more profit; follower produces less. $y_1^{Sb} > y_1^{Cb}$.</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Cournot ↔ Bertrand summary (linear demand)</div>
+        $$\text{Monopoly: } Y = \tfrac{a-c}{2b}, \quad p = \tfrac{a+c}{2}$$
+        $$\text{Cournot I-firm: } Y = \tfrac{I(a-c)}{b(I+1)}, \quad p = c + \tfrac{a-c}{I+1}$$
+        $$\text{Bertrand (I≥2, identical): } Y = \tfrac{a-c}{b}, \quad p = c$$
+        $$\text{Stackelberg: } y_1 = \tfrac{a-c}{2b}, \; y_2 = \tfrac{a-c}{4b}, \; Y = \tfrac{3(a-c)}{4b}, \; p = \tfrac{a+3c}{4}$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Stackelberg leader gets more profit than Cournot — <em>commitment value</em>. Follower gets less. Total industry quantity is <em>higher</em> than Cournot, so <strong>consumers prefer Stackelberg</strong> (higher CS).
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        <strong>Bertrand ≠ "Cournot with prices."</strong> With identical products, Bertrand collapses to PC even with 2 firms — the strategic variable is what drives the equilibrium, not the number of firms. Differentiated Bertrand is a different story (positive margins) — but the homework version assumes identical products.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Cournot duopoly: $p = 100 - Q$, MC = 20. Compute $y_1^*, y_2^*, p^*, \pi_i^*$.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$y_i^* = 80/3 \approx 26.7$. $Y = 160/3$. $p^* = 100 - 160/3 \approx 46.7$. $\pi_i^* = (80/3)^2 \approx 711$.</div></details>
+          </li>
+          <li>
+            Same demand and MC. 5-firm symmetric Cournot. What's $p^*$?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$p^* = c + (a-c)/(I+1) = 20 + 80/6 \approx 33.3$. As $I$ grows, $p \to c = 20$.</div></details>
+          </li>
+          <li>
+            Stackelberg (same demand, MC = 20). Leader and follower quantities, and total output. Do consumers prefer Stackelberg or Cournot?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$y_1 = 40$, $y_2 = 20$, $Y = 60$. Cournot total was $53.3$. Stackelberg has higher $Y$, lower $p$ → higher CS, so consumers prefer Stackelberg.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 13. GAME THEORY ─── -->
+  <div class="topic" id="game">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">13</span><h2>Game Theory — NE, Mixed, SPNE</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ HW 9, Final 17 Q2, Final 21 Q3, Midterm 2</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Pure NE:</strong> $(s_1^*, s_2^*)$ such that no player has a profitable unilateral deviation. Check cell-by-cell.</li>
+        <li><strong>Dominant strategy:</strong> best response to any opponent action. <strong>Dominated:</strong> always worse than some other strategy.</li>
+        <li><strong>Mixed NE:</strong> each player randomizes over actions; equilibrium probabilities make the <em>opponent</em> indifferent across pure strategies.</li>
+        <li><strong>Mixed indifference trick:</strong> if player 1 plays mixed $(p, 1-p)$, then $p$ is set so player 2 is indifferent. The constraint comes from <em>2's payoffs</em>, not 1's.</li>
+        <li><strong>Best response correspondence:</strong> $BR_i(p_{-i})$ — for 2×2 games, a vertical/horizontal step function.</li>
+        <li><strong>SPNE (Subgame Perfect NE):</strong> NE in every subgame. Found by <em>backward induction</em>. Rules out non-credible threats.</li>
+        <li><strong>Stackelberg = SPNE</strong> of sequential quantity game. Leader internalizes follower's reaction.</li>
+        <li><strong>Repeated games:</strong> cooperation can be sustained in long-run if discount factor $\beta$ is high (Tit-for-Tat, grim trigger).</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Mixed NE recipe (2 × 2)</div>
+        $$\text{Player 1 mixes } (p, 1-p) \text{ s.t. } \mathbb{E}[\pi_2|A] = \mathbb{E}[\pi_2|B]$$
+        $$\text{Player 2 mixes } (q, 1-q) \text{ s.t. } \mathbb{E}[\pi_1|A] = \mathbb{E}[\pi_1|B]$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        For backward induction in a finite tree: <strong>start at the last decision node, choose the best action there, replace that node with its payoff, repeat.</strong> The remaining "strategy" at non-last nodes is the SPNE strategy. Non-credible threats — actions that wouldn't actually be best at the moment of decision — get ruled out.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        <strong>Mixed-strategy probabilities are set using the opponent's payoffs.</strong> Many students compute "what makes me indifferent" instead — that gives the <em>opponent's</em> mixing probability, not yours. Swap the perspective.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            Game: $\begin{pmatrix}(-2,-2) & (4,0)\\(0,6) & (0,0)\end{pmatrix}$ (rows = F1's actions Enter/Don't, cols = F2's). Find all NE.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Pure: (Enter, Don't) and (Don't, Enter). Mixed: $p_1 = 3/4$ (makes F2 indifferent: $-2p_1 + 6(1-p_1) = 0$), $p_2 = 2/3$ (makes F1 indifferent: $-2p_2 + 4(1-p_2) = 0$).</div></details>
+          </li>
+          <li>
+            In Bat's dilemma with payoffs $(7,7)$, $(5,0)$, $(0,5)$, $(6,6)$ for (Share, Share), (Share, Don't), (Don't, Share), (Don't, Don't): is there a dominant strategy?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">No. Bat A's best response to "Share" is Share ($7>0$). To "Don't" is Don't ($6>5$). No dominant strategy. Two pure NE: (Share, Share) and (Don't, Don't).</div></details>
+          </li>
+          <li>
+            Why does backward induction rule out non-credible threats?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Backward induction requires each player to play <em>optimally at every decision node</em>. A threat to "punish off the equilibrium path" is non-credible if it wouldn't actually maximize the threatener's payoff at that node — backward induction discards such threats.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 14. EXTERNALITIES ─── -->
+  <div class="topic" id="ext">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">14</span><h2>Externalities &amp; Pigouvian Tax</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ HW 10, Final 21 Q2</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Externality:</strong> one agent's action affects another's payoff <em>not via prices</em> — e.g., pollution, congestion, network effects.</li>
+        <li><strong>Decentralized = inefficient:</strong> agents don't see external cost/benefit. Negative externalities → too much activity; positive → too little.</li>
+        <li><strong>Social planner</strong> internalizes all effects: maximize joint utility / total surplus.</li>
+        <li><strong>Pigouvian tax</strong> = marginal external cost evaluated at the social optimum. Imposed on the producer of the externality, restoring the first best <em>via decentralized choice</em>.</li>
+        <li><strong>Common-pool / open access</strong> (e.g., hunting in shared forest): each user's entry imposes congestion on others. Restore efficiency via quota, permit, or entry fee.</li>
+        <li><strong>Coase theorem:</strong> If property rights are clear and transaction costs are zero, parties can bargain to efficient outcome regardless of who holds the right. (Heroic assumptions.)</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Pigouvian tax recipe</div>
+        $$\text{1. Solve private optimum } x_p^*. \;\;\;\;\;\; \text{2. Solve social optimum } x_s^* < x_p^*.$$
+        $$\text{3. Tax } t \text{ s.t. private FOC with tax matches social FOC.}$$
+        $$\text{HW10 example: } b_p^*(t) = 9/(1+t),\;\; b_s^* = 5 \Rightarrow t = 0.8.$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Pigouvian taxation is the <em>magic</em> of public economics: a single corrective price restores first-best efficiency without dictating quantities. Agents still choose, but they choose <em>the right thing</em> because they now face true social marginal cost.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        <strong>The Pigouvian tax equals MEC at the social optimum, not at the private optimum.</strong> Many students use the private-optimum MEC and over-tax. Always compute the tax at the desired (efficient) quantity.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            150 hunters, forest yields $\tfrac{1}{2}x^{-1/2}$ per hunter ($x$ in forest), plains yield 0.05 per hunter. Efficient $x$?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Maximize total: $\tfrac{1}{2}x^{1/2} + 0.05(150-x)$. FOC: $\tfrac{1}{4}x^{-1/2} = 0.05 \Rightarrow x = 25$.</div></details>
+          </li>
+          <li>
+            Free-entry allocation in same problem: how many hunters in forest?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Indifference: $\tfrac{1}{2}x^{-1/2} = 0.05 \Rightarrow x = 100$. Way too many (negative externality of crowding).</div></details>
+          </li>
+          <li>
+            Pigouvian permit price (game sold at $5/ton) to achieve $x = 25$?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">In equilibrium, $5 \cdot \tfrac{1}{2}\cdot 25^{-1/2} - p = 5 \cdot 0.05 \Rightarrow p = 0.25$.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 15. ADVERSE SELECTION ─── -->
+  <div class="topic" id="adverse">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">15</span><h2>Adverse Selection / Lemons</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ HW 10, Final 17 Q4, Final 21 Q1</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Asymmetric information:</strong> one side of the market knows more than the other (sellers know quality, buyers don't).</li>
+        <li><strong>Adverse selection:</strong> only the worst types want to participate at the pooling price, dragging down expected quality.</li>
+        <li><strong>Market unraveling:</strong> if the buyer's value premium isn't large enough, no price clears the market. Trade collapses despite gains from trade existing for every type.</li>
+        <li><strong>Lemons condition (linear values):</strong> sellers $\sim q$, buyers $\sim \kappa q$, $q \sim U[0,1]$. Market survives iff $\kappa > 2$. For $\kappa = 3/2$: unravels.</li>
+        <li><strong>Signaling</strong> (Spence): informed party takes a costly action (education, warranty) cheaper for high types than low types — separating equilibrium.</li>
+        <li><strong>Screening</strong> (Rothschild-Stiglitz): uninformed party offers a <em>menu</em>; types self-select.</li>
+        <li><strong>Minimum quality standard:</strong> exclude $q < \bar q$. Pro: restores some trade. Con: excludes efficient low-q trades. Welfare improvement over no-trade but not first best.</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Unraveling — uniform model</div>
+        $$E[q | q \le p] = p/2, \quad \text{buyer's WTP} = \kappa \cdot p/2$$
+        $$\text{Trade iff } \kappa \ge 2. \;\; (\kappa = 3/2 \Rightarrow \text{ unravels.})$$
+        $$\text{With min quality } \bar q: \quad p \in [\bar q, \tfrac{3\bar q}{2-\kappa}\text{-style range}]$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        Lemons unraveling is <em>not</em> about buyers being suspicious — it's a coordination failure. Even with full common knowledge of the model, there's no positive price where the average car offered for sale is worth what the buyer pays.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        A minimum quality standard is <strong>Kaldor-Hicks improving, not Pareto improving.</strong> Sellers below $\bar q$ are forced out of the market and lose option value. Don't claim "everyone is better off."
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            $q \sim U[0,1]$, sellers value at $q$, buyers value at $\tfrac{3}{2}q$. Does the market unravel?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">At price $p$, sellers $q \le p$ participate, $E[q|q\le p] = p/2$. Buyer's expected value: $\tfrac{3}{4}p < p$ for any $p > 0$. <strong>Yes, market unravels.</strong></div></details>
+          </li>
+          <li>
+            Same model, but a minimum quality standard $\bar q$. For what $p$ does trade occur?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$E[q | \bar q \le q \le p] = (\bar q + p)/2$. Buyer participates iff $\tfrac{3}{2} \cdot \tfrac{\bar q + p}{2} \ge p \Leftrightarrow p \le 3\bar q$. So $\bar q \le p \le 3\bar q$.</div></details>
+          </li>
+          <li>
+            Restaurants: 30% good (value $30 to you, cost $20 to chef), 70% bad ($15 to you, cost $10 to chef). Pooling pricing?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">WTP $= 0.3 \cdot 30 + 0.7 \cdot 15 = 19.5$. Good chef sells iff $19.5 \ge 20$ — no. So only bad meals at price $\le 19.5$. WTP drops to $15$. Market for good restaurants unravels.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── 16. MORAL HAZARD ─── -->
+  <div class="topic" id="moral">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">16</span><h2>Moral Hazard / Principal-Agent</h2></div>
+      <span class="comfort-tag pill-hard" style="background:var(--tag-hard);color:var(--tag-hard-text)">★ harder</span>
+    </div>
+    <div class="topic-body">
+      <span class="src-link">↗ Final 17 Q3</span>
+
+      <div class="subsection-label">Key concepts</div>
+      <ul class="concepts">
+        <li><strong>Moral hazard:</strong> one party (agent) takes a costly action (effort) the other (principal) can't observe.</li>
+        <li><strong>Linear contract:</strong> $w = a + by$ where $y$ = output, $a$ = base, $b$ = sensitivity.</li>
+        <li><strong>Output process:</strong> $y = e + \varepsilon$, $\varepsilon \sim N(0, \sigma^2)$.</li>
+        <li><strong>Agent's CARA-flavored EU:</strong> $a + be - \tfrac{1}{2}b^2\sigma^2 - \tfrac{1}{2}e^2$. FOC in $e$: $e^* = b$.</li>
+        <li><strong>Two constraints on principal's problem:</strong>
+          <br>&nbsp;&nbsp;• <strong>Incentive Compatibility (IC):</strong> $e^* = b$.
+          <br>&nbsp;&nbsp;• <strong>Individual Rationality (IR):</strong> $EU(e^*) \ge \bar u$.
+        </li>
+        <li><strong>Principal maximizes</strong> $E[y] - E[w] = e - a - be$ subject to IC + IR.</li>
+        <li><strong>Optimal $b$:</strong>
+          $$b^* = \frac{1}{1 + \sigma^2}.$$
+        </li>
+        <li><strong>Noise raises insurance value</strong> (lower $b$ shifts risk back to principal). $\sigma = 0$: $b^* = 1$, full incentive. $\sigma \to \infty$: $b^* \to 0$, no incentive.</li>
+        <li><strong>Fixed-wage contract</strong> ($b = 0$): agent's optimal effort $= 0$, principal's profit $= 0$. Need contingent pay.</li>
+        <li><strong>Observable effort:</strong> pay directly on effort, no risk borne by agent → first-best.</li>
+      </ul>
+
+      <div class="formula-block">
+        <div class="formula-label">Optimal linear contract</div>
+        $$y = e + \varepsilon, \;\; \varepsilon \sim N(0, \sigma^2)$$
+        $$\text{Agent: } \max_e a + be - \tfrac{1}{2}b^2\sigma^2 - \tfrac{1}{2}e^2 \;\;\Longrightarrow\;\; e^* = b$$
+        $$\text{Principal: } \max_{a,b} e - a - be \;\;\text{s.t. IR, IC} \;\;\Longrightarrow\;\; b^* = \frac{1}{1+\sigma^2}$$
+      </div>
+
+      <div class="insight">
+        <div class="insight-label">⚡ Key insight</div>
+        $b^* = 1/(1+\sigma^2)$ captures the <strong>risk-incentive tradeoff</strong>. With no noise ($\sigma^2 = 0$), pay 100% on output ($b=1$) — the agent's effort fully determines output, no insurance needed. With huge noise, paying-on-output mostly transfers risk, not incentive — so $b \to 0$.
+      </div>
+
+      <div class="pitfall">
+        <div class="pitfall-label">⚠ Common pitfall</div>
+        <strong>The IR constraint binds at the optimum</strong> (firm pulls agent down to outside option). Don't forget to use the IR equality to substitute out $a$. Many students leave $a$ as a free variable and get stuck.
+      </div>
+
+      <div class="practice-box">
+        <div class="practice-label">✎ Practice questions</div>
+        <ol class="q-list">
+          <li>
+            CEO chooses $e$ to max $a + be - \tfrac{b^2\sigma^2}{2} - \tfrac{e^2}{2}$. Find $e^*$.
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">FOC: $b - e = 0$, so $e^* = b$.</div></details>
+          </li>
+          <li>
+            If $\sigma^2 = 0$, what's $b^*$? Why does this make sense?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">$b^* = 1$. With no noise, output perfectly reveals effort — no risk-sharing needed, just pay 100% on output (effectively, pay on effort).</div></details>
+          </li>
+          <li>
+            Under a fixed-wage contract $w = a$, what's the firm's profit? Why?
+            <details class="answer"><summary>Show answer</summary><div class="ans-body">Agent has no incentive to work: $e^* = 0$. Output $= 0 + \varepsilon$, expected output $= 0$. So expected profit $= -a < 0$. The firm would set $a = 0$ if IR doesn't bind, but then nobody accepts. Either way, zero profit.</div></details>
+          </li>
+        </ol>
+      </div>
+    </div>
+  </div>
+
+  <!-- ─── FORMULA SHEET ─── -->
+  <div class="topic" id="formulas">
+    <div class="topic-header">
+      <div class="topic-title-row"><span class="topic-num">★</span><h2>Formulas at a Glance</h2></div>
+      <span class="comfort-tag pill-easy" style="background:var(--tag-comfortable);color:var(--tag-comfortable-text)">cheatsheet</span>
+    </div>
+    <div class="topic-body">
+      <div class="formula-block">
+        <div class="formula-label">Consumer choice</div>
+        $$\text{MRS}_{1,2} = \frac{u_1}{u_2}, \quad \text{interior FOC: } \text{MRS}_{1,2} = \frac{p_1}{p_2}$$
+        $$\text{Cobb-Douglas: } x_i^* = \frac{\alpha_i M}{p_i}$$
+        $$\text{Quasi-linear: } \phi'(x_1^*) = p_1/p_2 \text{ (income-independent at interior)}$$
+
+        <div class="formula-label" style="margin-top:0.85rem">Intertemporal</div>
+        $$c_0 + \frac{c_1}{1+r} = M_0 + \frac{M_1}{1+r}$$
+        $$\text{Euler: } u'(c_0) = \frac{1+r}{1+\delta} u'(c_1); \;\; r=\delta \Rightarrow c_0 = c_1$$
+
+        <div class="formula-label" style="margin-top:0.85rem">Uncertainty</div>
+        $$r_A(w) = -\frac{u''(w)}{u'(w)}, \quad r_R(w) = w \cdot r_A(w)$$
+        $$\text{CRRA: } u = \frac{w^{1-\rho}}{1-\rho}, \;\; r_R = \rho, \;\; r_A = \rho/w$$
+        $$\text{Insurance FOC: } \frac{u'(w_2)}{u'(w_1)} = \frac{(1-p)q}{p(1-q)}$$
+
+        <div class="formula-label" style="margin-top:0.85rem">Producer / market structure</div>
+        $$\text{PC: } p = c, \quad Y_{PC} = (a-c)/b, \quad \Pi = 0$$
+        $$\text{Monopoly: } y_M = (a-c)/(2b), \;\; p_M = (a+c)/2, \;\; \Pi_M = (a-c)^2/(4b)$$
+        $$\text{Cournot } I: y_O = \tfrac{a-c}{b(I+1)}, \;\; p_O = c + \tfrac{a-c}{I+1}, \;\; \pi_O = \tfrac{(a-c)^2}{b(I+1)^2}$$
+        $$\text{Bertrand (} I \ge 2\text{): } p = c, \;\; \Pi = 0$$
+        $$\text{Stackelberg: } y_1 = \tfrac{a-c}{2b}, \;\; y_2 = \tfrac{a-c}{4b}$$
+
+        <div class="formula-label" style="margin-top:0.85rem">Taxation &amp; DWL</div>
+        $$\frac{\partial p^*}{\partial t} = \frac{\varepsilon_S}{\varepsilon_S - \varepsilon_D}, \quad DWL_\text{linear} = \frac{t^2}{2b}$$
+
+        <div class="formula-label" style="margin-top:0.85rem">Game theory</div>
+        $$\text{Mixed NE (2}\times\text{2): probability of player } i \text{ set by player } -i\text{'s indifference}$$
+        $$\text{SPNE: backward induction; rules out non-credible threats}$$
+
+        <div class="formula-label" style="margin-top:0.85rem">Lemons (linear)</div>
+        $$E[q|q\le p] = p/2; \;\; \text{trade iff buyer multiplier} \ge 2$$
+
+        <div class="formula-label" style="margin-top:0.85rem">Moral hazard (linear contract)</div>
+        $$e^* = b, \;\; b^* = \frac{1}{1+\sigma^2}, \;\; \text{(fixed wage } b=0 \Rightarrow e^* = 0\text{)}$$
+
+        <div class="formula-label" style="margin-top:0.85rem">IFT</div>
+        $$F(x^*, \theta) = 0 \;\;\Longrightarrow\;\; \frac{dx^*}{d\theta} = -\frac{F_\theta}{F_x}$$
+      </div>
+    </div>
+  </div>
+
+  <!-- ══ FOOTER ══ -->
+  <footer class="site-footer">
+    <span>Econ 101A SP26 · Gaubert · Final: Fri May 15, 2026</span>
+    <span>Sources: PS 1–10, Midterm 2 (SP26 + F17/F19/F21), Finals (F17, SP18, F21)</span>
+  </footer>
+
+</div>
+
+<script>
+(function () {
+  const el = document.getElementById('countdown');
+  if (!el) return;
+  const target = new Date(el.dataset.exam).getTime();
+
+  function pluralize(n, word) {
+    return n + ' ' + word + (n === 1 ? '' : 's');
+  }
+
+  function render() {
+    const msLeft = target - Date.now();
+
+    if (msLeft <= 0) {
+      el.textContent = 'no time';
+      return 0;
+    }
+
+    const totalMinutes = Math.floor(msLeft / 60000);
+    const totalHours = Math.floor(msLeft / 3600000);
+
+    if (totalHours >= 1) {
+      el.textContent = pluralize(totalHours, 'hour');
+      return 60000;
+    }
+
+    const totalSeconds = Math.floor(msLeft / 1000);
+    if (totalMinutes >= 1) {
+      el.textContent = pluralize(totalMinutes, 'minute');
+    } else {
+      el.textContent = pluralize(totalSeconds, 'second');
+    }
+    return 1000;
+  }
+
+  function tick() {
+    const delay = render();
+    if (delay > 0) setTimeout(tick, delay);
+  }
+  tick();
+})();
+</script>
+</body>
+</html>

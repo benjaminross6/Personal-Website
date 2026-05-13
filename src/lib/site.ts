@@ -90,6 +90,16 @@ export const site: SiteConfig = {
       },
       featured: true,
     },
+    {
+      title: "Econ 101A final study guide",
+      description:
+        "Personal final study guide for UC Berkeley Econ 101A (Intermediate Microeconomic Theory, Spring 2026) — a single-page reference covering consumer and producer theory, general equilibrium, game theory, and information economics, with formulas rendered via KaTeX.",
+      stack: ["HTML", "CSS", "JavaScript", "KaTeX"],
+      links: {
+        live: "/projects/econ101a-study-guide.html",
+      },
+      featured: true,
+    },
   ],
 };
 
