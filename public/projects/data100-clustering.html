@@ -1,199 +1,1098 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Agglomerative Clustering Visualization</title>
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
-    <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            text-align: center;
-            background-color: #f4f4f9;
-            color: #333;
-            margin: 0;
-            padding: 20px;
-        }
-        canvas {
-            background-color: white;
-            border: 2px solid #ccc;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            margin-top: 20px;
-        }
-        button {
-            padding: 12px 24px;
-            font-size: 16px;
-            font-weight: bold;
-            color: white;
-            background-color: #007bff;
-            border: none;
-            border-radius: 5px;
-            cursor: pointer;
-            margin: 5px;
-            transition: background-color 0.3s;
-        }
-        button:hover {
-            background-color: #0056b3;
-        }
-        button:disabled {
-            background-color: #aaa;
-            cursor: not-allowed;
-        }
-        .controls {
-            margin-top: 15px;
-        }
-    </style>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Data 100 — Clustering Visualizations</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #f7f6f2;
+    --surface: #ffffff;
+    --border: #e2e0d8;
+    --text: #1a1a18;
+    --muted: #6b6960;
+    --accent: #1a4fa0;
+    --accent-light: #e8eef9;
+    --mono: 'IBM Plex Mono', monospace;
+    --sans: 'IBM Plex Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--sans);
+    background: var(--bg);
+    color: var(--text);
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  .page-wrap { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+
+  header.site-header {
+    border-bottom: 2px solid var(--text);
+    padding-bottom: 1.25rem;
+    margin-bottom: 1.75rem;
+  }
+  header.site-header h1 {
+    font-size: 28px;
+    font-weight: 600;
+    letter-spacing: -0.5px;
+  }
+  header.site-header .meta {
+    font-size: 13px;
+    color: var(--muted);
+    margin-top: 4px;
+    font-family: var(--mono);
+  }
+  header.site-header p.lede {
+    margin-top: 0.75rem;
+    font-size: 14.5px;
+    color: var(--muted);
+    max-width: 740px;
+  }
+
+  nav.toc {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.85rem 1rem;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 12px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+  nav.toc a {
+    color: var(--accent);
+    text-decoration: none;
+    padding: 3px 8px;
+    border-radius: 4px;
+  }
+  nav.toc a:hover { background: var(--accent-light); }
+
+  section.viz {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 1.5rem 1.5rem;
+    margin-bottom: 1.75rem;
+  }
+  section.viz h2 {
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+  }
+  section.viz .num {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin-right: 8px;
+  }
+  section.viz p.desc {
+    color: var(--muted);
+    font-size: 14px;
+    margin-bottom: 1rem;
+    max-width: 740px;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    align-items: center;
+    margin: 0.5rem 0 1rem;
+  }
+  .controls .group {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: #f0ede4;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--text);
+  }
+  .controls .group input[type="range"] { vertical-align: middle; }
+  .controls .group select {
+    border: 1px solid var(--border);
+    background: white;
+    border-radius: 4px;
+    padding: 2px 6px;
+    font-family: var(--mono);
+    font-size: 12px;
+  }
+
+  button {
+    font-family: var(--sans);
+    font-weight: 500;
+    font-size: 13px;
+    padding: 6px 14px;
+    border: 1px solid var(--accent);
+    background: var(--accent);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  button:hover { opacity: 0.85; }
+  button:disabled { opacity: 0.4; cursor: not-allowed; }
+  button.secondary {
+    background: white;
+    color: var(--accent);
+  }
+  button.danger {
+    background: white;
+    color: #b3261e;
+    border-color: #b3261e;
+  }
+
+  .canvas-wrap {
+    display: flex;
+    justify-content: center;
+    margin-top: 0.5rem;
+  }
+  canvas {
+    background: #fdfcf8;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    display: block;
+    max-width: 100%;
+  }
+
+  .panel-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 14px;
+  }
+  .panel {
+    background: #fdfcf8;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.75rem 0.85rem;
+  }
+  .panel h3 {
+    font-size: 13px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+    font-family: var(--mono);
+  }
+  .panel .stats {
+    font-family: var(--mono);
+    font-size: 11.5px;
+    color: var(--muted);
+    margin-top: 0.4rem;
+    text-align: center;
+  }
+
+  .insight {
+    background: #fef3e2;
+    border-left: 3px solid #c47a00;
+    border-radius: 0 6px 6px 0;
+    padding: 0.65rem 0.95rem;
+    margin-top: 0.75rem;
+    font-size: 13.5px;
+    color: var(--text);
+  }
+  .insight strong { color: #8b4a00; }
+
+  footer.site-footer {
+    border-top: 1px solid var(--border);
+    margin-top: 2.5rem;
+    padding-top: 1rem;
+    font-size: 12px;
+    color: var(--muted);
+    font-family: var(--mono);
+    text-align: center;
+  }
+  footer.site-footer a { color: var(--accent); text-decoration: none; }
+  footer.site-footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .page-wrap { padding: 1.25rem 1rem 3rem; }
+    section.viz { padding: 1.1rem 1rem; }
+  }
+</style>
 </head>
 <body>
+<div class="page-wrap">
 
-    <h1>Agglomerative Clustering (Bottom-Up)</h1>
-    <p>Every point starts as its own cluster. Click the button to merge the closest clusters based on their centers!</p>
-    
+  <header class="site-header">
+    <h1>Clustering — Interactive Visualizations</h1>
+    <div class="meta">UC Berkeley · Data 100 SP26 · Final-prep companion</div>
+    <p class="lede">
+      Step-through demos for the clustering material in Data 100 (Course Note 25). Each section is a small interactive canvas — click the buttons to see the algorithms run.
+    </p>
+  </header>
+
+  <nav class="toc">
+    <a href="#agglomerative">1. Agglomerative</a>
+    <a href="#kmeans">2. K-Means (step-through)</a>
+    <a href="#init">3. Initialization matters</a>
+    <a href="#linkage">4. Linkage comparison</a>
+    <a href="#elbow">5. Elbow method</a>
+    <a href="#failure">6. Where K-Means fails</a>
+  </nav>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- 1. AGGLOMERATIVE (centroid linkage)        -->
+  <!-- ─────────────────────────────────────────── -->
+  <section class="viz" id="agglomerative">
+    <h2><span class="num">01</span>Agglomerative Clustering (bottom-up)</h2>
+    <p class="desc">
+      Every point starts as its own cluster. Each step merges the two closest clusters (centroid linkage).
+      Lines show the merge history — read like a compressed dendrogram in space.
+    </p>
     <div class="controls">
-        <button id="stepBtn">Merge Closest Clusters</button>
-        <button id="resetBtn" style="background-color: #dc3545;">Reset</button>
+      <button id="agg-step">Merge closest clusters</button>
+      <button id="agg-auto" class="secondary">Auto-run</button>
+      <button id="agg-reset" class="danger">Regenerate</button>
     </div>
-    
-    <canvas id="canvas" width="700" height="450"></canvas>
+    <div class="canvas-wrap">
+      <canvas id="agg-canvas" width="900" height="440"></canvas>
+    </div>
+    <div class="insight">
+      <strong>Key idea:</strong> Inertia — the within-cluster sum of squares — strictly decreases with every merge in K-Means, but for agglomerative clustering the cluster count $k$ goes <em>down</em> by one each step, from $n$ all the way to $1$.
+    </div>
+  </section>
 
-    <script>
-        const canvas = document.getElementById('canvas');
-        const ctx = canvas.getContext('2d');
-        const stepBtn = document.getElementById('stepBtn');
-        const resetBtn = document.getElementById('resetBtn');
+  <!-- ─────────────────────────────────────────── -->
+  <!-- 2. K-MEANS step through                    -->
+  <!-- ─────────────────────────────────────────── -->
+  <section class="viz" id="kmeans">
+    <h2><span class="num">02</span>K-Means — assign &amp; update, one step at a time</h2>
+    <p class="desc">
+      Each iteration alternates: <strong>assign</strong> every point to its nearest centroid, then
+      <strong>update</strong> each centroid to the mean of its assigned points. Repeat until centroids stop moving.
+    </p>
+    <div class="controls">
+      <span class="group">k = <input type="range" id="km-k" min="2" max="6" step="1" value="3"/><span id="km-k-val">3</span></span>
+      <button id="km-step">Step</button>
+      <button id="km-run" class="secondary">Run to convergence</button>
+      <button id="km-reset" class="danger">Regenerate</button>
+      <span class="group">phase: <span id="km-phase">init</span></span>
+      <span class="group">iter: <span id="km-iter">0</span></span>
+      <span class="group">inertia: <span id="km-inertia">—</span></span>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="km-canvas" width="900" height="440"></canvas>
+    </div>
+    <div class="insight">
+      <strong>Watch for:</strong> centroids (★) move toward the centers of their colored clusters each "update" step, and points may switch colors on the next "assign" step. Convergence happens when no point changes color.
+    </div>
+  </section>
 
-        let points = [];
-        let clusters = [];
-        let mergeHistory = []; // To draw lines between merged cluster centers
+  <!-- ─────────────────────────────────────────── -->
+  <!-- 3. INITIALIZATION: random vs k-means++     -->
+  <!-- ─────────────────────────────────────────── -->
+  <section class="viz" id="init">
+    <h2><span class="num">03</span>Initialization matters — random vs K-Means++</h2>
+    <p class="desc">
+      K-Means is sensitive to where the centroids start. <strong>K-Means++</strong> spreads initial centroids out using a weighted probability — usually finding a better local optimum than uniform random init.
+      Click "Run new trial" a few times: random init occasionally lands in a noticeably worse solution.
+    </p>
+    <div class="controls">
+      <span class="group">k = <input type="range" id="init-k" min="2" max="6" step="1" value="4"/><span id="init-k-val">4</span></span>
+      <button id="init-run">Run new trial</button>
+      <button id="init-reset" class="danger">Regenerate data</button>
+    </div>
+    <div class="panel-grid">
+      <div class="panel">
+        <h3>Random initialization</h3>
+        <canvas id="init-rand" width="430" height="320"></canvas>
+        <div class="stats">inertia = <span id="init-rand-inertia">—</span> · iters = <span id="init-rand-iters">—</span></div>
+      </div>
+      <div class="panel">
+        <h3>K-Means++ initialization</h3>
+        <canvas id="init-pp" width="430" height="320"></canvas>
+        <div class="stats">inertia = <span id="init-pp-inertia">—</span> · iters = <span id="init-pp-iters">—</span></div>
+      </div>
+    </div>
+    <div class="insight">
+      <strong>Standard practice:</strong> run K-Means many times with different random inits and pick the run with lowest inertia (sklearn's <code>n_init</code> argument), or just use K-Means++ which usually needs fewer restarts.
+    </div>
+  </section>
 
-        // Generate random points
-        function init() {
-            points = [];
-            clusters = [];
-            mergeHistory = [];
-            stepBtn.disabled = false;
-            
-            for (let i = 0; i < 40; i++) {
-                let p = {
-                    x: Math.random() * (canvas.width - 40) + 20,
-                    y: Math.random() * (canvas.height - 40) + 20
-                };
-                points.push(p);
-                // Initially, every point is its own cluster
-                clusters.push([p]); 
-            }
-            draw();
+  <!-- ─────────────────────────────────────────── -->
+  <!-- 4. LINKAGE COMPARISON                      -->
+  <!-- ─────────────────────────────────────────── -->
+  <section class="viz" id="linkage">
+    <h2><span class="num">04</span>Agglomerative — single, complete, average, centroid linkage</h2>
+    <p class="desc">
+      The choice of <em>linkage criterion</em> changes which clusters get merged first. Same data, four different linkages, all stopped at 3 clusters.
+    </p>
+    <div class="controls">
+      <span class="group">data shape: <select id="link-shape">
+        <option value="blobs" selected>Gaussian blobs</option>
+        <option value="moons">Two moons</option>
+        <option value="rings">Concentric rings</option>
+        <option value="uniform">Uniform random</option>
+      </select></span>
+      <button id="link-run">Recompute</button>
+    </div>
+    <div class="panel-grid">
+      <div class="panel"><h3>Single linkage (min)</h3><canvas id="link-single" width="420" height="300"></canvas></div>
+      <div class="panel"><h3>Complete linkage (max)</h3><canvas id="link-complete" width="420" height="300"></canvas></div>
+      <div class="panel"><h3>Average linkage</h3><canvas id="link-average" width="420" height="300"></canvas></div>
+      <div class="panel"><h3>Centroid linkage</h3><canvas id="link-centroid" width="420" height="300"></canvas></div>
+    </div>
+    <div class="insight">
+      <strong>Single linkage</strong> can chain elongated clusters (good for moons/rings, bad for noisy blobs).
+      <strong>Complete linkage</strong> tends to produce compact, spherical clusters.
+      <strong>Average</strong> and <strong>centroid</strong> sit between the two extremes.
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- 5. ELBOW METHOD                            -->
+  <!-- ─────────────────────────────────────────── -->
+  <section class="viz" id="elbow">
+    <h2><span class="num">05</span>Choosing $k$ — the elbow method</h2>
+    <p class="desc">
+      Run K-Means for $k = 1, 2, \dots, 10$ and plot the inertia of each. Inertia always decreases as $k$ grows
+      (at $k = n$ it hits $0$), so we look for the "elbow" — the largest drop, where adding more clusters stops paying off.
+    </p>
+    <div class="controls">
+      <button id="elbow-run">Recompute</button>
+      <button id="elbow-reset" class="danger">Regenerate data</button>
+    </div>
+    <div class="panel-grid">
+      <div class="panel"><h3>Data &amp; clustering at chosen $k$</h3><canvas id="elbow-data" width="430" height="320"></canvas><div class="stats">currently showing $k$ = <span id="elbow-curr-k">—</span></div></div>
+      <div class="panel"><h3>Inertia vs $k$ (click a point)</h3><canvas id="elbow-chart" width="430" height="320"></canvas><div class="stats">elbow heuristic suggests $k^* = $ <span id="elbow-suggest">—</span></div></div>
+    </div>
+    <div class="insight">
+      <strong>Caveat:</strong> the elbow is heuristic — different datasets have clearer or fuzzier elbows. Methods like the silhouette score or gap statistic are more principled (and beyond Data 100's scope).
+    </div>
+  </section>
+
+  <!-- ─────────────────────────────────────────── -->
+  <!-- 6. WHERE K-MEANS FAILS                     -->
+  <!-- ─────────────────────────────────────────── -->
+  <section class="viz" id="failure">
+    <h2><span class="num">06</span>Where K-Means breaks down</h2>
+    <p class="desc">
+      K-Means assumes clusters are roughly <em>spherical</em> and <em>equally sized</em> in feature space.
+      It does poorly on non-convex shapes, very different cluster densities, or when k is wrong.
+      Switch the data shape to see when it succeeds and when it fails.
+    </p>
+    <div class="controls">
+      <span class="group">data shape: <select id="fail-shape">
+        <option value="blobs">Gaussian blobs</option>
+        <option value="moons" selected>Two moons</option>
+        <option value="rings">Concentric rings</option>
+        <option value="anisotropic">Anisotropic (stretched)</option>
+        <option value="uneven">Uneven density</option>
+      </select></span>
+      <span class="group">k = <input type="range" id="fail-k" min="2" max="6" step="1" value="2"/><span id="fail-k-val">2</span></span>
+      <button id="fail-run">Run K-Means</button>
+    </div>
+    <div class="canvas-wrap">
+      <canvas id="fail-canvas" width="900" height="380"></canvas>
+    </div>
+    <div class="insight">
+      <strong>Takeaway:</strong> K-Means optimizes <em>mean squared distance to centroid</em>. Any structure that doesn't fit "compact ball around a mean" — moons, rings, long stripes — gets sliced strangely. For those, prefer DBSCAN, spectral clustering, or single-linkage agglomerative.
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <span>Made for studying — <a href="/projects/data100-study-guide.html">Data 100 SP26 study guide</a> · <a href="/">back to home</a></span>
+  </footer>
+</div>
+
+<!-- ============================================ -->
+<!-- KaTeX (lightweight inline math in headings)  -->
+<!-- ============================================ -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js"
+  onload="renderMathInElement(document.body, {
+    delimiters: [
+      {left: '$$', right: '$$', display: true},
+      {left: '$',  right: '$',  display: false}
+    ],
+    throwOnError: false
+  });"></script>
+
+<script>
+/* =====================================================================
+   Shared utilities — palette, geometry, point generators, K-Means core
+   ===================================================================== */
+
+const PALETTE = ['#3b82f6', '#ef4444', '#10b981', '#f59e0b', '#8b5cf6', '#ec4899', '#14b8a6', '#f97316'];
+
+function dist2(a, b) { const dx = a.x - b.x, dy = a.y - b.y; return dx*dx + dy*dy; }
+function dist(a, b)  { return Math.hypot(a.x - b.x, a.y - b.y); }
+
+function gauss() {
+  // Box–Muller
+  let u = 0, v = 0;
+  while (u === 0) u = Math.random();
+  while (v === 0) v = Math.random();
+  return Math.sqrt(-2 * Math.log(u)) * Math.cos(2 * Math.PI * v);
+}
+
+function clamp(v, lo, hi) { return Math.max(lo, Math.min(hi, v)); }
+
+/* Generate points in a canvas-coordinate space [pad, w-pad] x [pad, h-pad] */
+function generatePoints(shape, n, w, h, pad = 30) {
+  const pts = [];
+  const inX = v => pad + ((v + 1) / 2) * (w - 2 * pad);
+  const inY = v => pad + ((v + 1) / 2) * (h - 2 * pad);
+
+  if (shape === 'blobs') {
+    const k = 3 + Math.floor(Math.random() * 2); // 3 or 4 blobs
+    const centers = [];
+    for (let i = 0; i < k; i++) {
+      centers.push({ x: 0.7 * (Math.random() * 2 - 1), y: 0.7 * (Math.random() * 2 - 1) });
+    }
+    for (let i = 0; i < n; i++) {
+      const c = centers[i % k];
+      const x = clamp(c.x + 0.12 * gauss(), -1, 1);
+      const y = clamp(c.y + 0.12 * gauss(), -1, 1);
+      pts.push({ x: inX(x), y: inY(y) });
+    }
+  } else if (shape === 'moons') {
+    for (let i = 0; i < n; i++) {
+      const upper = i % 2 === 0;
+      const t = Math.random() * Math.PI;
+      const noise = 0.06;
+      let x, y;
+      if (upper) {
+        x = Math.cos(t);
+        y = Math.sin(t);
+      } else {
+        x = 1 - Math.cos(t);
+        y = -Math.sin(t) + 0.5;
+      }
+      x = clamp(x * 0.55 - 0.25 + noise * gauss(), -1, 1);
+      y = clamp(y * 0.55 - 0.1  + noise * gauss(), -1, 1);
+      pts.push({ x: inX(x), y: inY(y) });
+    }
+  } else if (shape === 'rings') {
+    for (let i = 0; i < n; i++) {
+      const inner = i % 2 === 0;
+      const r = inner ? 0.25 : 0.7;
+      const t = Math.random() * 2 * Math.PI;
+      const x = clamp(r * Math.cos(t) + 0.04 * gauss(), -1, 1);
+      const y = clamp(r * Math.sin(t) + 0.04 * gauss(), -1, 1);
+      pts.push({ x: inX(x), y: inY(y) });
+    }
+  } else if (shape === 'anisotropic') {
+    // Three blobs but stretched diagonally
+    const centers = [{x:-0.5,y:-0.5},{x:0,y:0},{x:0.5,y:0.5}];
+    const M = [[0.5, 0.7],[0.05, 0.1]];
+    for (let i = 0; i < n; i++) {
+      const c = centers[i % 3];
+      const u = 0.4 * gauss(), v = 0.4 * gauss();
+      const x = clamp(c.x + M[0][0]*u + M[0][1]*v, -1, 1);
+      const y = clamp(c.y + M[1][0]*u + M[1][1]*v, -1, 1);
+      pts.push({ x: inX(x), y: inY(y) });
+    }
+  } else if (shape === 'uneven') {
+    // One big diffuse blob + two tight ones
+    const blueprint = [
+      { c: {x:-0.6, y: 0.4}, sd: 0.3, count: Math.floor(n * 0.6) },
+      { c: {x: 0.4, y: 0.5}, sd: 0.06, count: Math.floor(n * 0.2) },
+      { c: {x: 0.5, y:-0.5}, sd: 0.05, count: n - Math.floor(n * 0.6) - Math.floor(n * 0.2) },
+    ];
+    for (const b of blueprint) {
+      for (let i = 0; i < b.count; i++) {
+        const x = clamp(b.c.x + b.sd * gauss(), -1, 1);
+        const y = clamp(b.c.y + b.sd * gauss(), -1, 1);
+        pts.push({ x: inX(x), y: inY(y) });
+      }
+    }
+  } else { // uniform
+    for (let i = 0; i < n; i++) {
+      pts.push({ x: pad + Math.random() * (w - 2*pad), y: pad + Math.random() * (h - 2*pad) });
+    }
+  }
+  return pts;
+}
+
+/* ---------- K-Means core ---------- */
+
+function assignClusters(points, centroids) {
+  const a = new Array(points.length);
+  for (let i = 0; i < points.length; i++) {
+    let best = 0, bestD = Infinity;
+    for (let c = 0; c < centroids.length; c++) {
+      const d = dist2(points[i], centroids[c]);
+      if (d < bestD) { bestD = d; best = c; }
+    }
+    a[i] = best;
+  }
+  return a;
+}
+
+function updateCentroids(points, assignments, k, oldCentroids) {
+  const sums = Array.from({ length: k }, () => ({ x: 0, y: 0, n: 0 }));
+  for (let i = 0; i < points.length; i++) {
+    const c = assignments[i];
+    sums[c].x += points[i].x;
+    sums[c].y += points[i].y;
+    sums[c].n += 1;
+  }
+  return sums.map((s, i) => s.n === 0 ? oldCentroids[i] : { x: s.x / s.n, y: s.y / s.n });
+}
+
+function inertia(points, centroids, assignments) {
+  let total = 0;
+  for (let i = 0; i < points.length; i++) total += dist2(points[i], centroids[assignments[i]]);
+  return total;
+}
+
+function randomInit(points, k) {
+  const used = new Set();
+  const centroids = [];
+  while (centroids.length < k) {
+    const i = Math.floor(Math.random() * points.length);
+    if (used.has(i)) continue;
+    used.add(i);
+    centroids.push({ x: points[i].x, y: points[i].y });
+  }
+  return centroids;
+}
+
+function kmeansPlusPlus(points, k) {
+  const centroids = [];
+  centroids.push({ ...points[Math.floor(Math.random() * points.length)] });
+  while (centroids.length < k) {
+    const dists = points.map(p => {
+      let m = Infinity;
+      for (const c of centroids) { const d = dist2(p, c); if (d < m) m = d; }
+      return m;
+    });
+    const sum = dists.reduce((a, b) => a + b, 0);
+    let r = Math.random() * sum, idx = 0;
+    for (let i = 0; i < dists.length; i++) {
+      r -= dists[i];
+      if (r <= 0) { idx = i; break; }
+    }
+    centroids.push({ x: points[idx].x, y: points[idx].y });
+  }
+  return centroids;
+}
+
+function runKMeans(points, k, init = 'kmeans++', maxIter = 200) {
+  let centroids = init === 'kmeans++' ? kmeansPlusPlus(points, k) : randomInit(points, k);
+  let iter = 0;
+  for (; iter < maxIter; iter++) {
+    const a = assignClusters(points, centroids);
+    const newC = updateCentroids(points, a, k, centroids);
+    let moved = 0;
+    for (let i = 0; i < k; i++) moved += dist(newC[i], centroids[i]);
+    centroids = newC;
+    if (moved < 1e-3) { iter++; break; }
+  }
+  const a = assignClusters(points, centroids);
+  return { centroids, assignments: a, inertia: inertia(points, centroids, a), iters: iter };
+}
+
+/* ---------- Agglomerative core (configurable linkage) ---------- */
+
+/** Cluster object: { idx: [pointIndices], centroid: {x,y} } */
+function agglomerative(points, targetClusters, linkage = 'centroid') {
+  const clusters = points.map((p, i) => ({ idx: [i], centroid: { ...p } }));
+
+  while (clusters.length > targetClusters) {
+    let bestI = 0, bestJ = 1, bestD = Infinity;
+    for (let i = 0; i < clusters.length; i++) {
+      for (let j = i + 1; j < clusters.length; j++) {
+        const d = clusterDistance(points, clusters[i], clusters[j], linkage);
+        if (d < bestD) { bestD = d; bestI = i; bestJ = j; }
+      }
+    }
+    const merged = mergeClusters(points, clusters[bestI], clusters[bestJ]);
+    clusters.splice(bestJ, 1);
+    clusters[bestI] = merged;
+  }
+  return clusters;
+}
+
+function mergeClusters(points, a, b) {
+  const idx = a.idx.concat(b.idx);
+  let sx = 0, sy = 0;
+  for (const i of idx) { sx += points[i].x; sy += points[i].y; }
+  return { idx, centroid: { x: sx / idx.length, y: sy / idx.length } };
+}
+
+function clusterDistance(points, a, b, linkage) {
+  if (linkage === 'centroid') return dist(a.centroid, b.centroid);
+  if (linkage === 'single' || linkage === 'complete') {
+    let m = (linkage === 'single') ? Infinity : -Infinity;
+    for (const i of a.idx) for (const j of b.idx) {
+      const d = dist(points[i], points[j]);
+      if (linkage === 'single' ? d < m : d > m) m = d;
+    }
+    return m;
+  }
+  if (linkage === 'average') {
+    let s = 0, n = 0;
+    for (const i of a.idx) for (const j of b.idx) { s += dist(points[i], points[j]); n++; }
+    return s / n;
+  }
+  return Infinity;
+}
+
+/* =====================================================================
+   1. Agglomerative (live merging, dendrogram-style line history)
+   ===================================================================== */
+(function aggDemo() {
+  const canvas = document.getElementById('agg-canvas');
+  const ctx = canvas.getContext('2d');
+  let points = [], clusters = [], history = [], autoRunning = false;
+
+  function init() {
+    points = generatePoints('blobs', 60, canvas.width, canvas.height);
+    clusters = points.map((p, i) => ({ idx: [i], centroid: { ...p } }));
+    history = [];
+    autoRunning = false;
+    document.getElementById('agg-step').disabled = false;
+    draw();
+  }
+
+  function step() {
+    if (clusters.length <= 1) { document.getElementById('agg-step').disabled = true; return; }
+    let bi = 0, bj = 1, bd = Infinity;
+    for (let i = 0; i < clusters.length; i++) {
+      for (let j = i + 1; j < clusters.length; j++) {
+        const d = dist(clusters[i].centroid, clusters[j].centroid);
+        if (d < bd) { bd = d; bi = i; bj = j; }
+      }
+    }
+    history.push({ p1: { ...clusters[bi].centroid }, p2: { ...clusters[bj].centroid } });
+    const merged = mergeClusters(points, clusters[bi], clusters[bj]);
+    clusters.splice(bj, 1);
+    clusters[bi] = merged;
+    if (clusters.length <= 1) document.getElementById('agg-step').disabled = true;
+    draw();
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.strokeStyle = '#bbb'; ctx.lineWidth = 1.4;
+    for (const seg of history) {
+      ctx.beginPath();
+      ctx.moveTo(seg.p1.x, seg.p1.y);
+      ctx.lineTo(seg.p2.x, seg.p2.y);
+      ctx.stroke();
+    }
+    for (let ci = 0; ci < clusters.length; ci++) {
+      const c = clusters[ci];
+      if (c.idx.length > 1) {
+        ctx.fillStyle = 'rgba(26, 79, 160, 0.10)';
+        ctx.beginPath();
+        ctx.arc(c.centroid.x, c.centroid.y, 8 + 2.5 * Math.sqrt(c.idx.length), 0, Math.PI * 2);
+        ctx.fill();
+      }
+      ctx.fillStyle = '#1a1a18';
+      for (const i of c.idx) {
+        ctx.beginPath();
+        ctx.arc(points[i].x, points[i].y, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    }
+    ctx.fillStyle = '#1a1a18';
+    ctx.font = '13px IBM Plex Mono, monospace';
+    ctx.fillText(`clusters remaining: ${clusters.length}`, 10, 20);
+  }
+
+  document.getElementById('agg-step').addEventListener('click', step);
+  document.getElementById('agg-reset').addEventListener('click', init);
+  document.getElementById('agg-auto').addEventListener('click', function () {
+    autoRunning = !autoRunning;
+    this.textContent = autoRunning ? 'Stop auto-run' : 'Auto-run';
+    function tick() {
+      if (!autoRunning) return;
+      if (clusters.length <= 1) { autoRunning = false; document.getElementById('agg-auto').textContent = 'Auto-run'; return; }
+      step();
+      setTimeout(tick, 80);
+    }
+    tick();
+  });
+  init();
+})();
+
+/* =====================================================================
+   2. K-Means step-through
+   ===================================================================== */
+(function kmDemo() {
+  const canvas = document.getElementById('km-canvas');
+  const ctx = canvas.getContext('2d');
+  let points = [], centroids = [], assignments = [], k = 3, phase = 'init', iter = 0;
+
+  const kSlider = document.getElementById('km-k');
+  const kValEl  = document.getElementById('km-k-val');
+  const phaseEl = document.getElementById('km-phase');
+  const iterEl  = document.getElementById('km-iter');
+  const inertEl = document.getElementById('km-inertia');
+
+  function regenerate() {
+    points = generatePoints('blobs', 80, canvas.width, canvas.height);
+    centroids = kmeansPlusPlus(points, k);
+    assignments = new Array(points.length).fill(-1);
+    phase = 'assign';
+    iter = 0;
+    updateInfo();
+    draw();
+  }
+
+  function step() {
+    if (phase === 'assign') {
+      assignments = assignClusters(points, centroids);
+      phase = 'update';
+    } else {
+      const newC = updateCentroids(points, assignments, k, centroids);
+      let moved = 0;
+      for (let i = 0; i < k; i++) moved += dist(newC[i], centroids[i]);
+      centroids = newC;
+      iter++;
+      phase = moved < 1e-3 ? 'converged' : 'assign';
+    }
+    updateInfo();
+    draw();
+  }
+
+  function runToEnd() {
+    let safety = 200;
+    while (phase !== 'converged' && safety-- > 0) step();
+  }
+
+  function updateInfo() {
+    phaseEl.textContent = phase;
+    iterEl.textContent  = iter;
+    inertEl.textContent = assignments[0] === -1 ? '—' : inertia(points, centroids, assignments).toFixed(0);
+  }
+
+  function draw() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    // Voronoi-ish region shading via per-pixel sampling at coarse grid
+    const step = 14;
+    for (let x = 0; x < canvas.width; x += step) {
+      for (let y = 0; y < canvas.height; y += step) {
+        let best = 0, bestD = Infinity;
+        for (let c = 0; c < centroids.length; c++) {
+          const d = (x - centroids[c].x) ** 2 + (y - centroids[c].y) ** 2;
+          if (d < bestD) { bestD = d; best = c; }
         }
+        ctx.fillStyle = PALETTE[best] + '14'; // ~8% alpha
+        ctx.fillRect(x, y, step, step);
+      }
+    }
 
-        // Calculate the center (centroid) of a cluster
-        function getCentroid(cluster) {
-            let sumX = 0, sumY = 0;
-            for (let p of cluster) {
-                sumX += p.x;
-                sumY += p.y;
-            }
-            return { x: sumX / cluster.length, y: sumY / cluster.length };
+    // Points
+    for (let i = 0; i < points.length; i++) {
+      const a = assignments[i];
+      ctx.fillStyle = a === -1 ? '#888' : PALETTE[a];
+      ctx.beginPath();
+      ctx.arc(points[i].x, points[i].y, 3.5, 0, Math.PI * 2);
+      ctx.fill();
+    }
+
+    // Centroids as stars
+    for (let c = 0; c < centroids.length; c++) {
+      drawStar(ctx, centroids[c].x, centroids[c].y, 9, PALETTE[c]);
+    }
+  }
+
+  kSlider.addEventListener('input', () => {
+    k = +kSlider.value; kValEl.textContent = k; regenerate();
+  });
+  document.getElementById('km-step').addEventListener('click', step);
+  document.getElementById('km-run').addEventListener('click', runToEnd);
+  document.getElementById('km-reset').addEventListener('click', regenerate);
+  regenerate();
+})();
+
+function drawStar(ctx, cx, cy, r, color) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.fillStyle = color;
+  ctx.strokeStyle = '#1a1a18';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  for (let i = 0; i < 10; i++) {
+    const ang = (Math.PI * i) / 5 - Math.PI / 2;
+    const rad = i % 2 === 0 ? r : r / 2.3;
+    const x = Math.cos(ang) * rad;
+    const y = Math.sin(ang) * rad;
+    if (i === 0) ctx.moveTo(x, y); else ctx.lineTo(x, y);
+  }
+  ctx.closePath();
+  ctx.fill(); ctx.stroke();
+  ctx.restore();
+}
+
+/* =====================================================================
+   3. Initialization comparison — run side by side on same data
+   ===================================================================== */
+(function initDemo() {
+  const randCv = document.getElementById('init-rand');
+  const ppCv   = document.getElementById('init-pp');
+  const randCtx = randCv.getContext('2d');
+  const ppCtx   = ppCv.getContext('2d');
+  let points = [], k = 4;
+
+  function regenerate() {
+    points = generatePoints('blobs', 100, randCv.width, randCv.height);
+    runOne();
+  }
+
+  function runOne() {
+    // Use the same random seed concept by generating both with their own inits
+    // (no shared seed in the browser; we just rerun for visual comparison)
+    const r1 = runKMeans(points, k, 'random');
+    const r2 = runKMeans(points, k, 'kmeans++');
+    drawResult(randCtx, randCv, r1);
+    drawResult(ppCtx, ppCv, r2);
+    document.getElementById('init-rand-inertia').textContent = r1.inertia.toFixed(0);
+    document.getElementById('init-rand-iters').textContent   = r1.iters;
+    document.getElementById('init-pp-inertia').textContent   = r2.inertia.toFixed(0);
+    document.getElementById('init-pp-iters').textContent     = r2.iters;
+  }
+
+  function drawResult(ctx, cv, res) {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    for (let i = 0; i < points.length; i++) {
+      ctx.fillStyle = PALETTE[res.assignments[i]];
+      ctx.beginPath();
+      ctx.arc(points[i].x, points[i].y, 3.2, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    for (let c = 0; c < res.centroids.length; c++) {
+      drawStar(ctx, res.centroids[c].x, res.centroids[c].y, 8, PALETTE[c]);
+    }
+  }
+
+  document.getElementById('init-k').addEventListener('input', e => {
+    k = +e.target.value; document.getElementById('init-k-val').textContent = k; runOne();
+  });
+  document.getElementById('init-run').addEventListener('click', runOne);
+  document.getElementById('init-reset').addEventListener('click', regenerate);
+  regenerate();
+})();
+
+/* =====================================================================
+   4. Linkage comparison
+   ===================================================================== */
+(function linkageDemo() {
+  const linkages = ['single', 'complete', 'average', 'centroid'];
+  const canvases = Object.fromEntries(linkages.map(l => [l, document.getElementById('link-' + l)]));
+  let points = [];
+  const targetK = 3;
+
+  function regenerate() {
+    const shape = document.getElementById('link-shape').value;
+    points = generatePoints(shape, 70, canvases.single.width, canvases.single.height);
+    runAll();
+  }
+
+  function runAll() {
+    for (const l of linkages) {
+      const clusters = agglomerative(points, targetK, l);
+      drawClusters(canvases[l], clusters);
+    }
+  }
+
+  function drawClusters(cv, clusters) {
+    const ctx = cv.getContext('2d');
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    clusters.forEach((c, ci) => {
+      ctx.fillStyle = PALETTE[ci];
+      for (const idx of c.idx) {
+        ctx.beginPath();
+        ctx.arc(points[idx].x, points[idx].y, 3, 0, Math.PI * 2);
+        ctx.fill();
+      }
+    });
+  }
+
+  document.getElementById('link-shape').addEventListener('change', regenerate);
+  document.getElementById('link-run').addEventListener('click', runAll);
+  regenerate();
+})();
+
+/* =====================================================================
+   5. Elbow method
+   ===================================================================== */
+(function elbowDemo() {
+  const dataCv  = document.getElementById('elbow-data');
+  const chartCv = document.getElementById('elbow-chart');
+  const dataCtx = dataCv.getContext('2d');
+  const chartCtx = chartCv.getContext('2d');
+  let points = [], inertias = [], chosenK = 3;
+
+  const KMAX = 10;
+
+  function regenerate() {
+    points = generatePoints('blobs', 100, dataCv.width, dataCv.height);
+    compute();
+  }
+
+  function compute() {
+    inertias = [];
+    for (let k = 1; k <= KMAX; k++) {
+      // pick best of 3 trials to reduce noise
+      let best = Infinity, bestRes = null;
+      for (let t = 0; t < 3; t++) {
+        const r = runKMeans(points, k, 'kmeans++');
+        if (r.inertia < best) { best = r.inertia; bestRes = r; }
+      }
+      inertias.push({ k, inertia: best, result: bestRes });
+    }
+    chosenK = suggestElbow(inertias.map(d => d.inertia));
+    document.getElementById('elbow-suggest').textContent = chosenK;
+    drawChart();
+    drawData();
+    document.getElementById('elbow-curr-k').textContent = chosenK;
+  }
+
+  function suggestElbow(arr) {
+    // Largest "second difference" — simple heuristic
+    let best = 2, bestDelta = -Infinity;
+    for (let i = 1; i < arr.length - 1; i++) {
+      const d = (arr[i - 1] - arr[i]) - (arr[i] - arr[i + 1]);
+      if (d > bestDelta) { bestDelta = d; best = i + 1; }
+    }
+    return best;
+  }
+
+  function drawData() {
+    dataCtx.clearRect(0, 0, dataCv.width, dataCv.height);
+    const res = inertias.find(d => d.k === chosenK).result;
+    for (let i = 0; i < points.length; i++) {
+      dataCtx.fillStyle = PALETTE[res.assignments[i]];
+      dataCtx.beginPath();
+      dataCtx.arc(points[i].x, points[i].y, 3.2, 0, Math.PI * 2);
+      dataCtx.fill();
+    }
+    for (let c = 0; c < res.centroids.length; c++) {
+      drawStar(dataCtx, res.centroids[c].x, res.centroids[c].y, 8, PALETTE[c]);
+    }
+  }
+
+  function drawChart() {
+    const W = chartCv.width, H = chartCv.height;
+    const padL = 44, padR = 14, padT = 14, padB = 30;
+    chartCtx.clearRect(0, 0, W, H);
+    const maxI = Math.max(...inertias.map(d => d.inertia));
+    const minI = 0;
+    const xAt = k => padL + ((k - 1) / (KMAX - 1)) * (W - padL - padR);
+    const yAt = i => padT + (1 - (i - minI) / (maxI - minI)) * (H - padT - padB);
+
+    // Axes
+    chartCtx.strokeStyle = '#bbb'; chartCtx.lineWidth = 1;
+    chartCtx.beginPath();
+    chartCtx.moveTo(padL, padT); chartCtx.lineTo(padL, H - padB); chartCtx.lineTo(W - padR, H - padB);
+    chartCtx.stroke();
+
+    chartCtx.fillStyle = '#6b6960';
+    chartCtx.font = '11px IBM Plex Mono, monospace';
+    chartCtx.textAlign = 'center';
+    for (let k = 1; k <= KMAX; k++) chartCtx.fillText(k, xAt(k), H - padB + 14);
+    chartCtx.textAlign = 'right';
+    chartCtx.fillText(maxI.toFixed(0), padL - 6, padT + 6);
+    chartCtx.fillText('0', padL - 6, H - padB);
+    chartCtx.save(); chartCtx.translate(12, H / 2); chartCtx.rotate(-Math.PI / 2);
+    chartCtx.textAlign = 'center'; chartCtx.fillText('inertia', 0, 0); chartCtx.restore();
+
+    // Line
+    chartCtx.strokeStyle = '#1a4fa0'; chartCtx.lineWidth = 2;
+    chartCtx.beginPath();
+    inertias.forEach((d, i) => {
+      const x = xAt(d.k), y = yAt(d.inertia);
+      i === 0 ? chartCtx.moveTo(x, y) : chartCtx.lineTo(x, y);
+    });
+    chartCtx.stroke();
+
+    // Points
+    inertias.forEach(d => {
+      chartCtx.fillStyle = d.k === chosenK ? '#ef4444' : '#1a4fa0';
+      chartCtx.beginPath();
+      chartCtx.arc(xAt(d.k), yAt(d.inertia), d.k === chosenK ? 6 : 4, 0, Math.PI * 2);
+      chartCtx.fill();
+    });
+  }
+
+  chartCv.addEventListener('click', e => {
+    const rect = chartCv.getBoundingClientRect();
+    const x = (e.clientX - rect.left) * (chartCv.width / rect.width);
+    const padL = 44, padR = 14;
+    const k = Math.round(((x - padL) / (chartCv.width - padL - padR)) * (KMAX - 1)) + 1;
+    if (k >= 1 && k <= KMAX) {
+      chosenK = k;
+      document.getElementById('elbow-curr-k').textContent = chosenK;
+      drawChart();
+      drawData();
+    }
+  });
+
+  document.getElementById('elbow-run').addEventListener('click', compute);
+  document.getElementById('elbow-reset').addEventListener('click', regenerate);
+  regenerate();
+})();
+
+/* =====================================================================
+   6. Where K-Means fails
+   ===================================================================== */
+(function failDemo() {
+  const cv = document.getElementById('fail-canvas');
+  const ctx = cv.getContext('2d');
+  let points = [], k = 2;
+
+  function regenerate() {
+    const shape = document.getElementById('fail-shape').value;
+    points = generatePoints(shape, 130, cv.width, cv.height);
+    run();
+  }
+  function run() {
+    if (points.length === 0) regenerate();
+    const res = runKMeans(points, k, 'kmeans++');
+    draw(res);
+  }
+  function draw(res) {
+    ctx.clearRect(0, 0, cv.width, cv.height);
+    // Background voronoi shading
+    const step = 16;
+    for (let x = 0; x < cv.width; x += step) {
+      for (let y = 0; y < cv.height; y += step) {
+        let best = 0, bestD = Infinity;
+        for (let c = 0; c < res.centroids.length; c++) {
+          const d = (x - res.centroids[c].x) ** 2 + (y - res.centroids[c].y) ** 2;
+          if (d < bestD) { bestD = d; best = c; }
         }
+        ctx.fillStyle = PALETTE[best] + '14';
+        ctx.fillRect(x, y, step, step);
+      }
+    }
+    for (let i = 0; i < points.length; i++) {
+      ctx.fillStyle = PALETTE[res.assignments[i]];
+      ctx.beginPath();
+      ctx.arc(points[i].x, points[i].y, 3.4, 0, Math.PI * 2);
+      ctx.fill();
+    }
+    for (let c = 0; c < res.centroids.length; c++) {
+      drawStar(ctx, res.centroids[c].x, res.centroids[c].y, 9, PALETTE[c]);
+    }
+  }
 
-        // Calculate Euclidean distance between two points
-        function getDistance(p1, p2) {
-            return Math.hypot(p1.x - p2.x, p1.y - p2.y);
-        }
-
-        // Perform one step of Agglomerative Clustering
-        function mergeNext() {
-            if (clusters.length <= 1) {
-                stepBtn.disabled = true;
-                return;
-            }
-
-            let minDistance = Infinity;
-            let mergeI = -1;
-            let mergeJ = -1;
-
-            // Find the two closest clusters (using Centroid Linkage)
-            for (let i = 0; i < clusters.length; i++) {
-                for (let j = i + 1; j < clusters.length; j++) {
-                    let c1 = getCentroid(clusters[i]);
-                    let c2 = getCentroid(clusters[j]);
-                    let dist = getDistance(c1, c2);
-
-                    if (dist < minDistance) {
-                        minDistance = dist;
-                        mergeI = i;
-                        mergeJ = j;
-                    }
-                }
-            }
-
-            // Record the merge for drawing the "dendrogram-like" connections
-            let center1 = getCentroid(clusters[mergeI]);
-            let center2 = getCentroid(clusters[mergeJ]);
-            mergeHistory.push({ p1: center1, p2: center2 });
-
-            // Merge cluster J into cluster I
-            clusters[mergeI] = clusters[mergeI].concat(clusters[mergeJ]);
-            
-            // Remove cluster J
-            clusters.splice(mergeJ, 1);
-
-            if (clusters.length === 1) {
-                stepBtn.disabled = true;
-            }
-
-            draw();
-        }
-
-        // Draw the points, clusters, and connections
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            // Draw merge history (the connections)
-            ctx.strokeStyle = '#888';
-            ctx.lineWidth = 2;
-            for (let line of mergeHistory) {
-                ctx.beginPath();
-                ctx.moveTo(line.p1.x, line.p1.y);
-                ctx.lineTo(line.p2.x, line.p2.y);
-                ctx.stroke();
-            }
-
-            // Draw points
-            for (let cluster of clusters) {
-                // If the cluster has merged, we draw a very light hull/circle around its center (simplified here by larger radius)
-                let centroid = getCentroid(cluster);
-                
-                if(cluster.length > 1) {
-                    ctx.fillStyle = 'rgba(0, 123, 255, 0.2)';
-                    ctx.beginPath();
-                    // Rough approximation of cluster size
-                    let radius = 10 + (cluster.length * 2);
-                    ctx.arc(centroid.x, centroid.y, radius, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-
-                // Draw the actual data points
-                ctx.fillStyle = '#333';
-                for (let p of cluster) {
-                    ctx.beginPath();
-                    ctx.arc(p.x, p.y, 4, 0, Math.PI * 2);
-                    ctx.fill();
-                }
-            }
-            
-            // Text to show remaining clusters
-            ctx.fillStyle = '#000';
-            ctx.font = '16px sans-serif';
-            ctx.fillText(`Clusters remaining: ${clusters.length}`, 10, 20);
-        }
-
-        // Event Listeners
-        stepBtn.addEventListener('click', mergeNext);
-        resetBtn.addEventListener('click', init);
-
-        // Start
-        init();
-    </script>
+  document.getElementById('fail-shape').addEventListener('change', regenerate);
+  document.getElementById('fail-k').addEventListener('input', e => {
+    k = +e.target.value; document.getElementById('fail-k-val').textContent = k; run();
+  });
+  document.getElementById('fail-run').addEventListener('click', run);
+  regenerate();
+})();
+</script>
 </body>
 </html>
