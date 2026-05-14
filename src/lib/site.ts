@@ -77,13 +77,13 @@ export const site: SiteConfig = {
     {
       title: "Data 100 finals study guide",
       description:
-        "Personal finals study guide for UC Berkeley Data 100 (Spring 2026) — a single-page reference covering the full course, plus a small interactive agglomerative clustering visualization.",
-      stack: ["HTML", "CSS", "JavaScript"],
+        "Personal finals study guide for UC Berkeley Data 100 (Spring 2026) — a single-page reference covering the full course, plus a companion page of interactive clustering visualizations (K-Means step-through, K-Means++ vs random init, agglomerative linkage comparison, the elbow method, and where K-Means fails).",
+      stack: ["HTML", "CSS", "JavaScript", "Canvas", "KaTeX"],
       links: {
         live: "/projects/data100-study-guide.html",
         extras: [
           {
-            label: "Clustering viz",
+            label: "Clustering visualizations",
             href: "/projects/data100-clustering.html",
           },
         ],
