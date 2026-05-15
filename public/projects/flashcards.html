@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Econ Formulas · Flashcards</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@300;400;500&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/3.2.2/es5/tex-chtml.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #0f0e0d;
+    --paper: #f5f0e8;
+    --cream: #ede8dc;
+    --rule: #c8c0b0;
+    --accent: #c0392b;
+    --accent2: #2c5f8a;
+    --muted: #7a7268;
+    --card-w: min(680px, 92vw);
+    --card-h: min(420px, 58vw);
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'Instrument Sans', sans-serif;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem 1rem 4rem;
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  /* Subtle grid paper background */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(180,170,155,0.18) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(180,170,155,0.18) 1px, transparent 1px);
+    background-size: 28px 28px;
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  header {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+
+  .eyebrow {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.4rem;
+  }
+
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1.8rem, 5vw, 3rem);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  /* Progress bar */
+  .progress-wrap {
+    position: relative;
+    z-index: 1;
+    width: var(--card-w);
+    margin-bottom: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .progress-bar {
+    flex: 1;
+    height: 3px;
+    background: var(--rule);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+
+  .progress-fill {
+    height: 100%;
+    background: var(--accent);
+    border-radius: 2px;
+    transition: width 0.4s ease;
+  }
+
+  .progress-text {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* Flashcard scene */
+  .scene {
+    position: relative;
+    z-index: 1;
+    width: var(--card-w);
+    height: var(--card-h);
+    perspective: 1200px;
+    cursor: pointer;
+    margin-bottom: 1.6rem;
+  }
+
+  .card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    user-select: none;
+  }
+
+  .card.flipped {
+    transform: rotateY(180deg);
+  }
+
+  .face {
+    position: absolute;
+    inset: 0;
+    backface-visibility: hidden;
+    -webkit-backface-visibility: hidden;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 2.5rem 3rem;
+    border: 1.5px solid var(--rule);
+    box-shadow:
+      4px 4px 0 var(--rule),
+      8px 8px 0 rgba(0,0,0,0.04);
+  }
+
+  .face--front {
+    background: var(--paper);
+  }
+
+  /* Red left margin line on front */
+  .face--front::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 52px;
+    width: 1.5px;
+    height: 100%;
+    background: rgba(192,57,43,0.25);
+    border-radius: 1px;
+  }
+
+  /* Horizontal rule lines on front */
+  .face--front::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 4px;
+    background-image: repeating-linear-gradient(
+      transparent,
+      transparent 31px,
+      rgba(180,170,155,0.3) 31px,
+      rgba(180,170,155,0.3) 32px
+    );
+    background-size: 100% 32px;
+    background-position: 0 2rem;
+    pointer-events: none;
+  }
+
+  .face--back {
+    background: var(--cream);
+    transform: rotateY(180deg);
+    border-color: var(--accent2);
+  }
+
+  .face--back::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--accent2);
+    border-radius: 4px 4px 0 0;
+  }
+
+  .face-label {
+    position: absolute;
+    top: 0.9rem;
+    right: 1.2rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .face--back .face-label {
+    color: var(--accent2);
+  }
+
+  .face-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    width: 100%;
+  }
+
+  .face--front .face-content {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(1rem, 2.5vw, 1.22rem);
+    line-height: 1.55;
+    color: var(--ink);
+  }
+
+  .face--back .face-content {
+    font-size: clamp(0.88rem, 2vw, 1.05rem);
+    line-height: 1.7;
+    color: var(--ink);
+    text-align: left;
+  }
+
+  .face--back .face-content .mjx-chtml,
+  .face--back .face-content .MathJax {
+    font-size: 1.1em !important;
+  }
+
+  /* Tap hint */
+  .tap-hint {
+    position: absolute;
+    bottom: 0.9rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'DM Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    color: var(--rule);
+    text-transform: uppercase;
+    z-index: 2;
+    transition: opacity 0.3s;
+    white-space: nowrap;
+  }
+
+  .scene:hover .tap-hint { opacity: 0; }
+
+  /* Controls */
+  .controls {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  button {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.82rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    border: 1.5px solid var(--rule);
+    border-radius: 2px;
+    background: var(--paper);
+    color: var(--ink);
+    padding: 0.55rem 1.3rem;
+    cursor: pointer;
+    transition: all 0.15s;
+    box-shadow: 2px 2px 0 var(--rule);
+  }
+
+  button:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+    box-shadow: 2px 2px 0 rgba(0,0,0,0.3);
+  }
+
+  button:active {
+    transform: translate(1px,1px);
+    box-shadow: 1px 1px 0 var(--rule);
+  }
+
+  button.primary {
+    background: var(--accent);
+    border-color: var(--accent);
+    color: white;
+    box-shadow: 2px 2px 0 rgba(192,57,43,0.3);
+  }
+
+  button.primary:hover {
+    background: #a93226;
+    border-color: #a93226;
+  }
+
+  button:disabled {
+    opacity: 0.35;
+    cursor: not-allowed;
+    pointer-events: none;
+  }
+
+  /* Shuffle indicator */
+  .shuffle-indicator {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.65rem;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+  }
+
+  /* Score tally */
+  .tally {
+    position: relative;
+    z-index: 1;
+    margin-top: 1.4rem;
+    display: flex;
+    gap: 1.5rem;
+    font-family: 'DM Mono', monospace;
+    font-size: 0.72rem;
+  }
+
+  .tally-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.2rem;
+  }
+
+  .tally-num {
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  .tally-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  .tally-item.known .tally-num { color: #27ae60; }
+  .tally-item.unknown .tally-num { color: var(--accent); }
+  .tally-item.remaining .tally-num { color: var(--ink); }
+
+  /* Mark buttons */
+  .mark-buttons {
+    position: relative;
+    z-index: 1;
+    margin-top: 1rem;
+    display: flex;
+    gap: 0.7rem;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s 0.15s;
+  }
+
+  .mark-buttons.visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+
+  .btn-know {
+    background: #27ae60 !important;
+    border-color: #27ae60 !important;
+    color: white !important;
+    box-shadow: 2px 2px 0 rgba(39,174,96,0.3) !important;
+  }
+
+  .btn-know:hover { background: #219a52 !important; }
+
+  /* Deck complete state */
+  .complete {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .complete.show { display: flex; }
+
+  .complete-title {
+    font-family: 'DM Serif Display', serif;
+    font-size: 2rem;
+    font-style: italic;
+  }
+
+  .complete-sub {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  /* Category chips on front */
+  .category {
+    font-family: 'DM Mono', monospace;
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    background: var(--cream);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 0.15rem 0.5rem;
+    margin-bottom: 0.8rem;
+    display: inline-block;
+    position: relative;
+    z-index: 1;
+  }
+
+  @media (max-width: 480px) {
+    :root { --card-h: 260px; }
+    .face { padding: 1.6rem 1.4rem; }
+    .face--front::before { left: 36px; }
+    .tally { gap: 1rem; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="eyebrow">Microeconomics · Formula Review</p>
+  <h1>Flash<em>cards</em></h1>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+  <span class="progress-text" id="progressText">1 / 20</span>
+</div>
+
+<div class="scene" id="scene" onclick="flipCard()">
+  <div class="card" id="card">
+    <div class="face face--front">
+      <span class="face-label">Question</span>
+      <div class="face-content" id="frontContent"></div>
+      <span class="tap-hint">click to reveal answer</span>
+    </div>
+    <div class="face face--back">
+      <span class="face-label">Answer</span>
+      <div class="face-content" id="backContent"></div>
+    </div>
+  </div>
+</div>
+
+<div class="mark-buttons" id="markButtons">
+  <button class="btn-know" onclick="markKnown()">✓ Got it</button>
+  <button onclick="markUnknown()">✗ Still learning</button>
+</div>
+
+<div class="controls" style="margin-top:1rem;">
+  <button id="prevBtn" onclick="prevCard()">← Prev</button>
+  <button class="primary" onclick="nextCard()">Next →</button>
+  <button onclick="shuffleDeck()" title="Shuffle deck">⇄ Shuffle</button>
+</div>
+
+<div class="tally">
+  <div class="tally-item known">
+    <span class="tally-num" id="tallyKnown">0</span>
+    <span class="tally-label">Known</span>
+  </div>
+  <div class="tally-item unknown">
+    <span class="tally-num" id="tallyUnknown">0</span>
+    <span class="tally-label">Reviewing</span>
+  </div>
+  <div class="tally-item remaining">
+    <span class="tally-num" id="tallyRemaining">20</span>
+    <span class="tally-label">Remaining</span>
+  </div>
+</div>
+
+<div class="complete" id="completeScreen">
+  <p class="complete-title">Deck Complete</p>
+  <p class="complete-sub" id="completeSub"></p>
+  <button class="primary" onclick="restartDeck()">Restart</button>
+  <button onclick="reviewUnknown()">Review Unsure Cards</button>
+</div>
+
+<script>
+const rawCards = [
+  {
+    cat: "Consumer Theory",
+    front: "What is the formula for the Marginal Rate of Substitution (MRS), and what is the interior First Order Condition (FOC) for utility maximization?",
+    back: "\\(\\text{MRS}_{1,2} = \\dfrac{u_1}{u_2}\\)<br><br>Interior FOC:&ensp; \\(\\text{MRS}_{1,2} = \\dfrac{p_1}{p_2}\\)"
+  },
+  {
+    cat: "Consumer Theory",
+    front: "What is the Marshallian demand function for a Cobb-Douglas utility function?",
+    back: "\\(x_i^* = \\dfrac{\\alpha_i M}{p_i}\\)"
+  },
+  {
+    cat: "Consumer Theory",
+    front: "What is the condition for quasi-linear demand at an interior optimum?",
+    back: "\\(\\phi'(x_1^*) = \\dfrac{p_1}{p_2}\\)<br><br><small>Note: \\(x_1\\) demand is independent of income at an interior optimum.</small>"
+  },
+  {
+    cat: "Intertemporal Choice",
+    front: "What is the two-period intertemporal budget constraint?",
+    back: "\\(c_0 + \\dfrac{c_1}{1+r} = M_0 + \\dfrac{M_1}{1+r}\\)"
+  },
+  {
+    cat: "Intertemporal Choice",
+    front: "What is the Euler equation for intertemporal consumption, and what happens when \\(r = \\delta\\)?",
+    back: "Euler Equation:<br>\\(u'(c_0) = \\dfrac{1+r}{1+\\delta}\\, u'(c_1)\\)<br><br>When \\(r = \\delta \\implies c_0 = c_1\\) (perfect consumption smoothing)."
+  },
+  {
+    cat: "Risk & Uncertainty",
+    front: "What are the formulas for Absolute Risk Aversion (\\(r_A\\)) and Relative Risk Aversion (\\(r_R\\))?",
+    back: "\\(r_A(w) = -\\dfrac{u''(w)}{u'(w)}\\)<br><br>\\(r_R(w) = w \\cdot r_A(w)\\)"
+  },
+  {
+    cat: "Risk & Uncertainty",
+    front: "For a CRRA utility function, what is \\(u(w)\\), \\(r_R\\), and \\(r_A\\)?",
+    back: "\\(u(w) = \\dfrac{w^{1-\\rho}}{1-\\rho}\\)<br><br>\\(r_R = \\rho\\)<br><br>\\(r_A = \\dfrac{\\rho}{w}\\)"
+  },
+  {
+    cat: "Risk & Uncertainty",
+    front: "What is the First Order Condition (FOC) for optimal insurance?",
+    back: "\\(\\dfrac{u'(w_2)}{u'(w_1)} = \\dfrac{(1-p)\\,q}{p\\,(1-q)}\\)"
+  },
+  {
+    cat: "Market Structures",
+    front: "What are the price, quantity, and profit outcomes under Perfect Competition (PC)?",
+    back: "\\(p = c\\)<br><br>\\(Y_{\\text{PC}} = \\dfrac{a-c}{b}\\)<br><br>\\(\\Pi = 0\\)"
+  },
+  {
+    cat: "Market Structures",
+    front: "What are the formulas for quantity, price, and profit under a Monopoly?",
+    back: "\\(y_M = \\dfrac{a-c}{2b}\\)<br><br>\\(p_M = \\dfrac{a+c}{2}\\)<br><br>\\(\\Pi_M = \\dfrac{(a-c)^2}{4b}\\)"
+  },
+  {
+    cat: "Market Structures",
+    front: "In a Cournot oligopoly with \\(I\\) firms, what are the formulas for individual quantity (\\(y_O\\)), price (\\(p_O\\)), and profit (\\(\\pi_O\\))?",
+    back: "\\(y_O = \\dfrac{a-c}{b(I+1)}\\)<br><br>\\(p_O = c + \\dfrac{a-c}{I+1}\\)<br><br>\\(\\pi_O = \\dfrac{(a-c)^2}{b(I+1)^2}\\)"
+  },
+  {
+    cat: "Market Structures",
+    front: "What are the equilibrium price and profit outcomes in a Bertrand oligopoly with \\(I \\ge 2\\) firms?",
+    back: "\\(p = c\\)<br><br>\\(\\Pi = 0\\)"
+  },
+  {
+    cat: "Market Structures",
+    front: "What are the optimal quantities for the leader (\\(y_1\\)) and the follower (\\(y_2\\)) in a Stackelberg duopoly?",
+    back: "Leader:&ensp; \\(y_1 = \\dfrac{a-c}{2b}\\)<br><br>Follower:&ensp; \\(y_2 = \\dfrac{a-c}{4b}\\)"
+  },
+  {
+    cat: "Taxation",
+    front: "What is the tax incidence formula for how a tax affects the equilibrium price?",
+    back: "\\(\\dfrac{\\partial p^*}{\\partial t} = \\dfrac{\\varepsilon_S}{\\varepsilon_S - \\varepsilon_D}\\)"
+  },
+  {
+    cat: "Taxation",
+    front: "What is the formula for the Deadweight Loss (DWL) of a tax assuming linear demand and supply?",
+    back: "\\(\\text{DWL}_{\\text{linear}} = \\dfrac{t^2}{2b}\\)"
+  },
+  {
+    cat: "Game Theory",
+    front: "How do you find the probabilities in a Mixed Strategy Nash Equilibrium (2×2 game)?",
+    back: "Set player \\(i\\)'s mixed strategy probability so that player \\(-i\\) (the other player) is made <em>strictly indifferent</em> between their own pure strategies."
+  },
+  {
+    cat: "Game Theory",
+    front: "What defines a Subgame Perfect Nash Equilibrium (SPNE)?",
+    back: "Found using <strong>backward induction</strong>; rules out non-credible threats."
+  },
+  {
+    cat: "Information",
+    front: "In a linear adverse selection (Lemons) model where quality \\(q \\sim U[0,100]\\), what is the expected quality conditional on sale, and when does trade occur?",
+    back: "\\(E[q \\mid q \\le p] = \\dfrac{p}{2}\\)<br><br>Trade occurs if and only if the buyer's value multiplier is \\(\\ge 2\\)."
+  },
+  {
+    cat: "Information",
+    front: "In a moral hazard linear contract model (\\(y = e + \\varepsilon\\)), what is the agent's optimal effort (\\(e^*\\)) and the principal's optimal incentive rate (\\(b^*\\))?",
+    back: "\\(e^* = b\\)<br><br>\\(b^* = \\dfrac{1}{1+\\sigma^2}\\)<br><br><small>Under a fixed wage, \\(b=0 \\implies e^*=0\\).</small>"
+  },
+  {
+    cat: "Math Tools",
+    front: "What is the Implicit Function Theorem (IFT) formula to find \\(\\dfrac{dx^*}{d\\theta}\\) given \\(F(x^*,\\theta)=0\\)?",
+    back: "\\(\\dfrac{dx^*}{d\\theta} = -\\dfrac{F_\\theta}{F_x}\\)"
+  }
+];
+
+let deck = [...rawCards];
+let current = 0;
+let isFlipped = false;
+let known = new Set();
+let unknown = new Set();
+let marked = new Set();
+
+function shuffle(arr) {
+  for (let i = arr.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arr[i], arr[j]] = [arr[j], arr[i]];
+  }
+}
+
+function renderCard() {
+  const c = deck[current];
+  document.getElementById('frontContent').innerHTML =
+    `<span class="category">${c.cat}</span><br>${c.front}`;
+  document.getElementById('backContent').innerHTML = c.back;
+
+  if (window.MathJax) {
+    MathJax.typesetPromise([
+      document.getElementById('frontContent'),
+      document.getElementById('backContent')
+    ]);
+  }
+
+  // Reset flip
+  const card = document.getElementById('card');
+  card.classList.remove('flipped');
+  isFlipped = false;
+  document.getElementById('markButtons').classList.remove('visible');
+
+  updateProgress();
+}
+
+function updateProgress() {
+  const total = deck.length;
+  const pct = ((current + 1) / total) * 100;
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressText').textContent = `${current + 1} / ${total}`;
+
+  document.getElementById('prevBtn').disabled = current === 0;
+
+  const k = [...known].filter(i => deck.some(c => c === rawCards[i])).length;
+  const u = [...unknown].filter(i => deck.some(c => c === rawCards[i])).length;
+  document.getElementById('tallyKnown').textContent = k;
+  document.getElementById('tallyUnknown').textContent = u;
+  document.getElementById('tallyRemaining').textContent = total - marked.size;
+}
+
+function flipCard() {
+  const card = document.getElementById('card');
+  isFlipped = !isFlipped;
+  card.classList.toggle('flipped', isFlipped);
+  if (isFlipped) {
+    document.getElementById('markButtons').classList.add('visible');
+  } else {
+    document.getElementById('markButtons').classList.remove('visible');
+  }
+}
+
+function nextCard() {
+  if (current < deck.length - 1) {
+    current++;
+    renderCard();
+  } else {
+    showComplete();
+  }
+}
+
+function prevCard() {
+  if (current > 0) {
+    current--;
+    renderCard();
+  }
+}
+
+function markKnown() {
+  const idx = rawCards.indexOf(deck[current]);
+  known.add(idx);
+  unknown.delete(idx);
+  marked.add(idx);
+  updateProgress();
+  nextCard();
+}
+
+function markUnknown() {
+  const idx = rawCards.indexOf(deck[current]);
+  unknown.add(idx);
+  known.delete(idx);
+  marked.add(idx);
+  updateProgress();
+  nextCard();
+}
+
+function shuffleDeck() {
+  shuffle(deck);
+  current = 0;
+  renderCard();
+}
+
+function showComplete() {
+  document.querySelector('.scene').style.display = 'none';
+  document.querySelector('.controls').style.display = 'none';
+  document.querySelector('.mark-buttons').style.display = 'none';
+  document.querySelector('.progress-wrap').style.display = 'none';
+  document.querySelector('.tally').style.display = 'none';
+
+  const k = known.size;
+  const u = unknown.size;
+  document.getElementById('completeSub').textContent =
+    `${k} known · ${u} still learning · ${deck.length - k - u} unmarked`;
+
+  document.getElementById('completeScreen').classList.add('show');
+  const reviewBtn = document.querySelector('[onclick="reviewUnknown()"]');
+  reviewBtn.disabled = u === 0;
+}
+
+function restartDeck() {
+  deck = [...rawCards];
+  known.clear(); unknown.clear(); marked.clear();
+  current = 0;
+  document.querySelector('.scene').style.display = '';
+  document.querySelector('.controls').style.display = '';
+  document.querySelector('.mark-buttons').style.display = '';
+  document.querySelector('.progress-wrap').style.display = '';
+  document.querySelector('.tally').style.display = '';
+  document.getElementById('completeScreen').classList.remove('show');
+  renderCard();
+}
+
+function reviewUnknown() {
+  const unkCards = [...unknown].map(i => rawCards[i]);
+  if (unkCards.length === 0) return;
+  deck = unkCards;
+  known.clear(); unknown.clear(); marked.clear();
+  current = 0;
+  document.querySelector('.scene').style.display = '';
+  document.querySelector('.controls').style.display = '';
+  document.querySelector('.mark-buttons').style.display = '';
+  document.querySelector('.progress-wrap').style.display = '';
+  document.querySelector('.tally').style.display = '';
+  document.getElementById('completeScreen').classList.remove('show');
+  renderCard();
+}
+
+// Keyboard nav
+document.addEventListener('keydown', e => {
+  if (e.key === 'ArrowRight' || e.key === ' ') {
+    e.preventDefault();
+    if (!isFlipped) flipCard(); else nextCard();
+  }
+  if (e.key === 'ArrowLeft') prevCard();
+  if (e.key === 'Enter' && isFlipped) markKnown();
+  if (e.key === 'Backspace' && isFlipped) markUnknown();
+});
+
+// Init
+window.addEventListener('load', () => {
+  renderCard();
+});
+</script>
+</body>
+</html>
