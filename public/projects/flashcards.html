@@ -124,20 +124,31 @@
     width: 100%;
     height: 100%;
     position: relative;
+    -webkit-transform-style: preserve-3d;
     transform-style: preserve-3d;
     transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    will-change: transform;
+    -webkit-user-select: none;
     user-select: none;
   }
 
   .card.flipped {
+    -webkit-transform: rotateY(180deg);
     transform: rotateY(180deg);
   }
 
   .face {
     position: absolute;
     inset: 0;
-    backface-visibility: hidden;
     -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    /* Explicit 3D transform on every face — required for iOS Safari to
+       honor backface-visibility. Without translate3d(0,0,0) the front face
+       has no GPU layer and Safari will show a mirrored front instead of
+       hiding it during a flip. */
+    -webkit-transform: translate3d(0, 0, 0);
+    transform: translate3d(0, 0, 0);
+    isolation: isolate;
     border-radius: 4px;
     display: flex;
     flex-direction: column;
@@ -185,7 +196,8 @@
 
   .face--back {
     background: var(--cream);
-    transform: rotateY(180deg);
+    -webkit-transform: translate3d(0, 0, 0) rotateY(180deg);
+    transform: translate3d(0, 0, 0) rotateY(180deg);
     border-color: var(--accent2);
   }
 
@@ -608,6 +620,23 @@ function shuffle(arr) {
 }
 
 function renderCard() {
+  const card = document.getElementById('card');
+
+  // If the card is currently flipped, snap it back to the front face
+  // instantly (no animation) BEFORE swapping content. Otherwise the
+  // 0.55s un-flip animation would play with the new back face visible
+  // to the viewer, causing a brief flash of the next card's answer.
+  if (card.classList.contains('flipped')) {
+    card.style.transition = 'none';
+    card.classList.remove('flipped');
+    // Force a synchronous reflow so the snap is committed before we
+    // re-enable transitions and continue.
+    void card.offsetHeight;
+    card.style.transition = '';
+  }
+  isFlipped = false;
+  document.getElementById('markButtons').classList.remove('visible');
+
   const c = deck[current];
   document.getElementById('frontContent').innerHTML =
     `<span class="category">${c.cat}</span><br>${c.front}`;
@@ -619,12 +648,6 @@ function renderCard() {
       document.getElementById('backContent')
     ]);
   }
-
-  // Reset flip
-  const card = document.getElementById('card');
-  card.classList.remove('flipped');
-  isFlipped = false;
-  document.getElementById('markButtons').classList.remove('visible');
 
   updateProgress();
 }
