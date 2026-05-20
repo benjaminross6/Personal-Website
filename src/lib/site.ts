@@ -106,6 +106,16 @@ export const site: SiteConfig = {
       },
       featured: true,
     },
+    {
+      title: "Drag-to-reorder palette",
+      description:
+        "Interactive reference comparing drag-and-drop reorder techniques — HTML5 draggable, Pointer Events, keyboard-accessible lists, grid and horizontal sort, plus a library overview (dnd-kit, SortableJS, Pragmatic DnD, and more).",
+      stack: ["HTML", "CSS", "JavaScript"],
+      links: {
+        live: "/projects/drag_reorder_palette.html",
+      },
+      featured: true,
+    },
   ],
 };
 

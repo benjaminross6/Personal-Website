@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Drag-to-reorder palette</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/tabler-icons.min.css"/>
+<style>
+:root {
+  --font-sans: system-ui, -apple-system, 'Segoe UI', sans-serif;
+  --font-mono: ui-monospace, 'SF Mono', Menlo, monospace;
+  --color-background-primary: #ffffff;
+  --color-background-secondary: #f5f5f7;
+  --color-text-primary: #1a1a18;
+  --color-text-secondary: #6b6960;
+  --color-text-tertiary: #9a9488;
+  --color-text-info: #1a4fa0;
+  --color-border-primary: #c8c0b0;
+  --color-border-secondary: #e2e0d8;
+  --color-border-tertiary: #ebe8e0;
+  --border-radius-md: 6px;
+  --border-radius-lg: 10px;
+}
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; border: 0;
+}
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: var(--font-sans);
+  background: #faf9f6;
+  color: var(--color-text-primary);
+  padding: 1.5rem;
+  max-width: 920px;
+  margin: 0 auto;
+}
+.page-header { margin-bottom: 1.5rem; }
+.page-header h1 { font-size: 1.75rem; font-weight: 600; margin: 0 0 0.35rem; }
+.page-header p { margin: 0; font-size: 14px; color: var(--color-text-secondary); line-height: 1.5; }
+.page-footer {
+  margin-top: 2rem; padding-top: 1rem;
+  border-top: 1px solid var(--color-border-tertiary);
+  font-size: 12px; color: var(--color-text-secondary); text-align: center;
+}
+.page-footer a { color: var(--color-text-info); }
+
+.palette-root { padding: 1.5rem 0; }
+
+.section-nav {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 2rem;
+}
+.nav-btn {
+  font-size: 12px; padding: 5px 12px; border-radius: 20px;
+  border: 0.5px solid var(--color-border-secondary);
+  background: var(--color-background-primary);
+  color: var(--color-text-secondary); cursor: pointer;
+  transition: all 0.15s;
+}
+.nav-btn.active, .nav-btn:hover {
+  background: var(--color-background-secondary);
+  color: var(--color-text-primary);
+  border-color: var(--color-border-primary);
+}
+
+.demo-section { display: none; }
+.demo-section.visible { display: block; }
+
+.demo-header {
+  display: flex; align-items: flex-start; justify-content: space-between;
+  margin-bottom: 1.25rem; gap: 1rem;
+}
+.demo-meta { flex: 1; }
+.demo-title { font-size: 15px; font-weight: 500; color: var(--color-text-primary); margin-bottom: 4px; }
+.demo-desc { font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; }
+.demo-badge {
+  font-size: 11px; padding: 3px 9px; border-radius: var(--border-radius-md);
+  white-space: nowrap; font-weight: 500; flex-shrink: 0;
+}
+.badge-native { background: #E1F5EE; color: #0F6E56; }
+.badge-library { background: #EEEDFE; color: #3C3489; }
+.badge-pointer { background: #FAEEDA; color: #854F0B; }
+.badge-touch { background: #FAECE7; color: #993C1D; }
+
+.demo-area {
+  background: var(--color-background-secondary);
+  border-radius: var(--border-radius-lg);
+  padding: 1rem;
+  margin-bottom: 1rem;
+  min-height: 80px;
+}
+
+.links-row {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 0.75rem;
+}
+.link-chip {
+  font-size: 12px; padding: 4px 10px; border-radius: var(--border-radius-md);
+  border: 0.5px solid var(--color-border-tertiary);
+  background: var(--color-background-primary);
+  color: var(--color-text-info); text-decoration: none;
+  display: flex; align-items: center; gap: 5px;
+}
+.link-chip:hover { border-color: var(--color-border-secondary); }
+
+.code-tag {
+  font-family: var(--font-mono); font-size: 11px;
+  background: var(--color-background-secondary);
+  border: 0.5px solid var(--color-border-tertiary);
+  padding: 2px 6px; border-radius: 4px;
+  color: var(--color-text-secondary);
+}
+
+hr.divider {
+  border: none; border-top: 0.5px solid var(--color-border-tertiary);
+  margin: 1.5rem 0;
+}
+
+/* ── DEMO 1: HTML5 draggable ── */
+.drag-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.drag-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 12px;
+  cursor: grab; user-select: none;
+  transition: opacity 0.15s, box-shadow 0.15s;
+  font-size: 14px;
+}
+.drag-item:active { cursor: grabbing; }
+.drag-item.dragging { opacity: 0.4; }
+.drag-item.drag-over { box-shadow: 0 -2px 0 0 #534AB7 inset; }
+.drag-handle { color: var(--color-text-tertiary); font-size: 16px; }
+.drag-num {
+  width: 22px; height: 22px; border-radius: 50%;
+  background: var(--color-background-secondary);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 11px; font-weight: 500; color: var(--color-text-secondary);
+  flex-shrink: 0;
+}
+
+/* ── DEMO 2: Pointer Events ── */
+.pe-list { list-style: none; display: flex; flex-direction: column; gap: 6px; position: relative; }
+.pe-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 12px;
+  font-size: 14px; user-select: none; touch-action: none;
+  transition: transform 0.15s ease, box-shadow 0.15s;
+  position: relative; z-index: 1;
+}
+.pe-item.pe-dragging {
+  box-shadow: 0 4px 16px rgba(0,0,0,0.12);
+  z-index: 10; transform: scale(1.02);
+}
+.pe-placeholder {
+  background: var(--color-background-secondary);
+  border: 0.5px dashed var(--color-border-secondary);
+  border-radius: var(--border-radius-md);
+  height: 44px;
+}
+
+/* ── DEMO 3: Keyboard accessible ── */
+.kb-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.kb-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 12px;
+  font-size: 14px;
+  transition: border-color 0.15s, transform 0.1s;
+}
+.kb-grab-btn {
+  background: none; border: none; cursor: grab;
+  padding: 2px 4px; border-radius: 4px; color: var(--color-text-tertiary);
+  font-size: 16px; line-height: 1;
+}
+.kb-grab-btn:focus {
+  outline: 2px solid #534AB7; outline-offset: 1px;
+}
+.kb-item.kb-selected {
+  border-color: #534AB7;
+  background: #F4F3FD;
+}
+.kb-hint {
+  font-size: 11px; color: var(--color-text-tertiary); margin-top: 8px;
+  display: flex; align-items: center; gap: 6px;
+}
+kbd {
+  font-size: 10px; padding: 2px 5px; border-radius: 3px;
+  border: 0.5px solid var(--color-border-secondary);
+  background: var(--color-background-primary);
+  font-family: var(--font-mono); color: var(--color-text-secondary);
+}
+
+/* ── DEMO 4: Sortable grid ── */
+.grid-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  gap: 8px;
+}
+.grid-item {
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 16px 12px;
+  cursor: grab; user-select: none;
+  display: flex; flex-direction: column; align-items: center; gap: 6px;
+  transition: opacity 0.15s;
+  font-size: 13px;
+  text-align: center;
+}
+.grid-item .g-icon { font-size: 22px; }
+.grid-item.dragging { opacity: 0.35; }
+.grid-item.grid-over { outline: 2px solid #534AB7; outline-offset: -2px; }
+
+/* ── DEMO 5: Animated swap ── */
+.swap-list { list-style: none; display: flex; flex-direction: column; gap: 6px; }
+.swap-item {
+  display: flex; align-items: center; gap: 10px;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 12px;
+  font-size: 14px; cursor: grab; user-select: none;
+  transition: transform 0.22s cubic-bezier(.4,0,.2,1), opacity 0.15s;
+}
+.swap-item.swap-dragging { opacity: 0.3; }
+.swap-item.swap-moving { transform: translateY(-48px); }
+
+/* ── DEMO 6: Horizontal ── */
+.horiz-list {
+  display: flex; gap: 8px; overflow-x: auto;
+  padding-bottom: 4px;
+}
+.horiz-item {
+  flex-shrink: 0;
+  background: var(--color-background-primary);
+  border: 0.5px solid var(--color-border-tertiary);
+  border-radius: var(--border-radius-md);
+  padding: 10px 16px;
+  cursor: grab; user-select: none;
+  font-size: 13px; font-weight: 500; white-space: nowrap;
+  transition: opacity 0.15s;
+}
+.horiz-item.dragging { opacity: 0.35; }
+.horiz-item.horiz-over { box-shadow: -2px 0 0 0 #534AB7 inset; }
+
+/* ── status pill ── */
+.status-pill {
+  font-size: 11px; padding: 2px 8px; border-radius: 20px;
+  background: var(--color-background-secondary);
+  color: var(--color-text-secondary);
+  margin-left: auto; flex-shrink: 0;
+}
+</style>
+</head>
+<body>
+
+<header class="page-header">
+  <h1>Drag-to-reorder palette</h1>
+  <p>Interactive demos of list reordering — native APIs, accessibility patterns, and popular libraries.</p>
+</header>
+
+<div class="palette-root">
+<h2 class="sr-only">Drag-to-reorder techniques demonstration palette</h2>
+
+<nav class="section-nav" aria-label="Demo types">
+  <button class="nav-btn active" data-demo="html5">HTML5 draggable</button>
+  <button class="nav-btn" data-demo="pointer">Pointer events</button>
+  <button class="nav-btn" data-demo="keyboard">Keyboard accessible</button>
+  <button class="nav-btn" data-demo="grid">Grid sort</button>
+  <button class="nav-btn" data-demo="horiz">Horizontal</button>
+  <button class="nav-btn" data-demo="library">Library overview</button>
+</nav>
+
+<!-- ── 1. HTML5 draggable ── -->
+<div class="demo-section visible" id="demo-html5">
+  <div class="demo-header">
+    <div class="demo-meta">
+      <div class="demo-title">HTML5 <span class="code-tag">draggable</span> API</div>
+      <div class="demo-desc">Uses the browser's native drag-and-drop. Simplest approach — no library needed. Works on desktop; <strong>not</strong> touch-friendly by default. Relies on <span class="code-tag">dragstart</span>, <span class="code-tag">dragover</span>, <span class="code-tag">drop</span> events.</div>
+    </div>
+    <span class="demo-badge badge-native">Native API</span>
+  </div>
+  <div class="demo-area">
+    <ul class="drag-list" id="html5-list">
+      <li class="drag-item" draggable="true" data-id="1"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i><span class="drag-num">1</span> Design system audit</li>
+      <li class="drag-item" draggable="true" data-id="2"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i><span class="drag-num">2</span> Migrate to TypeScript</li>
+      <li class="drag-item" draggable="true" data-id="3"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i><span class="drag-num">3</span> Write unit tests</li>
+      <li class="drag-item" draggable="true" data-id="4"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i><span class="drag-num">4</span> Performance profiling</li>
+      <li class="drag-item" draggable="true" data-id="5"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i><span class="drag-num">5</span> Accessibility review</li>
+    </ul>
+  </div>
+  <div class="links-row">
+    <a class="link-chip" href="https://developer.mozilla.org/en-US/docs/Web/API/HTML_Drag_and_Drop_API" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> MDN: Drag and Drop API</a>
+    <a class="link-chip" href="https://web.dev/drag-and-drop/" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> web.dev guide</a>
+  </div>
+</div>
+
+<!-- ── 2. Pointer Events ── -->
+<div class="demo-section" id="demo-pointer">
+  <div class="demo-header">
+    <div class="demo-meta">
+      <div class="demo-title">Pointer Events API</div>
+      <div class="demo-desc">Uses <span class="code-tag">pointerdown</span> / <span class="code-tag">pointermove</span> / <span class="code-tag">pointerup</span>. Works seamlessly on both mouse and touch. You control the ghost element and drop logic entirely in JS — more power, more code. Best for custom drag experiences.</div>
+    </div>
+    <span class="demo-badge badge-pointer">Pointer API</span>
+  </div>
+  <div class="demo-area">
+    <ul class="pe-list" id="pe-list">
+      <li class="pe-item" data-id="a"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i> Q1 roadmap review</li>
+      <li class="pe-item" data-id="b"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i> Hire senior engineer</li>
+      <li class="pe-item" data-id="c"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i> Ship v2.0</li>
+      <li class="pe-item" data-id="d"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i> Budget planning</li>
+      <li class="pe-item" data-id="e"><i class="ti ti-grip-vertical drag-handle" aria-hidden="true"></i> Stakeholder sync</li>
+    </ul>
+  </div>
+  <div class="links-row">
+    <a class="link-chip" href="https://developer.mozilla.org/en-US/docs/Web/API/Pointer_events" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> MDN: Pointer Events</a>
+    <a class="link-chip" href="https://css-tricks.com/creating-a-sortable-list-with-native-drag-and-drop-api/" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> CSS-Tricks tutorial</a>
+  </div>
+</div>
+
+<!-- ── 3. Keyboard accessible ── -->
+<div class="demo-section" id="demo-keyboard">
+  <div class="demo-header">
+    <div class="demo-meta">
+      <div class="demo-title">Keyboard-accessible drag</div>
+      <div class="demo-desc">Click the grip to select an item, then use <kbd>↑</kbd> <kbd>↓</kbd> to move it, <kbd>Enter</kbd> or <kbd>Space</kbd> to drop, <kbd>Escape</kbd> to cancel. Essential for WCAG 2.1 compliance — screen readers and keyboard-only users must be able to reorder.</div>
+    </div>
+    <span class="demo-badge badge-native">Accessible</span>
+  </div>
+  <div class="demo-area">
+    <ul class="kb-list" id="kb-list" aria-label="Reorderable task list">
+      <li class="kb-item" data-id="k1"><button class="kb-grab-btn" aria-label="Reorder: Research competitors" aria-pressed="false"><i class="ti ti-grip-vertical" aria-hidden="true"></i></button>Research competitors</li>
+      <li class="kb-item" data-id="k2"><button class="kb-grab-btn" aria-label="Reorder: Write proposal" aria-pressed="false"><i class="ti ti-grip-vertical" aria-hidden="true"></i></button>Write proposal</li>
+      <li class="kb-item" data-id="k3"><button class="kb-grab-btn" aria-label="Reorder: Schedule kickoff" aria-pressed="false"><i class="ti ti-grip-vertical" aria-hidden="true"></i></button>Schedule kickoff</li>
+      <li class="kb-item" data-id="k4"><button class="kb-grab-btn" aria-label="Reorder: Create wireframes" aria-pressed="false"><i class="ti ti-grip-vertical" aria-hidden="true"></i></button>Create wireframes</li>
+      <li class="kb-item" data-id="k5"><button class="kb-grab-btn" aria-label="Reorder: User testing" aria-pressed="false"><i class="ti ti-grip-vertical" aria-hidden="true"></i></button>User testing</li>
+    </ul>
+    <div class="kb-hint"><kbd>↑</kbd><kbd>↓</kbd> to move &nbsp;·&nbsp; <kbd>Enter</kbd> to drop &nbsp;·&nbsp; <kbd>Esc</kbd> to cancel</div>
+  </div>
+  <div class="links-row">
+    <a class="link-chip" href="https://www.w3.org/WAI/ARIA/apg/patterns/listbox/examples/listbox-rearrangeable/" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> ARIA APG: Reorderable listbox</a>
+    <a class="link-chip" href="https://atlassian.design/components/drag-and-drop/accessibility" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> Atlassian a11y guide</a>
+  </div>
+</div>
+
+<!-- ── 4. Grid sort ── -->
+<div class="demo-section" id="demo-grid">
+  <div class="demo-header">
+    <div class="demo-meta">
+      <div class="demo-title">Grid / card sort</div>
+      <div class="demo-desc">2D sorting across a grid layout. Drop targets are calculated by hit-testing card centres. Common in dashboards, app icon screens, and kanban boards. Uses HTML5 <span class="code-tag">draggable</span> but with 2D drop-target detection.</div>
+    </div>
+    <span class="demo-badge badge-native">Native API</span>
+  </div>
+  <div class="demo-area">
+    <ul class="grid-list" id="grid-list">
+      <li class="grid-item" draggable="true" data-id="g1"><span class="g-icon">📊</span>Analytics</li>
+      <li class="grid-item" draggable="true" data-id="g2"><span class="g-icon">🔔</span>Alerts</li>
+      <li class="grid-item" draggable="true" data-id="g3"><span class="g-icon">💬</span>Messages</li>
+      <li class="grid-item" draggable="true" data-id="g4"><span class="g-icon">📁</span>Files</li>
+      <li class="grid-item" draggable="true" data-id="g5"><span class="g-icon">⚙️</span>Settings</li>
+      <li class="grid-item" draggable="true" data-id="g6"><span class="g-icon">👤</span>Profile</li>
+      <li class="grid-item" draggable="true" data-id="g7"><span class="g-icon">📅</span>Calendar</li>
+      <li class="grid-item" draggable="true" data-id="g8"><span class="g-icon">🔍</span>Search</li>
+    </ul>
+  </div>
+  <div class="links-row">
+    <a class="link-chip" href="https://github.com/Shopify/draggable" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> @shopify/draggable</a>
+    <a class="link-chip" href="https://sortablejs.github.io/Sortable/" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> SortableJS demo</a>
+  </div>
+</div>
+
+<!-- ── 5. Horizontal ── -->
+<div class="demo-section" id="demo-horiz">
+  <div class="demo-header">
+    <div class="demo-meta">
+      <div class="demo-title">Horizontal list sort</div>
+      <div class="demo-desc">Useful for tab bars, column headers, pipeline stages, and tag editors. The same HTML5 events apply but drop-zone boundaries are on the left/right edges rather than top/bottom.</div>
+    </div>
+    <span class="demo-badge badge-native">Native API</span>
+  </div>
+  <div class="demo-area" style="overflow: hidden;">
+    <div style="margin-bottom: 0.75rem; font-size: 12px; color: var(--color-text-secondary);">Pipeline stages — drag to reorder</div>
+    <ul class="horiz-list" id="horiz-list">
+      <li class="horiz-item" draggable="true" data-id="h1">Lead</li>
+      <li class="horiz-item" draggable="true" data-id="h2">Qualified</li>
+      <li class="horiz-item" draggable="true" data-id="h3">Proposal</li>
+      <li class="horiz-item" draggable="true" data-id="h4">Negotiation</li>
+      <li class="horiz-item" draggable="true" data-id="h5">Closed Won</li>
+      <li class="horiz-item" draggable="true" data-id="h6">Closed Lost</li>
+    </ul>
+  </div>
+  <div class="links-row">
+    <a class="link-chip" href="https://docs.dndkit.com/presets/sortable" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> dnd kit sortable preset</a>
+    <a class="link-chip" href="https://react-beautiful-dnd.netlify.app/" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> react-beautiful-dnd</a>
+  </div>
+</div>
+
+<!-- ── 6. Library overview ── -->
+<div class="demo-section" id="demo-library">
+  <div class="demo-header">
+    <div class="demo-meta">
+      <div class="demo-title">Library comparison</div>
+      <div class="demo-desc">When you need more than the native API offers — animations, multi-list, touch, constraints — reach for a library.</div>
+    </div>
+    <span class="demo-badge badge-library">Libraries</span>
+  </div>
+  <div style="display: flex; flex-direction: column; gap: 10px;">
+
+    <div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 14px; font-weight: 500;">@dnd-kit/core</span>
+        <span style="font-size: 11px; background: #EEEDFE; color: #3C3489; padding: 2px 8px; border-radius: 20px;">React</span>
+      </div>
+      <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 8px;">Modular, accessible, touch-first React library. Highly composable — build your own sensors, collision algorithms, and modifiers. The current go-to for React apps.</div>
+      <a class="link-chip" href="https://dndkit.com" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> dndkit.com</a>
+    </div>
+
+    <div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 14px; font-weight: 500;">SortableJS</span>
+        <span style="font-size: 11px; background: #E1F5EE; color: #0F6E56; padding: 2px 8px; border-radius: 20px;">Vanilla / any</span>
+      </div>
+      <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 8px;">Zero-dependency, works with any framework. Supports multi-drag, swap, nested lists, and ghost clone. Extremely battle-tested. Best vanilla/Vue/Angular option.</div>
+      <a class="link-chip" href="https://sortablejs.github.io/Sortable/" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> sortablejs.github.io</a>
+    </div>
+
+    <div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 14px; font-weight: 500;">react-beautiful-dnd</span>
+        <span style="font-size: 11px; background: #EEEDFE; color: #3C3489; padding: 2px 8px; border-radius: 20px;">React</span>
+      </div>
+      <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 8px;">Atlassian's library, famous for silky spring animations. Now in maintenance mode — dnd-kit is the recommended successor. Still excellent for existing codebases.</div>
+      <a class="link-chip" href="https://github.com/atlassian/react-beautiful-dnd" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> GitHub</a>
+    </div>
+
+    <div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 14px; font-weight: 500;">Pragmatic drag and drop</span>
+        <span style="font-size: 11px; background: #EEEDFE; color: #3C3489; padding: 2px 8px; border-radius: 20px;">React / any</span>
+      </div>
+      <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 8px;">Atlassian's new successor to rbd. Framework-agnostic adapter layer built on the native DnD API. Powers Jira and Confluence. Very small core (~800 B), opt-in pieces.</div>
+      <a class="link-chip" href="https://atlassian.design/components/pragmatic-drag-and-drop/about" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> Atlassian Design</a>
+    </div>
+
+    <div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 14px; font-weight: 500;">Framer Motion drag</span>
+        <span style="font-size: 11px; background: #EEEDFE; color: #3C3489; padding: 2px 8px; border-radius: 20px;">React</span>
+      </div>
+      <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 8px;">If you're already using Framer Motion, <span class="code-tag">drag</span> + <span class="code-tag">layout</span> props give you animated reorder nearly for free. Not a full DnD solution but great for UI polish use-cases.</div>
+      <a class="link-chip" href="https://motion.dev/docs/react-drag" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> motion.dev/docs</a>
+    </div>
+
+    <div style="background: var(--color-background-primary); border: 0.5px solid var(--color-border-tertiary); border-radius: var(--border-radius-md); padding: 14px 16px;">
+      <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+        <span style="font-size: 14px; font-weight: 500;">@shopify/draggable</span>
+        <span style="font-size: 11px; background: #E1F5EE; color: #0F6E56; padding: 2px 8px; border-radius: 20px;">Vanilla / any</span>
+      </div>
+      <div style="font-size: 13px; color: var(--color-text-secondary); line-height: 1.5; margin-bottom: 8px;">Pointer-events based, mobile-first. Plugins for sortable, swappable, droppable, and mirror. More opinionated than SortableJS; excellent for complex drag behaviours.</div>
+      <a class="link-chip" href="https://shopify.github.io/draggable/" target="_blank"><i class="ti ti-external-link" aria-hidden="true"></i> shopify.github.io/draggable</a>
+    </div>
+
+  </div>
+</div>
+
+</div>
+
+<script>
+const sections = document.querySelectorAll('.demo-section');
+const navBtns = document.querySelectorAll('.nav-btn');
+
+navBtns.forEach(btn => {
+  btn.addEventListener('click', () => {
+    navBtns.forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    sections.forEach(s => s.classList.remove('visible'));
+    document.getElementById('demo-' + btn.dataset.demo).classList.add('visible');
+  });
+});
+
+function updateNums(list) {
+  list.querySelectorAll('.drag-num').forEach((n, i) => n.textContent = i + 1);
+}
+
+/* ── HTML5 draggable ── */
+(function() {
+  const list = document.getElementById('html5-list');
+  let dragged = null;
+  list.addEventListener('dragstart', e => {
+    dragged = e.target.closest('.drag-item');
+    setTimeout(() => dragged.classList.add('dragging'), 0);
+  });
+  list.addEventListener('dragend', e => {
+    dragged.classList.remove('dragging');
+    list.querySelectorAll('.drag-item').forEach(i => i.classList.remove('drag-over'));
+    updateNums(list);
+  });
+  list.addEventListener('dragover', e => {
+    e.preventDefault();
+    const over = e.target.closest('.drag-item');
+    if (!over || over === dragged) return;
+    list.querySelectorAll('.drag-item').forEach(i => i.classList.remove('drag-over'));
+    over.classList.add('drag-over');
+    const rect = over.getBoundingClientRect();
+    const after = e.clientY > rect.top + rect.height / 2;
+    list.insertBefore(dragged, after ? over.nextSibling : over);
+  });
+  list.addEventListener('drop', e => e.preventDefault());
+})();
+
+/* ── Pointer Events ── */
+(function() {
+  const list = document.getElementById('pe-list');
+  let dragging = null, placeholder = null, startY = 0, offsetY = 0;
+
+  list.addEventListener('pointerdown', e => {
+    const item = e.target.closest('.pe-item');
+    if (!item) return;
+    e.preventDefault();
+    dragging = item;
+    const rect = item.getBoundingClientRect();
+    startY = rect.top;
+    offsetY = e.clientY - rect.top;
+    dragging.classList.add('pe-dragging');
+    placeholder = document.createElement('li');
+    placeholder.className = 'pe-placeholder';
+    placeholder.style.height = rect.height + 'px';
+    dragging.after(placeholder);
+    dragging.style.position = 'fixed';
+    dragging.style.width = rect.width + 'px';
+    dragging.style.top = (e.clientY - offsetY) + 'px';
+    dragging.style.left = rect.left + 'px';
+    dragging.style.zIndex = '100';
+    item.setPointerCapture(e.pointerId);
+  });
+
+  list.addEventListener('pointermove', e => {
+    if (!dragging) return;
+    dragging.style.top = (e.clientY - offsetY) + 'px';
+    const items = [...list.querySelectorAll('.pe-item:not(.pe-dragging)')];
+    let inserted = false;
+    for (const item of items) {
+      const r = item.getBoundingClientRect();
+      if (e.clientY < r.top + r.height / 2) {
+        list.insertBefore(placeholder, item);
+        inserted = true; break;
+      }
+    }
+    if (!inserted && items.length) list.appendChild(placeholder);
+  });
+
+  list.addEventListener('pointerup', e => {
+    if (!dragging) return;
+    dragging.style.position = '';
+    dragging.style.width = '';
+    dragging.style.top = '';
+    dragging.style.left = '';
+    dragging.style.zIndex = '';
+    dragging.classList.remove('pe-dragging');
+    placeholder.replaceWith(dragging);
+    dragging = null; placeholder = null;
+  });
+})();
+
+/* ── Keyboard accessible ── */
+(function() {
+  const list = document.getElementById('kb-list');
+  let selected = null;
+
+  list.querySelectorAll('.kb-grab-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.kb-item');
+      if (selected && selected !== item) {
+        selected.classList.remove('kb-selected');
+        selected.querySelector('.kb-grab-btn').setAttribute('aria-pressed', 'false');
+      }
+      if (selected === item) {
+        selected.classList.remove('kb-selected');
+        btn.setAttribute('aria-pressed', 'false');
+        selected = null;
+      } else {
+        selected = item;
+        selected.classList.add('kb-selected');
+        btn.setAttribute('aria-pressed', 'true');
+        btn.focus();
+      }
+    });
+  });
+
+  list.addEventListener('keydown', e => {
+    if (!selected) return;
+    if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      const prev = selected.previousElementSibling;
+      if (prev) { list.insertBefore(selected, prev); selected.querySelector('.kb-grab-btn').focus(); }
+    } else if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      const next = selected.nextElementSibling;
+      if (next) { list.insertBefore(next, selected); selected.querySelector('.kb-grab-btn').focus(); }
+    } else if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      selected.classList.remove('kb-selected');
+      selected.querySelector('.kb-grab-btn').setAttribute('aria-pressed', 'false');
+      selected = null;
+    } else if (e.key === 'Escape') {
+      selected.classList.remove('kb-selected');
+      selected.querySelector('.kb-grab-btn').setAttribute('aria-pressed', 'false');
+      selected = null;
+    }
+  });
+})();
+
+/* ── Grid sort ── */
+(function() {
+  const list = document.getElementById('grid-list');
+  let dragged = null;
+  list.addEventListener('dragstart', e => {
+    dragged = e.target.closest('.grid-item');
+    setTimeout(() => dragged.classList.add('dragging'), 0);
+  });
+  list.addEventListener('dragend', () => {
+    dragged.classList.remove('dragging');
+    list.querySelectorAll('.grid-item').forEach(i => i.classList.remove('grid-over'));
+  });
+  list.addEventListener('dragover', e => {
+    e.preventDefault();
+    const over = e.target.closest('.grid-item');
+    if (!over || over === dragged) return;
+    list.querySelectorAll('.grid-item').forEach(i => i.classList.remove('grid-over'));
+    over.classList.add('grid-over');
+    const draggeds = [...list.children].indexOf(dragged);
+    const overs = [...list.children].indexOf(over);
+    if (draggeds < overs) list.insertBefore(dragged, over.nextSibling);
+    else list.insertBefore(dragged, over);
+  });
+  list.addEventListener('drop', e => e.preventDefault());
+})();
+
+/* ── Horizontal ── */
+(function() {
+  const list = document.getElementById('horiz-list');
+  let dragged = null;
+  list.addEventListener('dragstart', e => {
+    dragged = e.target.closest('.horiz-item');
+    setTimeout(() => dragged.classList.add('dragging'), 0);
+  });
+  list.addEventListener('dragend', () => {
+    dragged.classList.remove('dragging');
+    list.querySelectorAll('.horiz-item').forEach(i => i.classList.remove('horiz-over'));
+  });
+  list.addEventListener('dragover', e => {
+    e.preventDefault();
+    const over = e.target.closest('.horiz-item');
+    if (!over || over === dragged) return;
+    list.querySelectorAll('.horiz-item').forEach(i => i.classList.remove('horiz-over'));
+    over.classList.add('horiz-over');
+    const rect = over.getBoundingClientRect();
+    const after = e.clientX > rect.left + rect.width / 2;
+    list.insertBefore(dragged, after ? over.nextSibling : over);
+  });
+  list.addEventListener('drop', e => e.preventDefault());
+})();
+</script>
+
+<footer class="page-footer">
+  <a href="/">← Back to portfolio</a>
+</footer>
+</body>
+</html>
