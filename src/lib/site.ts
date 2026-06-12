@@ -54,6 +54,26 @@ export const site: SiteConfig = {
   resumePdfPath: "/benjamin-ross-resume.pdf",
   projects: [
     {
+      title: "Bayit Shopping App",
+      description:
+        "Collaborative, offline-first grocery app for the Berkeley Bayit co-op — shared shopping lists, receipt AI reconciliation, and Venmo settlement. Replaces Slack list messages and a manual spreadsheet.",
+      stack: ["React", "TypeScript", "Fastify", "PostgreSQL", "PWA"],
+      links: {
+        repo: "https://github.com/benjaminross6/bayit-shopping-app",
+      },
+      featured: true,
+    },
+    {
+      title: "Tapp (Tally App)",
+      description:
+        "SwiftUI iOS app for creating, sharing, and syncing tallies with friends — Arabic, Roman, or stick-number displays, scheduled resets, fireworks effects, and Firebase-backed live sync.",
+      stack: ["Swift", "SwiftUI", "Firebase", "iOS"],
+      links: {
+        repo: "https://github.com/benjaminross6/Tally-App",
+      },
+      featured: true,
+    },
+    {
       title: "Pairs trading backtest (IEOR 198 final)",
       description:
         "Final project for the IEOR 198 DeCal at UC Berkeley: a z-score–based pairs trading strategy on four correlated stock pairs (KO/PEP, MS/GS, NFLX/DIS, V/MA), with full backtesting and a 2024 out-of-sample evaluation using Yahoo Finance data.",
