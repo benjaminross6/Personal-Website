@@ -34,6 +34,8 @@ export type SiteConfig = {
   bookingUrl: string;
   socials: SocialLinks;
   resumePdfPath: string;
+  /** Filename suggested when the resume PDF is saved */
+  resumePdfFilename: string;
   projects: Project[];
 };
 
@@ -52,6 +54,7 @@ export const site: SiteConfig = {
     github: "https://github.com/benjaminross6",
   },
   resumePdfPath: "/resume.pdf",
+  resumePdfFilename: "benjamin-ross-resume.pdf",
   projects: [
     {
       title: "Bayit Shopping App",

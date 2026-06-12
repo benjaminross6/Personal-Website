@@ -26,7 +26,7 @@ export default function ResumePage() {
             target="_blank"
             rel="noreferrer"
           >
-            resume.pdf
+            {site.resumePdfFilename}
           </a>
         </p>
         <p className="mt-4 text-sm leading-6 text-foreground/70">
