@@ -51,7 +51,7 @@ export const site: SiteConfig = {
     instagram: "https://www.instagram.com/beenjaminss/",
     github: "https://github.com/benjaminross6",
   },
-  resumePdfPath: "/benjamin-ross-resume.pdf",
+  resumePdfPath: "/resume.pdf",
   projects: [
     {
       title: "Bayit Shopping App",
