@@ -57,6 +57,17 @@ export const site: SiteConfig = {
   resumePdfFilename: "benjamin-ross-resume.pdf",
   projects: [
     {
+      title: "Wikipedia Map",
+      description:
+        "Explore Wikipedia as a place you can get lost in — a heat map of encyclopedia density, a case board of what happened here, and every article as a map of the places it names.",
+      stack: ["React", "Vite", "Leaflet", "Wikipedia API"],
+      links: {
+        live: "/projects/wikipedia-map/",
+        repo: "https://github.com/benjaminross6/wikipedia-map",
+      },
+      featured: true,
+    },
+    {
       title: "Bayit Shopping App",
       description:
         "Collaborative, offline-first grocery app for the Berkeley Bayit co-op — shared shopping lists, receipt AI reconciliation, and Venmo settlement. Replaces Slack list messages and a manual spreadsheet.",
