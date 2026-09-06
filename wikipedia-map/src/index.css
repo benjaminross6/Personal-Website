@@ -1,0 +1,36 @@
+@import 'tailwindcss';
+@import 'leaflet/dist/leaflet.css';
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  background: #0f1419;
+  color: #e8e4dc;
+}
+
+.leaflet-container {
+  width: 100%;
+  height: 100%;
+  background: #0f1419;
+  font-family: system-ui, sans-serif;
+}
+
+.leaflet-control-attribution {
+  background: rgba(15, 20, 25, 0.85) !important;
+  color: #6b7280 !important;
+  font-size: 10px !important;
+}
+
+.leaflet-tile-pane {
+  filter: brightness(0.6) contrast(1.1) saturate(0.3);
+}

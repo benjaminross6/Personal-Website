@@ -63,7 +63,7 @@ export const site: SiteConfig = {
       stack: ["React", "Vite", "Leaflet", "Wikipedia API"],
       links: {
         live: "/projects/wikipedia-map/",
-        repo: "https://github.com/benjaminross6/wikipedia-map",
+        repo: "https://github.com/benjaminross6/Personal-Website/tree/main/wikipedia-map",
       },
       featured: true,
     },

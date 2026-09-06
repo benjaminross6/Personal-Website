@@ -40,3 +40,7 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# wikipedia-map (Vite subproject)
+wikipedia-map/node_modules
+wikipedia-map/dist

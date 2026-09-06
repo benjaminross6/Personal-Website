@@ -1,0 +1,937 @@
+{
+  "version": 1,
+  "tileLatSize": 5,
+  "tileLngSize": 5,
+  "totalPoints": 930,
+  "generated": "2026-09-06T12:56:45.980Z",
+  "tiles": [
+    {
+      "id": "-1_7",
+      "latMin": -5,
+      "latMax": 0,
+      "lngMin": 35,
+      "lngMax": 40,
+      "count": 7
+    },
+    {
+      "id": "-2_21",
+      "latMin": -10,
+      "latMax": -5,
+      "lngMin": 105,
+      "lngMax": 110,
+      "count": 8
+    },
+    {
+      "id": "-2_7",
+      "latMin": -10,
+      "latMax": -5,
+      "lngMin": 35,
+      "lngMax": 40,
+      "count": 7
+    },
+    {
+      "id": "-3_-15",
+      "latMin": -15,
+      "latMax": -10,
+      "lngMin": -75,
+      "lngMax": -70,
+      "count": 16
+    },
+    {
+      "id": "-3_-16",
+      "latMin": -15,
+      "latMax": -10,
+      "lngMin": -80,
+      "lngMax": -75,
+      "count": 7
+    },
+    {
+      "id": "-4_6",
+      "latMin": -20,
+      "latMax": -15,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 2
+    },
+    {
+      "id": "-5_-10",
+      "latMin": -25,
+      "latMax": -20,
+      "lngMin": -50,
+      "lngMax": -45,
+      "count": 10
+    },
+    {
+      "id": "-5_-9",
+      "latMin": -25,
+      "latMax": -20,
+      "lngMin": -45,
+      "lngMax": -40,
+      "count": 9
+    },
+    {
+      "id": "-5_6",
+      "latMin": -25,
+      "latMax": -20,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 5
+    },
+    {
+      "id": "-6_5",
+      "latMin": -30,
+      "latMax": -25,
+      "lngMin": 25,
+      "lngMax": 30,
+      "count": 7
+    },
+    {
+      "id": "-7_-12",
+      "latMin": -35,
+      "latMax": -30,
+      "lngMin": -60,
+      "lngMax": -55,
+      "count": 7
+    },
+    {
+      "id": "-7_30",
+      "latMin": -35,
+      "latMax": -30,
+      "lngMin": 150,
+      "lngMax": 155,
+      "count": 10
+    },
+    {
+      "id": "-8_-12",
+      "latMin": -40,
+      "latMax": -35,
+      "lngMin": -60,
+      "lngMax": -55,
+      "count": 2
+    },
+    {
+      "id": "-8_28",
+      "latMin": -40,
+      "latMax": -35,
+      "lngMin": 140,
+      "lngMax": 145,
+      "count": 6
+    },
+    {
+      "id": "-8_29",
+      "latMin": -40,
+      "latMax": -35,
+      "lngMin": 145,
+      "lngMax": 150,
+      "count": 2
+    },
+    {
+      "id": "0_-15",
+      "latMin": 0,
+      "latMax": 5,
+      "lngMin": -75,
+      "lngMax": -70,
+      "count": 4
+    },
+    {
+      "id": "0_20",
+      "latMin": 0,
+      "latMax": 5,
+      "lngMin": 100,
+      "lngMax": 105,
+      "count": 8
+    },
+    {
+      "id": "1_-15",
+      "latMin": 5,
+      "latMax": 10,
+      "lngMin": -75,
+      "lngMax": -70,
+      "count": 3
+    },
+    {
+      "id": "1_0",
+      "latMin": 5,
+      "latMax": 10,
+      "lngMin": 0,
+      "lngMax": 5,
+      "count": 8
+    },
+    {
+      "id": "1_7",
+      "latMin": 5,
+      "latMax": 10,
+      "lngMin": 35,
+      "lngMax": 40,
+      "count": 7
+    },
+    {
+      "id": "10_-1",
+      "latMin": 50,
+      "latMax": 55,
+      "lngMin": -5,
+      "lngMax": 0,
+      "count": 8
+    },
+    {
+      "id": "10_-2",
+      "latMin": 50,
+      "latMax": 55,
+      "lngMin": -10,
+      "lngMax": -5,
+      "count": 8
+    },
+    {
+      "id": "10_0",
+      "latMin": 50,
+      "latMax": 55,
+      "lngMin": 0,
+      "lngMax": 5,
+      "count": 26
+    },
+    {
+      "id": "10_1",
+      "latMin": 50,
+      "latMax": 55,
+      "lngMin": 5,
+      "lngMax": 10,
+      "count": 16
+    },
+    {
+      "id": "10_2",
+      "latMin": 50,
+      "latMax": 55,
+      "lngMin": 10,
+      "lngMax": 15,
+      "count": 18
+    },
+    {
+      "id": "10_4",
+      "latMin": 50,
+      "latMax": 55,
+      "lngMin": 20,
+      "lngMax": 25,
+      "count": 8
+    },
+    {
+      "id": "10_6",
+      "latMin": 50,
+      "latMax": 55,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 6
+    },
+    {
+      "id": "11_-1",
+      "latMin": 55,
+      "latMax": 60,
+      "lngMin": -5,
+      "lngMax": 0,
+      "count": 8
+    },
+    {
+      "id": "11_2",
+      "latMin": 55,
+      "latMax": 60,
+      "lngMin": 10,
+      "lngMax": 15,
+      "count": 12
+    },
+    {
+      "id": "11_3",
+      "latMin": 55,
+      "latMax": 60,
+      "lngMin": 15,
+      "lngMax": 20,
+      "count": 8
+    },
+    {
+      "id": "11_5",
+      "latMin": 55,
+      "latMax": 60,
+      "lngMin": 25,
+      "lngMax": 30,
+      "count": 2
+    },
+    {
+      "id": "11_6",
+      "latMin": 55,
+      "latMax": 60,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 3
+    },
+    {
+      "id": "11_7",
+      "latMin": 55,
+      "latMax": 60,
+      "lngMin": 35,
+      "lngMax": 40,
+      "count": 11
+    },
+    {
+      "id": "12_-30",
+      "latMin": 60,
+      "latMax": 65,
+      "lngMin": -150,
+      "lngMax": -145,
+      "count": 4
+    },
+    {
+      "id": "12_-31",
+      "latMin": 60,
+      "latMax": 65,
+      "lngMin": -155,
+      "lngMax": -150,
+      "count": 2
+    },
+    {
+      "id": "12_-5",
+      "latMin": 60,
+      "latMax": 65,
+      "lngMin": -25,
+      "lngMax": -20,
+      "count": 7
+    },
+    {
+      "id": "12_2",
+      "latMin": 60,
+      "latMax": 65,
+      "lngMin": 10,
+      "lngMax": 15,
+      "count": 3
+    },
+    {
+      "id": "12_4",
+      "latMin": 60,
+      "latMax": 65,
+      "lngMin": 20,
+      "lngMax": 25,
+      "count": 7
+    },
+    {
+      "id": "12_6",
+      "latMin": 60,
+      "latMax": 65,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 4
+    },
+    {
+      "id": "2_19",
+      "latMin": 10,
+      "latMax": 15,
+      "lngMin": 95,
+      "lngMax": 100,
+      "count": 1
+    },
+    {
+      "id": "2_20",
+      "latMin": 10,
+      "latMax": 15,
+      "lngMin": 100,
+      "lngMax": 105,
+      "count": 19
+    },
+    {
+      "id": "2_21",
+      "latMin": 10,
+      "latMax": 15,
+      "lngMin": 105,
+      "lngMax": 110,
+      "count": 11
+    },
+    {
+      "id": "2_24",
+      "latMin": 10,
+      "latMax": 15,
+      "lngMin": 120,
+      "lngMax": 125,
+      "count": 8
+    },
+    {
+      "id": "3_-1",
+      "latMin": 15,
+      "latMax": 20,
+      "lngMin": -5,
+      "lngMax": 0,
+      "count": 7
+    },
+    {
+      "id": "3_-20",
+      "latMin": 15,
+      "latMax": 20,
+      "lngMin": -100,
+      "lngMax": -95,
+      "count": 15
+    },
+    {
+      "id": "3_-21",
+      "latMin": 15,
+      "latMax": 20,
+      "lngMin": -105,
+      "lngMax": -100,
+      "count": 1
+    },
+    {
+      "id": "3_14",
+      "latMin": 15,
+      "latMax": 20,
+      "lngMin": 70,
+      "lngMax": 75,
+      "count": 10
+    },
+    {
+      "id": "4_-18",
+      "latMin": 20,
+      "latMax": 25,
+      "lngMin": -90,
+      "lngMax": -85,
+      "count": 8
+    },
+    {
+      "id": "4_-20",
+      "latMin": 20,
+      "latMax": 25,
+      "lngMin": -100,
+      "lngMax": -95,
+      "count": 2
+    },
+    {
+      "id": "4_-32",
+      "latMin": 20,
+      "latMax": 25,
+      "lngMin": -160,
+      "lngMax": -155,
+      "count": 15
+    },
+    {
+      "id": "4_21",
+      "latMin": 20,
+      "latMax": 25,
+      "lngMin": 105,
+      "lngMax": 110,
+      "count": 7
+    },
+    {
+      "id": "4_22",
+      "latMin": 20,
+      "latMax": 25,
+      "lngMin": 110,
+      "lngMax": 115,
+      "count": 9
+    },
+    {
+      "id": "4_23",
+      "latMin": 20,
+      "latMax": 25,
+      "lngMin": 115,
+      "lngMax": 120,
+      "count": 1
+    },
+    {
+      "id": "4_7",
+      "latMin": 20,
+      "latMax": 25,
+      "lngMin": 35,
+      "lngMax": 40,
+      "count": 7
+    },
+    {
+      "id": "4_8",
+      "latMin": 20,
+      "latMax": 25,
+      "lngMin": 40,
+      "lngMax": 45,
+      "count": 1
+    },
+    {
+      "id": "5_-19",
+      "latMin": 25,
+      "latMax": 30,
+      "lngMin": -95,
+      "lngMax": -90,
+      "count": 5
+    },
+    {
+      "id": "5_15",
+      "latMin": 25,
+      "latMax": 30,
+      "lngMin": 75,
+      "lngMax": 80,
+      "count": 27
+    },
+    {
+      "id": "5_6",
+      "latMin": 25,
+      "latMax": 30,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 14
+    },
+    {
+      "id": "5_7",
+      "latMin": 25,
+      "latMax": 30,
+      "lngMin": 35,
+      "lngMax": 40,
+      "count": 1
+    },
+    {
+      "id": "6_-16",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": -80,
+      "lngMax": -75,
+      "count": 5
+    },
+    {
+      "id": "6_-17",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": -85,
+      "lngMax": -80,
+      "count": 9
+    },
+    {
+      "id": "6_-18",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": -90,
+      "lngMax": -85,
+      "count": 1
+    },
+    {
+      "id": "6_-19",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": -95,
+      "lngMax": -90,
+      "count": 2
+    },
+    {
+      "id": "6_-2",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": -10,
+      "lngMax": -5,
+      "count": 7
+    },
+    {
+      "id": "6_-24",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": -120,
+      "lngMax": -115,
+      "count": 11
+    },
+    {
+      "id": "6_24",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 120,
+      "lngMax": 125,
+      "count": 11
+    },
+    {
+      "id": "6_25",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 125,
+      "lngMax": 130,
+      "count": 3
+    },
+    {
+      "id": "6_26",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 130,
+      "lngMax": 135,
+      "count": 14
+    },
+    {
+      "id": "6_27",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 135,
+      "lngMax": 140,
+      "count": 7
+    },
+    {
+      "id": "6_28",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 140,
+      "lngMax": 145,
+      "count": 1
+    },
+    {
+      "id": "6_5",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 25,
+      "lngMax": 30,
+      "count": 5
+    },
+    {
+      "id": "6_6",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 10
+    },
+    {
+      "id": "6_7",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 35,
+      "lngMax": 40,
+      "count": 17
+    },
+    {
+      "id": "6_8",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 40,
+      "lngMax": 45,
+      "count": 8
+    },
+    {
+      "id": "6_9",
+      "latMin": 30,
+      "latMax": 35,
+      "lngMin": 45,
+      "lngMax": 50,
+      "count": 1
+    },
+    {
+      "id": "7_-1",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": -5,
+      "lngMax": 0,
+      "count": 3
+    },
+    {
+      "id": "7_-15",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": -75,
+      "lngMax": -70,
+      "count": 1
+    },
+    {
+      "id": "7_-16",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": -80,
+      "lngMax": -75,
+      "count": 20
+    },
+    {
+      "id": "7_-2",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": -10,
+      "lngMax": -5,
+      "count": 8
+    },
+    {
+      "id": "7_-21",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": -105,
+      "lngMax": -100,
+      "count": 3
+    },
+    {
+      "id": "7_-22",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": -110,
+      "lngMax": -105,
+      "count": 1
+    },
+    {
+      "id": "7_-25",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": -125,
+      "lngMax": -120,
+      "count": 9
+    },
+    {
+      "id": "7_0",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 0,
+      "lngMax": 5,
+      "count": 7
+    },
+    {
+      "id": "7_10",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 50,
+      "lngMax": 55,
+      "count": 8
+    },
+    {
+      "id": "7_13",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 65,
+      "lngMax": 70,
+      "count": 6
+    },
+    {
+      "id": "7_2",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 10,
+      "lngMax": 15,
+      "count": 1
+    },
+    {
+      "id": "7_23",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 115,
+      "lngMax": 120,
+      "count": 6
+    },
+    {
+      "id": "7_25",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 125,
+      "lngMax": 130,
+      "count": 10
+    },
+    {
+      "id": "7_26",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 130,
+      "lngMax": 135,
+      "count": 2
+    },
+    {
+      "id": "7_27",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 135,
+      "lngMax": 140,
+      "count": 16
+    },
+    {
+      "id": "7_28",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 140,
+      "lngMax": 145,
+      "count": 3
+    },
+    {
+      "id": "7_4",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 20,
+      "lngMax": 25,
+      "count": 10
+    },
+    {
+      "id": "7_5",
+      "latMin": 35,
+      "latMax": 40,
+      "lngMin": 25,
+      "lngMax": 30,
+      "count": 1
+    },
+    {
+      "id": "8_-1",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": -5,
+      "lngMax": 0,
+      "count": 7
+    },
+    {
+      "id": "8_-14",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": -70,
+      "lngMax": -65,
+      "count": 1
+    },
+    {
+      "id": "8_-15",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": -75,
+      "lngMax": -70,
+      "count": 21
+    },
+    {
+      "id": "8_-16",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": -80,
+      "lngMax": -75,
+      "count": 17
+    },
+    {
+      "id": "8_-18",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": -90,
+      "lngMax": -85,
+      "count": 10
+    },
+    {
+      "id": "8_-2",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": -10,
+      "lngMax": -5,
+      "count": 7
+    },
+    {
+      "id": "8_-21",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": -105,
+      "lngMax": -100,
+      "count": 2
+    },
+    {
+      "id": "8_-22",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": -110,
+      "lngMax": -105,
+      "count": 1
+    },
+    {
+      "id": "8_0",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": 0,
+      "lngMax": 5,
+      "count": 9
+    },
+    {
+      "id": "8_13",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": 65,
+      "lngMax": 70,
+      "count": 2
+    },
+    {
+      "id": "8_2",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": 10,
+      "lngMax": 15,
+      "count": 34
+    },
+    {
+      "id": "8_23",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": 115,
+      "lngMax": 120,
+      "count": 6
+    },
+    {
+      "id": "8_3",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": 15,
+      "lngMax": 20,
+      "count": 2
+    },
+    {
+      "id": "8_5",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": 25,
+      "lngMax": 30,
+      "count": 15
+    },
+    {
+      "id": "8_6",
+      "latMin": 40,
+      "latMax": 45,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 1
+    },
+    {
+      "id": "9_-1",
+      "latMin": 45,
+      "latMax": 50,
+      "lngMin": -5,
+      "lngMax": 0,
+      "count": 5
+    },
+    {
+      "id": "9_-15",
+      "latMin": 45,
+      "latMax": 50,
+      "lngMin": -75,
+      "lngMax": -70,
+      "count": 15
+    },
+    {
+      "id": "9_-25",
+      "latMin": 45,
+      "latMax": 50,
+      "lngMin": -125,
+      "lngMax": -120,
+      "count": 15
+    },
+    {
+      "id": "9_0",
+      "latMin": 45,
+      "latMax": 50,
+      "lngMin": 0,
+      "lngMax": 5,
+      "count": 25
+    },
+    {
+      "id": "9_2",
+      "latMin": 45,
+      "latMax": 50,
+      "lngMin": 10,
+      "lngMax": 15,
+      "count": 22
+    },
+    {
+      "id": "9_3",
+      "latMin": 45,
+      "latMax": 50,
+      "lngMin": 15,
+      "lngMax": 20,
+      "count": 18
+    },
+    {
+      "id": "9_5",
+      "latMin": 45,
+      "latMax": 50,
+      "lngMin": 25,
+      "lngMax": 30,
+      "count": 1
+    },
+    {
+      "id": "9_6",
+      "latMin": 45,
+      "latMax": 50,
+      "lngMin": 30,
+      "lngMax": 35,
+      "count": 2
+    }
+  ]
+}

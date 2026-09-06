@@ -6,7 +6,10 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "dev:map": "npm run dev --prefix wikipedia-map",
+    "build:map": "npm run build:site --prefix wikipedia-map",
+    "build:tiles": "npm run build:tiles --prefix wikipedia-map"
   },
   "dependencies": {
     "gray-matter": "^4.0.3",
