@@ -150,6 +150,16 @@ export const site: SiteConfig = {
       },
       featured: true,
     },
+    {
+      title: "Current",
+      description:
+        "A circuit puzzle — rotate tiles on a grid so power can travel from the source to the goal. Fourteen handcrafted levels, with undo, reset, and keyboard play.",
+      stack: ["HTML", "CSS", "JavaScript"],
+      links: {
+        live: "/projects/current.html",
+      },
+      featured: true,
+    },
   ],
 };
 
