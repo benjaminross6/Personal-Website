@@ -1,0 +1,579 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<meta name="color-scheme" content="light dark"/>
+<title>Current</title>
+<link rel="icon" type="image/svg+xml" href="/favicon.svg"/>
+<meta name="description" content="Rotate tiles so the current can reach the goal."/>
+<style>
+  :root {
+    --background: #ffffff;
+    --foreground: #171717;
+    --muted: rgba(23, 23, 23, 0.7);
+    --faint: rgba(23, 23, 23, 0.5);
+    --line: rgba(0, 0, 0, 0.1);
+    --card: #ffffff;
+    --tile: rgba(0, 0, 0, 0.02);
+    --hover: rgba(0, 0, 0, 0.05);
+    --wire: rgba(23, 23, 23, 0.72);
+    --current: #b45309;
+    --current-soft: rgba(180, 83, 9, 0.12);
+    --glow: rgba(180, 83, 9, 0.55);
+    --shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
+    --sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Helvetica, Arial, sans-serif;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --background: #0a0a0a;
+      --foreground: #ededed;
+      --muted: rgba(237, 237, 237, 0.7);
+      --faint: rgba(237, 237, 237, 0.5);
+      --line: rgba(255, 255, 255, 0.1);
+      --card: #000000;
+      --tile: rgba(255, 255, 255, 0.03);
+      --hover: rgba(255, 255, 255, 0.08);
+      --wire: rgba(237, 237, 237, 0.78);
+      --current: #f5c16c;
+      --current-soft: rgba(245, 193, 108, 0.14);
+      --glow: rgba(245, 193, 108, 0.55);
+      --shadow: none;
+    }
+  }
+
+  * { box-sizing: border-box; }
+
+  html, body { margin: 0; padding: 0; }
+
+  body {
+    min-height: 100dvh;
+    background: var(--background);
+    color: var(--foreground);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.5;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  .page {
+    max-width: 40rem;
+    margin: 0 auto;
+    padding: 1.5rem 1.5rem 3.5rem;
+  }
+
+  .back {
+    margin: 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .back a {
+    color: var(--foreground);
+    text-decoration: none;
+  }
+
+  .back a:hover { text-decoration: underline; }
+
+  h1 {
+    margin: 1.25rem 0 0;
+    font-size: 2.25rem;
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+  }
+
+  .lede {
+    margin: 0.75rem 0 0;
+    max-width: 36rem;
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  .meta {
+    margin: 1.25rem 0 0;
+    font-size: 0.875rem;
+    font-weight: 600;
+  }
+
+  .hint {
+    margin: 0.35rem 0 0;
+    font-size: 0.875rem;
+    color: var(--muted);
+  }
+
+  .panel {
+    margin-top: 1rem;
+    padding: 1rem;
+    border: 1px solid var(--line);
+    border-radius: 1.5rem;
+    background: var(--card);
+    box-shadow: var(--shadow);
+  }
+
+  .panel.is-won { border-color: color-mix(in srgb, var(--current) 65%, var(--line)); }
+
+  .board {
+    display: grid;
+    gap: 2px;
+    width: min(100%, calc(var(--cols) * 4.6rem));
+    margin-inline: auto;
+    padding: 0.75rem;
+    border-radius: 1rem;
+    background: var(--tile);
+  }
+
+  .gap,
+  .tile {
+    aspect-ratio: 1;
+    border-radius: 1rem;
+    min-width: 0;
+  }
+
+  .tile {
+    appearance: none;
+    margin: 0;
+    padding: 0;
+    border: 1px solid var(--line);
+    background: var(--card);
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+    touch-action: manipulation;
+  }
+
+  .tile:disabled {
+    cursor: default;
+    opacity: 1;
+  }
+
+  .tile:not(:disabled):hover { background: var(--hover); }
+
+  .tile:focus-visible,
+  .ctrl:focus-visible,
+  .back a:focus-visible {
+    outline: 2px solid var(--foreground);
+    outline-offset: 3px;
+  }
+
+  .tile.is-live {
+    border-color: color-mix(in srgb, var(--current) 55%, var(--line));
+    background: var(--current-soft);
+  }
+
+  .tile,
+  .tile svg { overflow: visible; }
+
+  .tile.is-live { position: relative; z-index: 1; }
+
+  .tile svg { display: block; width: 100%; height: 100%; }
+
+  .tile line {
+    stroke: var(--wire);
+    stroke-width: 10;
+    stroke-linecap: round;
+  }
+
+  .tile .hub { fill: var(--wire); }
+
+  .tile .port { fill: var(--current); }
+
+  .tile .bulb {
+    fill: transparent;
+    stroke: var(--wire);
+    stroke-width: 4;
+  }
+
+  .tile .filament { fill: var(--wire); }
+
+  .tile.is-live line { stroke: var(--current); }
+  .tile.is-live .hub { fill: var(--current); }
+
+  .tile.is-live .bulb {
+    fill: var(--current);
+    stroke: var(--current);
+  }
+
+  .tile.is-live .filament { fill: var(--background); }
+
+  .panel.is-won .tile.goal.is-live .bulb {
+    filter: drop-shadow(0 0 6px var(--glow));
+  }
+
+  .win {
+    display: none;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 0.75rem;
+    margin-top: 0.9rem;
+    padding: 0.7rem 1rem;
+    border: 1px solid color-mix(in srgb, var(--current) 70%, var(--line));
+    border-radius: 999px;
+    background: var(--current-soft);
+    font-size: 0.875rem;
+  }
+
+  .win.is-on { display: flex; }
+
+  .win strong {
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+
+  .win span { color: var(--muted); }
+
+  .toolbar {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 0.75rem 1rem;
+    margin-top: 0.9rem;
+  }
+
+  .controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+
+  .ctrl {
+    height: 2.75rem;
+    padding: 0 1.15rem;
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    background: transparent;
+    color: var(--foreground);
+    font: inherit;
+    font-size: 0.875rem;
+    font-weight: 600;
+    cursor: pointer;
+  }
+
+  .ctrl:hover:not(:disabled) { background: var(--hover); }
+
+  .ctrl:disabled {
+    opacity: 0.4;
+    cursor: default;
+  }
+
+  .ctrl.primary {
+    border-color: var(--foreground);
+    background: var(--foreground);
+    color: var(--background);
+  }
+
+  .ctrl.primary:hover:not(:disabled) { opacity: 0.9; }
+
+  .moves {
+    margin: 0;
+    font-size: 0.8125rem;
+    color: var(--faint);
+  }
+
+  .keys {
+    margin: 1rem 0 0;
+    font-size: 0.75rem;
+    color: var(--faint);
+  }
+
+  @media (max-width: 420px) {
+    .win { border-radius: 1rem; flex-direction: column; align-items: flex-start; }
+    .page { padding-inline: 1rem; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .tile:active { transform: none; }
+    .panel.is-won .tile.goal.is-live .bulb { filter: none; }
+  }
+</style>
+</head>
+<body>
+  <div class="page">
+    <p class="back"><a href="/projects">← Projects</a></p>
+    <header>
+      <h1>Current</h1>
+      <p class="lede">Rotate tiles so the current can reach the goal.</p>
+    </header>
+    <p class="meta" id="meta"></p>
+    <p class="hint" id="hint"></p>
+    <section class="panel" id="panel">
+      <div class="board" id="board" role="group" aria-label="Circuit board"></div>
+      <div class="win" id="win" role="status" aria-live="polite"></div>
+      <div class="toolbar">
+        <div class="controls">
+          <button type="button" class="ctrl" id="undo">Undo</button>
+          <button type="button" class="ctrl" id="reset">Reset</button>
+          <button type="button" class="ctrl" id="next">Next level</button>
+        </div>
+        <p class="moves" id="moves"></p>
+      </div>
+    </section>
+    <p class="keys">Arrows move · Enter turns · Z undo · R reset · N next</p>
+  </div>
+  <script src="/projects/current.js"></script>
+  <script>
+    (function () {
+      "use strict";
+      const game = window.Current;
+      const levels = game.levels;
+      const board = document.getElementById("board");
+      const panel = document.getElementById("panel");
+      const meta = document.getElementById("meta");
+      const hint = document.getElementById("hint");
+      const win = document.getElementById("win");
+      const movesEl = document.getElementById("moves");
+      const undoBtn = document.getElementById("undo");
+      const resetBtn = document.getElementById("reset");
+      const nextBtn = document.getElementById("next");
+      const STORE = "current-puzzle-level";
+
+      let state = null;
+      let wasSolved = false;
+
+      function level() {
+        return levels[state.index];
+      }
+
+      function startIndex() {
+        const params = new URLSearchParams(location.search);
+        const query = Number(params.get("level"));
+        if (query >= 1 && query <= levels.length) return query - 1;
+        try {
+          const saved = Number(localStorage.getItem(STORE));
+          if (saved >= 0 && saved < levels.length) return saved;
+        } catch (err) {
+          /* private mode */
+        }
+        return 0;
+      }
+
+      function remember() {
+        try {
+          localStorage.setItem(STORE, String(state.index));
+        } catch (err) {
+          /* ignore quota / private mode */
+        }
+      }
+
+      function edgePoint(dir, radius) {
+        const ends = [
+          [50, 0],
+          [100, 50],
+          [50, 100],
+          [0, 50],
+        ];
+        const end = ends[dir];
+        const dx = end[0] - 50;
+        const dy = end[1] - 50;
+        const len = Math.hypot(dx, dy) || 1;
+        return {
+          x1: 50 + (dx / len) * radius,
+          y1: 50 + (dy / len) * radius,
+          x2: end[0],
+          y2: end[1],
+        };
+      }
+
+      function svgFor(tile) {
+        const open = game.openings(tile.type, tile.rot);
+        const inner = tile.type === "goal" ? 18 : tile.type === "source" ? 14 : 0;
+        const lines = open
+          .map(function (dir) {
+            const p = edgePoint(dir, inner);
+            return (
+              '<line x1="' + p.x1.toFixed(2) +
+              '" y1="' + p.y1.toFixed(2) +
+              '" x2="' + p.x2 +
+              '" y2="' + p.y2 +
+              '"/>'
+            );
+          })
+          .join("");
+        let mark = '<circle class="hub" cx="50" cy="50" r="5"/>';
+        if (tile.type === "source") mark = '<circle class="port" cx="50" cy="50" r="13"/>';
+        if (tile.type === "goal") {
+          mark =
+            '<circle class="bulb" cx="50" cy="50" r="16"/>' +
+            '<circle class="filament" cx="50" cy="50" r="3.5"/>';
+        }
+        return '<svg viewBox="0 0 100 100" overflow="visible" aria-hidden="true">' + lines + mark + "</svg>";
+      }
+
+      function focusableTiles() {
+        return Array.from(board.querySelectorAll("button.tile:not(:disabled)"));
+      }
+
+      function setRoving(button) {
+        focusableTiles().forEach(function (el) {
+          el.tabIndex = el === button ? 0 : -1;
+        });
+      }
+
+      function buildBoard() {
+        const spec = level();
+        board.style.setProperty("--cols", String(spec.cols));
+        board.style.gridTemplateColumns = "repeat(" + spec.cols + ", minmax(0, 1fr))";
+        board.replaceChildren();
+        let first = null;
+        state.tiles.forEach(function (tile, index) {
+          if (tile.type === "empty") {
+            const gap = document.createElement("div");
+            gap.className = "gap";
+            gap.setAttribute("aria-hidden", "true");
+            board.appendChild(gap);
+            return;
+          }
+          const button = document.createElement("button");
+          button.type = "button";
+          button.className = "tile " + tile.type;
+          button.dataset.index = String(index);
+          button.dataset.row = String(tile.row);
+          button.dataset.col = String(tile.col);
+          button.disabled = tile.fixed;
+          button.tabIndex = -1;
+          button.innerHTML = svgFor(tile);
+          button.setAttribute("aria-label", game.tileLabel(tile));
+          if (!tile.fixed && !first) first = button;
+          board.appendChild(button);
+        });
+        if (first) first.tabIndex = 0;
+      }
+
+      function paint() {
+        const spec = level();
+        const result = game.power(state.tiles, spec.cols, spec.rows);
+        board.querySelectorAll("button.tile").forEach(function (button) {
+          const tile = state.tiles[Number(button.dataset.index)];
+          button.classList.toggle("is-live", result.flags[Number(button.dataset.index)]);
+          button.innerHTML = svgFor(tile);
+          button.setAttribute("aria-label", game.tileLabel(tile));
+        });
+
+        const solved = result.solved;
+        panel.classList.toggle("is-won", solved);
+        win.classList.toggle("is-on", solved);
+        if (solved) {
+          win.innerHTML = "<strong>Connected.</strong><span>The circuit is complete.</span>";
+        } else {
+          win.innerHTML = "";
+        }
+
+        const last = state.index === levels.length - 1;
+        nextBtn.textContent = last ? "Play again" : "Next level";
+        nextBtn.disabled = !solved;
+        nextBtn.classList.toggle("primary", solved);
+        undoBtn.disabled = state.undo.length === 0;
+        const clean =
+          state.moves === 0 &&
+          state.tiles.every(function (tile) {
+            return tile.rot === tile.initial;
+          });
+        resetBtn.disabled = clean;
+        movesEl.textContent =
+          state.moves === 0 ? "No moves yet" : state.moves === 1 ? "1 move" : state.moves + " moves";
+
+        if (solved && !wasSolved) nextBtn.focus();
+        wasSolved = solved;
+      }
+
+      function load(index) {
+        state = game.createState(index);
+        wasSolved = false;
+        const spec = level();
+        document.title = "Current — " + spec.name;
+        meta.textContent = "Level " + (index + 1) + " of " + levels.length + " · " + spec.name;
+        hint.hidden = !spec.hint;
+        hint.textContent = spec.hint || "";
+        buildBoard();
+        paint();
+        if (!wasSolved) {
+          const first = board.querySelector("button.tile:not(:disabled)");
+          if (first) first.focus();
+        }
+        remember();
+      }
+
+      function refresh() {
+        paint();
+      }
+
+      board.addEventListener("click", function (event) {
+        const button = event.target.closest("button.tile");
+        if (!button || button.disabled) return;
+        setRoving(button);
+        if (game.turnTile(state, Number(button.dataset.index))) refresh();
+      });
+
+      undoBtn.addEventListener("click", function () {
+        if (game.undo(state)) refresh();
+      });
+
+      resetBtn.addEventListener("click", function () {
+        if (game.reset(state)) refresh();
+      });
+
+      nextBtn.addEventListener("click", function () {
+        if (nextBtn.disabled) return;
+        load((state.index + 1) % levels.length);
+      });
+
+      window.addEventListener("keydown", function (event) {
+        if (event.altKey) return;
+        const arrows = {
+          ArrowUp: [-1, 0],
+          ArrowDown: [1, 0],
+          ArrowLeft: [0, -1],
+          ArrowRight: [0, 1],
+        };
+        if (arrows[event.key]) {
+          event.preventDefault();
+          const active = document.activeElement;
+          if (!active || !active.classList || !active.classList.contains("tile") || active.disabled) {
+            const first = board.querySelector("button.tile:not(:disabled)");
+            if (first) first.focus();
+            return;
+          }
+          const spec = level();
+          let row = Number(active.dataset.row) + arrows[event.key][0];
+          let col = Number(active.dataset.col) + arrows[event.key][1];
+          while (row >= 0 && col >= 0 && row < spec.rows && col < spec.cols) {
+            const next = board.querySelector(
+              'button.tile[data-row="' + row + '"][data-col="' + col + '"]:not(:disabled)'
+            );
+            if (next) {
+              setRoving(next);
+              next.focus();
+              return;
+            }
+            row += arrows[event.key][0];
+            col += arrows[event.key][1];
+          }
+          return;
+        }
+
+        if (event.key === "z" || event.key === "Z") {
+          event.preventDefault();
+          if (game.undo(state)) refresh();
+          return;
+        }
+
+        if ((event.key === "r" || event.key === "R") && !event.metaKey && !event.ctrlKey) {
+          event.preventDefault();
+          if (game.reset(state)) refresh();
+          return;
+        }
+
+        if (event.key === "n" || event.key === "N") {
+          if (nextBtn.disabled) return;
+          event.preventDefault();
+          load((state.index + 1) % levels.length);
+        }
+      });
+
+      load(startIndex());
+    })();
+  </script>
+</body>
+</html>
